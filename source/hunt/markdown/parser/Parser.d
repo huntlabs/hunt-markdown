@@ -86,13 +86,13 @@ class Parser {
      * @return the root node
      * @throws IOException when reading throws an exception
      */
-    public Node parseReader(Reader input)
-    {
-        InlineParser inlineParser = getInlineParser();
-        DocumentParser documentParser = new DocumentParser(blockParserFactories, inlineParser);
-        Node document = documentParser.parse(input);
-        return postProcess(document);
-    }
+    // public Node parseReader(Reader input)
+    // {
+    //     InlineParser inlineParser = getInlineParser();
+    //     DocumentParser documentParser = new DocumentParser(blockParserFactories, inlineParser);
+    //     Node document = documentParser.parse(input);
+    //     return postProcess(document);
+    // }
 
     private InlineParser getInlineParser() {
         if (this.inlineParserFactory is null) {

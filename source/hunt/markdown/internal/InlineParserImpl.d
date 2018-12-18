@@ -13,6 +13,7 @@ import hunt.markdown.parser.delimiter.DelimiterProcessor;
 import hunt.markdown.internal.Delimiter;
 import hunt.markdown.internal.Bracket;
 
+import hunt.container.BitSet;
 import hunt.container.Map;
 import hunt.container.Set;
 import hunt.container.Iterable;
