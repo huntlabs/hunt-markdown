@@ -30,9 +30,9 @@ class TableBlockParser : AbstractBlockParser {
     {
         TABLE_HEADER_SEPARATOR = regex(
             // For single column, require at least one pipe, otherwise it's ambiguous with setext headers
-            "\\|" + COL + "\\|?\\s*" + "|" +
-            COL + "\\|\\s*" + "|" +
-            "\\|?" + "(?:" + COL + "\\|)+" + COL + "\\|?\\s*");
+            "\\|" ~ COL ~ "\\|?\\s*" ~ "|" +
+            COL ~ "\\|\\s*" ~ "|" +
+            "\\|?" ~ "(?:" ~ COL ~ "\\|)+" ~ COL ~ "\\|?\\s*");
     }
 
     private this(string headerLine) {

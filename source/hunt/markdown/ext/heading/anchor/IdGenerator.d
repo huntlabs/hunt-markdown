@@ -60,7 +60,7 @@ class IdGenerator {
      * @param text Text that the identifier should be based on. Will be normalised, then used to generate the
      * identifier.
      * @return {@code text} if this is the first instance that the {@code text} has been passed
-     * to the method. Otherwise, {@code text + "-" + X} will be returned, where X is the number of times
+     * to the method. Otherwise, {@code text ~ "-" ~ X} will be returned, where X is the number of times
      * that {@code text} has previously been passed in. If {@code text} is empty, the default
      * identifier given in the constructor will be used.
      */
@@ -73,11 +73,11 @@ class IdGenerator {
 
         if (!identityMap.containsKey(normalizedIdentity)) {
             identityMap.put(normalizedIdentity, 1);
-            return prefix + normalizedIdentity + suffix;
+            return prefix ~ normalizedIdentity ~ suffix;
         } else {
             int currentCount = identityMap.get(normalizedIdentity);
             identityMap.put(normalizedIdentity, currentCount + 1);
-            return prefix + normalizedIdentity + "-" + currentCount + suffix;
+            return prefix ~ normalizedIdentity ~ "-" ~ currentCount ~ suffix;
         }
     }
 

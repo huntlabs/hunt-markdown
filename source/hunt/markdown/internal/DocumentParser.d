@@ -366,7 +366,7 @@ class DocumentParser : ParserState {
             int afterTab = index + 1;
             string rest = line.subSequence(afterTab, line.length());
             int spaces = Parsing.columnsToNextTabStop(column);
-            StringBuilder sb = new StringBuilder(spaces + rest.length());
+            StringBuilder sb = new StringBuilder(spaces ~ rest.length());
             for (int i = 0; i < spaces; i++) {
                 sb.append(' ');
             }

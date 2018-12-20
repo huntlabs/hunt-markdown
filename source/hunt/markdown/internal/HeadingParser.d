@@ -74,7 +74,7 @@ class HeadingParser : AbstractBlockParser {
             return null;
         }
 
-        int start = index + level;
+        int start = index ~ level;
         if (start >= line.length()) {
             // End of line after markers is an empty heading
             return new HeadingParser(level, "");

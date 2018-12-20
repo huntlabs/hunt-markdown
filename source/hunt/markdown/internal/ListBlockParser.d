@@ -72,7 +72,7 @@ class ListBlockParser : AbstractBlockParser {
         int indexAfterMarker = listMarker.indexAfterMarker;
         int markerLength = indexAfterMarker - markerIndex;
         // marker doesn't include tabs, so counting them as columns directly is ok
-        int columnAfterMarker = markerColumn + markerLength;
+        int columnAfterMarker = markerColumn ~ markerLength;
         // the column within the line where the content starts
         int contentColumn = columnAfterMarker;
 

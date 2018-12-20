@@ -76,7 +76,7 @@ class FencedCodeBlockParser : AbstractBlockParser {
             int nextNonSpace = state.getNextNonSpaceIndex();
             FencedCodeBlockParser blockParser = checkOpener(state.getLine(), nextNonSpace, indent);
             if (blockParser !is null) {
-                return BlockStart.of(blockParser).atIndex(nextNonSpace + blockParser.block.getFenceLength());
+                return BlockStart.of(blockParser).atIndex(nextNonSpace ~ blockParser.block.getFenceLength());
             } else {
                 return BlockStart.none();
             }
@@ -104,12 +104,12 @@ class FencedCodeBlockParser : AbstractBlockParser {
         }
         if (backticks >= 3 && tildes == 0) {
             // spec: The info string may not contain any backtick characters.
-            if (Parsing.find('`', line, index + backticks) != -1) {
+            if (Parsing.find('`', line, index ~ backticks) != -1) {
                 return null;
             }
             return new FencedCodeBlockParser('`', backticks, indent);
         } else if (tildes >= 3 && backticks == 0) {
-            if (Parsing.find('~', line, index + tildes) != -1) {
+            if (Parsing.find('~', line, index ~ tildes) != -1) {
                 return null;
             }
             return new FencedCodeBlockParser('~', tildes, indent);
@@ -129,7 +129,7 @@ class FencedCodeBlockParser : AbstractBlockParser {
             return false;
         }
         // spec: The closing code fence [...] may be followed only by spaces, which are ignored.
-        int after = Parsing.skipSpaceTab(line, index + fences, line.length());
+        int after = Parsing.skipSpaceTab(line, index ~ fences, line.length());
         return after == line.length();
     }
 }

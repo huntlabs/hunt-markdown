@@ -36,7 +36,7 @@ class Escaping {
         
         BACKSLASH_OR_AMP = regex("[\\\\&]");
 
-        ENTITY_OR_ESCAPED_CHAR = regex("\\\\" + ESCAPABLE + '|' + ENTITY, Pattern.CASE_INSENSITIVE);
+        ENTITY_OR_ESCAPED_CHAR = regex("\\\\" ~ ESCAPABLE + '|' + ENTITY, Pattern.CASE_INSENSITIVE);
 
         XML_SPECIAL_RE = regex(XML_SPECIAL);
 

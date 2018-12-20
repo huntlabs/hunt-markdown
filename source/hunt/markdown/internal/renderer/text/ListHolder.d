@@ -11,7 +11,7 @@ abstract class ListHolder {
         this.parent = parent;
 
         if (parent !is null) {
-            indent = parent.indent + INDENT_DEFAULT;
+            indent = parent.indent ~ INDENT_DEFAULT;
         } else {
             indent = INDENT_EMPTY;
         }

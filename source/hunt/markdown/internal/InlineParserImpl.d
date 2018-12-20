@@ -26,15 +26,15 @@ import std.regex;
 
 class InlineParserImpl : InlineParser, ReferenceParser {
 
-    private __gshared string  ESCAPED_CHAR = "\\\\" + Escaping.ESCAPABLE;
+    private __gshared string  ESCAPED_CHAR = "\\\\" ~ Escaping.ESCAPABLE;
     private __gshared string  HTMLCOMMENT = "<!---->|<!--(?:-?[^>-])(?:-?[^-])*-->";
     private __gshared string  PROCESSINGINSTRUCTION = "[<][?].*?[?][>]";
     private __gshared string  DECLARATION = "<![A-Z]+\\s+[^>]*>";
     private __gshared string  CDATA = "<!\\[CDATA\\[[\\s\\S]*?\\]\\]>";
-    private __gshared string  HTMLTAG = "(?:" + Parsing.OPENTAG + "|" + Parsing.CLOSETAG + "|" + HTMLCOMMENT + "|" + PROCESSINGINSTRUCTION + "|" + DECLARATION + "|" + CDATA + ")";
     private __gshared string  ENTITY = "&(?:#x[a-f0-9]{1,8}|#[0-9]{1,8}|[a-z][a-z0-9]{1,31});";
     private __gshared string  ASCII_PUNCTUATION = "!\"#\\$%&'\\(\\)\\*\\+,\\-\\./:;<=>\\?@\\[\\\\\\]\\^_`\\{\\|\\}~";
 
+    private __gshared string  HTMLTAG;
     private __gshared Regex!char PUNCTUATION;
     private __gshared Regex!char HTML_TAG;
     private __gshared Regex!char LINK_TITLE;
@@ -79,17 +79,18 @@ class InlineParserImpl : InlineParser, ReferenceParser {
 
     static this()
     {
-
-        PUNCTUATION = regex("^[" + ASCII_PUNCTUATION + "\\p{Pc}\\p{Pd}\\p{Pe}\\p{Pf}\\p{Pi}\\p{Po}\\p{Ps}]");
+        HTMLTAG = "(?:" ~ Parsing.OPENTAG ~ "|" ~ Parsing.CLOSETAG ~ "|" ~ HTMLCOMMENT ~ "|" ~ PROCESSINGINSTRUCTION ~ "|" ~ DECLARATION ~ "|" ~ CDATA ~ ")";
+        
+        PUNCTUATION = regex("^[" ~ ASCII_PUNCTUATION ~ "\\p{Pc}\\p{Pd}\\p{Pe}\\p{Pf}\\p{Pi}\\p{Po}\\p{Ps}]");
 
         HTML_TAG = regex('^' + HTMLTAG, Pattern.CASE_INSENSITIVE);
 
         LINK_TITLE = regex(
-            "^(?:\"(" + ESCAPED_CHAR + "|[^\"\\x00])*\"" +
+            "^(?:\"(" ~ ESCAPED_CHAR ~ "|[^\"\\x00])*\"" +
                     '|' +
-                    "'(" + ESCAPED_CHAR + "|[^'\\x00])*'" +
+                    "'(" ~ ESCAPED_CHAR ~ "|[^'\\x00])*'" +
                     '|' +
-                    "\\((" + ESCAPED_CHAR + "|[^)\\x00])*\\))");
+                    "\\((" ~ ESCAPED_CHAR ~ "|[^)\\x00])*\\))");
 
         LINK_DESTINATION_BRACES = regex("^(?:[<](?:[^<> \\t\\n\\\\]|\\\\.)*[>])");
 
@@ -182,7 +183,7 @@ class InlineParserImpl : InlineParser, ReferenceParser {
     private static void addDelimiterProcessorForChar(char delimiterChar, DelimiterProcessor toAdd, Map!(Character, DelimiterProcessor) delimiterProcessors) {
         DelimiterProcessor existing = delimiterProcessors.put(delimiterChar, toAdd);
         if (existing !is null) {
-            throw new IllegalArgumentException("Delimiter processor conflict with delimiter char '" + delimiterChar + "'");
+            throw new IllegalArgumentException("Delimiter processor conflict with delimiter char '" ~ delimiterChar ~ "'");
         }
     }
 
@@ -576,7 +577,7 @@ class InlineParserImpl : InlineParser, ReferenceParser {
             int labelLength = parseLinkLabel();
             string r = null;
             if (labelLength > 2) {
-                r = input.substring(beforeLabel, beforeLabel + labelLength);
+                r = input.substring(beforeLabel, beforeLabel ~ labelLength);
             } else if (!opener.bracketAfter) {
                 // If the second label is empty `[foo][]` or missing `[foo]`, then the first label is the reference.
                 // But it can only be a reference when there's no (unescaped) bracket in it.
@@ -738,7 +739,7 @@ class InlineParserImpl : InlineParser, ReferenceParser {
         string m;
         if ((m = match(EMAIL_AUTOLINK)) !is null) {
             string dest = m.substring(1, m.length() - 1);
-            Link node = new Link("mailto:" + dest, null);
+            Link node = new Link("mailto:" ~ dest, null);
             node.appendChild(new Text(dest));
             appendNode(node);
             return true;

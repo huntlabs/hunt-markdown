@@ -59,7 +59,7 @@ class TableHtmlNodeRenderer : TableNodeRenderer {
         string tagName = tableCell.isHeader() ? "th" : "td";
         htmlWriter.tag(tagName, getCellAttributes(tableCell, tagName));
         renderChildren(tableCell);
-        htmlWriter.tag("/" + tagName);
+        htmlWriter.tag("/" ~ tagName);
     }
 
     private Map!(string, string) getAttributes(Node node, string tagName) {
@@ -83,7 +83,7 @@ class TableHtmlNodeRenderer : TableNodeRenderer {
             case RIGHT:
                 return "right";
         }
-        throw new IllegalStateException("Unknown alignment: " + alignment);
+        throw new IllegalStateException("Unknown alignment: " ~ alignment);
     }
 
     private void renderChildren(Node parent) {

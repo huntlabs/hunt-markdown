@@ -144,7 +144,7 @@ class CoreTextContentNodeRenderer : AbstractVisitor, NodeRenderer {
         if (listHolder !is null && cast(OrderedListHolder)listHolder !is null) {
             OrderedListHolder orderedListHolder = cast(OrderedListHolder) listHolder;
             string indent = context.stripNewlines() ? "" : orderedListHolder.getIndent();
-            textContent.write(indent + orderedListHolder.getCounter() + orderedListHolder.getDelimiter() + " ");
+            textContent.write(indent ~ orderedListHolder.getCounter() + orderedListHolder.getDelimiter() + " ");
             visitChildren(listItem);
             writeEndOfLineIfNeeded(listItem, null);
             orderedListHolder.increaseCounter();

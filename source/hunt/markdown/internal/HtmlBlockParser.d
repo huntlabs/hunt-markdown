@@ -44,7 +44,7 @@ class HtmlBlockParser : AbstractBlockParser {
                             "table|tbody|td|tfoot|th|thead|title|tr|track|" ~
                             "ul" ~
                             ")(?:\\s|[/]?[>]|$)"],
-            ["^(?:" + Parsing.OPENTAG + '|' + Parsing.CLOSETAG + ")\\s*$", null]
+            ["^(?:" ~ Parsing.OPENTAG + '|' + Parsing.CLOSETAG ~ ")\\s*$", null]
         ];
     }
 

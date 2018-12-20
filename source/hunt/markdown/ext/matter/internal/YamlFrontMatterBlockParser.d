@@ -73,7 +73,7 @@ class YamlFrontMatterBlockParser : AbstractBlockParser {
                 matcher = REGEX_METADATA_LITERAL.matcher(line);
                 if (matcher.matches()) {
                     if (currentValues.size() == 1) {
-                        currentValues.set(0, currentValues.get(0) + "\n" + matcher.group(1).trim());
+                        currentValues.set(0, currentValues.get(0) + "\n" ~ matcher.group(1).trim());
                     } else {
                         currentValues.add(matcher.group(1).trim());
                     }

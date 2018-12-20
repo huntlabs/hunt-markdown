@@ -58,7 +58,7 @@ class CoreHtmlNodeRenderer : AbstractVisitor, NodeRenderer {
     }
 
     override public void visit(Heading heading) {
-        string htag = "h" + heading.getLevel();
+        string htag = "h" ~ heading.getLevel();
         html.line();
         html.tag(htag, getAttrs(heading, htag));
         visitChildren(heading);
@@ -105,7 +105,7 @@ class CoreHtmlNodeRenderer : AbstractVisitor, NodeRenderer {
             } else {
                 language = info.substring(0, space);
             }
-            attributes.put("class", "language-" + language);
+            attributes.put("class", "language-" ~ language);
         }
         renderCodeBlock(literal, fencedCodeBlock, attributes);
     }

@@ -27,6 +27,6 @@ class Text : Node {
     }
 
     override protected string toStringAttributes() {
-        return "literal=" + literal;
+        return "literal=" ~ literal;
     }
 }

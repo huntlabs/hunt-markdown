@@ -55,6 +55,6 @@ class Link : Node {
     }
 
     override protected string toStringAttributes() {
-        return "destination=" + destination + ", title=" + title;
+        return "destination=" ~ destination ~ ", title=" ~ title;
     }
 }

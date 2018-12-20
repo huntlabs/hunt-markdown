@@ -49,7 +49,7 @@ class StaggeredDelimiterProcessor : DelimiterProcessor {
                 added = true;
                 break;
             } else if (len == pLen) {
-                throw new IllegalArgumentException("Cannot add two delimiter processors for char '" + delim + "' and minimum length " + len);
+                throw new IllegalArgumentException("Cannot add two delimiter processors for char '" ~ delim ~ "' and minimum length " ~ len);
             }
         }
         if (!added) {

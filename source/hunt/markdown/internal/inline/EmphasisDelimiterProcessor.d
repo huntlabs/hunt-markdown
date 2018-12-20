@@ -44,7 +44,7 @@ abstract class EmphasisDelimiterProcessor : DelimiterProcessor {
         string singleDelimiter = String.valueOf(getOpeningCharacter());
         Node emphasis = delimiterUse == 1
                 ? new Emphasis(singleDelimiter)
-                : new StrongEmphasis(singleDelimiter + singleDelimiter);
+                : new StrongEmphasis(singleDelimiter ~ singleDelimiter);
 
         Node tmp = opener.getNext();
         while (tmp !is null && tmp != closer) {

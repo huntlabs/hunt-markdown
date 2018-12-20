@@ -7,17 +7,24 @@ class Parsing {
     private __gshared string UNQUOTEDVALUE = "[^\"'=<>`\\x00-\\x20]+";
     private __gshared string SINGLEQUOTEDVALUE = "'[^']*'";
     private __gshared string DOUBLEQUOTEDVALUE = "\"[^\"]*\"";
-    private __gshared string ATTRIBUTEVALUE = "(?:" + UNQUOTEDVALUE + "|" + SINGLEQUOTEDVALUE
-            + "|" + DOUBLEQUOTEDVALUE + ")";
-    private __gshared string ATTRIBUTEVALUESPEC = "(?:" + "\\s*=" + "\\s*" + ATTRIBUTEVALUE
-            + ")";
-    private __gshared string ATTRIBUTE = "(?:" + "\\s+" + ATTRIBUTENAME + ATTRIBUTEVALUESPEC
-            + "?)";
 
-    public __gshared string OPENTAG = "<" + TAGNAME + ATTRIBUTE + "*" + "\\s*/?>";
-    public __gshared string CLOSETAG = "</" + TAGNAME + "\\s*[>]";
+    private __gshared string ATTRIBUTEVALUE;
+    private __gshared string ATTRIBUTEVALUESPEC;
+    private __gshared string ATTRIBUTE;
+
+    public __gshared string OPENTAG;
+    public __gshared string CLOSETAG;
 
     public __gshared int CODE_BLOCK_INDENT = 4;
+
+    static this()
+    {
+        ATTRIBUTEVALUE = "(?:" ~ UNQUOTEDVALUE ~ "|" ~ SINGLEQUOTEDVALUE ~ "|" ~ DOUBLEQUOTEDVALUE ~ ")";
+        ATTRIBUTEVALUESPEC = "(?:" ~ "\\s*=" ~ "\\s*" ~ ATTRIBUTEVALUE ~ ")";
+        ATTRIBUTE = "(?:" ~ "\\s+" ~ ATTRIBUTENAME ~ ATTRIBUTEVALUESPEC ~ "?)";
+        OPENTAG = "<" ~ TAGNAME ~ ATTRIBUTE ~ "*" ~ "\\s*/?>";
+        CLOSETAG = "</" ~ TAGNAME ~ "\\s*[>]";
+    }
 
     public static int columnsToNextTabStop(int column) {
         // Tab stop is 4
