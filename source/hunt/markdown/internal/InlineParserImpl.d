@@ -19,6 +19,7 @@ import hunt.container.Map;
 import hunt.container.Set;
 import hunt.container.Iterable;
 import hunt.container.List;
+import hunt.container.HashMap;
 import hunt.lang.character;
 
 import std.regex;

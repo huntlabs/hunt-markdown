@@ -130,8 +130,13 @@ class Parser {
         private List!(BlockParserFactory) blockParserFactories = new ArrayList!(BlockParserFactory)();
         private List!(DelimiterProcessor) delimiterProcessors = new ArrayList!(DelimiterProcessor)();
         private List!(PostProcessor) postProcessors = new ArrayList!(PostProcessor)();
-        private Set!(Block) _enabledBlockTypes = DocumentParser.getDefaultBlockParserTypes();
+        private Set!(Block) _enabledBlockTypes;
         private InlineParserFactory _inlineParserFactory = null;
+
+        static this()
+        {
+            _enabledBlockTypes = DocumentParser.getDefaultBlockParserTypes();
+        }
 
         /**
          * @return the configured {@link Parser}

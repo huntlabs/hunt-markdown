@@ -45,58 +45,67 @@ class Escaping {
         ESCAPE_IN_URI = regex("(%[a-fA-F0-9]{0,2}|[^:/?#@!$&'()*+,;=a-zA-Z0-9\\-._~])");
     }
 
-    private __gshared Replacer UNSAFE_CHAR_REPLACER = new class Replacer {
-        override public void replace(string input, StringBuilder sb) {
-            switch (input) {
-                case "&":
-                    sb.append("&amp;");
-                    break;
-                case "<":
-                    sb.append("&lt;");
-                    break;
-                case ">":
-                    sb.append("&gt;");
-                    break;
-                case "\"":
-                    sb.append("&quot;");
-                    break;
-                default:
-                    sb.append(input);
-            }
-        }
-    };
+    private __gshared Replacer UNSAFE_CHAR_REPLACER;
 
-    private __gshared Replacer UNESCAPE_REPLACER = new class Replacer {
-        override public void replace(string input, StringBuilder sb) {
-            if (input[0] == '\\') {
-                sb.append(input, 1, input.length());
-            } else {
-                sb.append(Html5Entities.entityToString(input));
-            }
-        }
-    };
+    private __gshared Replacer UNESCAPE_REPLACER;
 
-    private __gshared Replacer URI_REPLACER = new class Replacer {
-        override public void replace(string input, StringBuilder sb) {
-            if (input.startsWith("%")) {
-                if (input.length() == 3) {
-                    // Already percent-encoded, preserve
-                    sb.append(input);
-                } else {
-                    // %25 is the percent-encoding for %
-                    sb.append("%25");
+    private __gshared Replacer URI_REPLACER;
+
+    static this()
+    {
+        UNSAFE_CHAR_REPLACER = new class Replacer {
+            override public void replace(string input, StringBuilder sb) {
+                switch (input) {
+                    case "&":
+                        sb.append("&amp;");
+                        break;
+                    case "<":
+                        sb.append("&lt;");
+                        break;
+                    case ">":
+                        sb.append("&gt;");
+                        break;
+                    case "\"":
+                        sb.append("&quot;");
+                        break;
+                    default:
+                        sb.append(input);
+                }
+            }
+        };
+
+        UNESCAPE_REPLACER = new class Replacer {
+            override public void replace(string input, StringBuilder sb) {
+                if (input[0] == '\\') {
                     sb.append(input, 1, input.length());
-                }
-            } else {
-                byte[] bytes = input.getBytes(Charset.forName("UTF-8"));
-                foreach (byte b ; bytes) {
-                    sb.append('%');
-                    sb.append(HEX_DIGITS[(b >> 4) & 0xF]);
-                    sb.append(HEX_DIGITS[b & 0xF]);
+                } else {
+                    sb.append(Html5Entities.entityToString(input));
                 }
             }
-        }
-    };
+        };
+
+        URI_REPLACER = new class Replacer {
+            override public void replace(string input, StringBuilder sb) {
+                if (input.startsWith("%")) {
+                    if (input.length() == 3) {
+                        // Already percent-encoded, preserve
+                        sb.append(input);
+                    } else {
+                        // %25 is the percent-encoding for %
+                        sb.append("%25");
+                        sb.append(input, 1, input.length());
+                    }
+                } else {
+                    byte[] bytes = input.getBytes(Charset.forName("UTF-8"));
+                    foreach (byte b ; bytes) {
+                        sb.append('%');
+                        sb.append(HEX_DIGITS[(b >> 4) & 0xF]);
+                        sb.append(HEX_DIGITS[b & 0xF]);
+                    }
+                }
+            }
+        };
+    }
 
     public static string escapeHtml(string input, bool preserveEntities) {
         Regex!char p = preserveEntities ? XML_SPECIAL_OR_ENTITY : XML_SPECIAL_RE;

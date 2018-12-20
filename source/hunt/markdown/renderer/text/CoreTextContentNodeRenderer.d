@@ -11,7 +11,7 @@ import hunt.markdown.internal.renderer.text.OrderedListHolder;
 
 import hunt.container.HashSet;
 import hunt.container.Set;
-import hunt.lang.Character;
+import hunt.lang.character;
 
 /**
  * The node renderer that renders all the core nodes (comes last in the order of node renderers).

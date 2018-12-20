@@ -18,6 +18,7 @@ import hunt.markdown.parser.block.BlockContinue;
 import hunt.container.Map;
 import hunt.container.Set;
 import hunt.container.List;
+import hunt.container.HashSet;
 import hunt.lang.exception;
 
 class DocumentParser : ParserState {

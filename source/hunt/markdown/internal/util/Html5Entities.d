@@ -15,9 +15,15 @@ import std.regex;
 
 class Html5Entities {
 
-    private __gshared Map!(string, string) NAMED_CHARACTER_REFERENCES = readEntities();
-    private __gshared Regex!char NUMERIC_PATTERN = regex("^&#[Xx]?");
+    private __gshared Map!(string, string) NAMED_CHARACTER_REFERENCES;
+    private __gshared Regex!char NUMERIC_PATTERN;
     private __gshared string  ENTITY_PATH = "resources/entities.properties";
+
+    static this()
+    {
+        NAMED_CHARACTER_REFERENCES = readEntities();
+        NUMERIC_PATTERN = regex("^&#[Xx]?");
+    }
 
     public static string entityToString(string input) {
         Matcher matcher = NUMERIC_PATTERN.matcher(input);
