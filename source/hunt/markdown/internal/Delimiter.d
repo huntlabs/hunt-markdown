@@ -14,40 +14,40 @@ class Delimiter : DelimiterRun {
     /**
      * Can open emphasis, see spec.
      */
-    public bool canOpen;
+    public bool _canOpen;
 
     /**
      * Can close emphasis, see spec.
      */
-    public bool canClose;
+    public bool _canClose;
 
     public Delimiter previous;
     public Delimiter next;
 
-    public int length = 1;
-    public int originalLength = 1;
+    public int _length = 1;
+    public int _originalLength = 1;
 
     public this(Text node, char delimiterChar, bool canOpen, bool canClose, Delimiter previous) {
         this.node = node;
         this.delimiterChar = delimiterChar;
-        this.canOpen = canOpen;
-        this.canClose = canClose;
+        this._canOpen = canOpen;
+        this._canClose = canClose;
         this.previous = previous;
     }
 
-    override public bool canOpen() {
-        return canOpen;
+    public bool canOpen() {
+        return _canOpen;
     }
 
-    override public bool canClose() {
-        return canClose;
+    public bool canClose() {
+        return _canClose;
     }
 
-    override public int length() {
-        return length;
+    @property public int length() {
+        return _length;
     }
 
-    override public int originalLength() {
-        return originalLength;
+    @property public int originalLength() {
+        return _originalLength;
     }
 }

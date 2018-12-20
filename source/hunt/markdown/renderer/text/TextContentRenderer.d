@@ -5,7 +5,9 @@ import hunt.markdown.internal.renderer.NodeRendererMap;
 import hunt.markdown.node.Node;
 import hunt.markdown.renderer.NodeRenderer;
 import hunt.markdown.renderer.Renderer;
+import hunt.markdown.renderer.text.TextContentWriter;
 import hunt.markdown.renderer.text.TextContentNodeRendererFactory;
+import hunt.markdown.renderer.text.TextContentNodeRendererContext;
 
 import hunt.container.Iterable;
 import hunt.container.ArrayList;
@@ -14,12 +16,12 @@ import hunt.lang.common;
 
 class TextContentRenderer : Renderer {
 
-    private bool stripNewlines;
+    private bool _stripNewlines;
 
     private List!(TextContentNodeRendererFactory) nodeRendererFactories;
 
     private this(Builder builder) {
-        this.stripNewlines = builder.stripNewlines;
+        this._stripNewlines = builder.stripNewlines;
 
         this.nodeRendererFactories = new ArrayList!TextContentNodeRendererFactory(builder.nodeRendererFactories.size() + 1);
         this.nodeRendererFactories.addAll(builder.nodeRendererFactories);
@@ -40,7 +42,7 @@ class TextContentRenderer : Renderer {
         return new Builder();
     }
 
-    override public void render(Node node, Appendable output) {
+    public void render(Node node, Appendable output) {
         RendererContext context = new RendererContext(new TextContentWriter(output));
         context.render(node);
     }
@@ -56,7 +58,7 @@ class TextContentRenderer : Renderer {
      */
     public static class Builder {
 
-        private bool stripNewlines = false;
+        private bool _stripNewlines = false;
         private List!(TextContentNodeRendererFactory) nodeRendererFactories = new ArrayList!TextContentNodeRendererFactory();
 
         /**
@@ -74,7 +76,7 @@ class TextContentRenderer : Renderer {
          * @return {@code this}
          */
         public Builder stripNewlines(bool stripNewlines) {
-            this.stripNewlines = stripNewlines;
+            this._stripNewlines = stripNewlines;
             return this;
         }
 
@@ -132,14 +134,14 @@ class TextContentRenderer : Renderer {
         }
 
         override public bool stripNewlines() {
-            return stripNewlines;
+            return _stripNewlines;
         }
 
         override public TextContentWriter getWriter() {
             return textContentWriter;
         }
 
-        override public void render(Node node) {
+        public void render(Node node) {
             nodeRendererMap.render(node);
         }
     }

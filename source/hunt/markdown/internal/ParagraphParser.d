@@ -1,6 +1,8 @@
 module hunt.markdown.internal.ParagraphParser;
 
+import hunt.markdown.internal.ReferenceParser;
 import hunt.markdown.internal.util.Parsing;
+import hunt.markdown.internal.BlockContent;
 import hunt.markdown.node.Block;
 import hunt.markdown.node.Paragraph;
 import hunt.markdown.parser.block.AbstractBlockParser;
@@ -13,11 +15,11 @@ class ParagraphParser : AbstractBlockParser {
     private Paragraph block = new Paragraph();
     private BlockContent content = new BlockContent();
 
-    override public Block getBlock() {
+    public Block getBlock() {
         return block;
     }
 
-    override public BlockContinue tryContinue(ParserState state) {
+    public BlockContinue tryContinue(ParserState state) {
         if (!state.isBlank()) {
             return BlockContinue.atIndex(state.getIndex());
         } else {

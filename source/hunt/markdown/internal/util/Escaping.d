@@ -13,22 +13,37 @@ class Escaping {
 
     private static enum ENTITY = "&(?:#x[a-f0-9]{1,8}|#[0-9]{1,8}|[a-z][a-z0-9]{1,31});";
 
-    private static Regex!char BACKSLASH_OR_AMP = regex("[\\\\&]");
-
-    private static Regex!char ENTITY_OR_ESCAPED_CHAR = regex("\\\\" + ESCAPABLE + '|' + ENTITY, Pattern.CASE_INSENSITIVE);
-
     private static enum XML_SPECIAL = "[&<>\"]";
-
-    private static Regex!char XML_SPECIAL_RE = regex(XML_SPECIAL);
-
-    private static Regex!char XML_SPECIAL_OR_ENTITY = regex(ENTITY + '|' + XML_SPECIAL, Pattern.CASE_INSENSITIVE);
-
-    // From RFC 3986 (see "reserved", "unreserved") except don't escape '[' or ']' to be compatible with JS encodeURI
-    private static Regex!char ESCAPE_IN_URI = regex("(%[a-fA-F0-9]{0,2}|[^:/?#@!$&'()*+,;=a-zA-Z0-9\\-._~])");
 
     private static char[] HEX_DIGITS = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F'];
 
-    private static Regex!char WHITESPACE = regex("[ \t\r\n]+");
+    private static Regex!char WHITESPACE;
+
+    private static Regex!char BACKSLASH_OR_AMP;
+
+    private static Regex!char ENTITY_OR_ESCAPED_CHAR;
+
+    private static Regex!char XML_SPECIAL_RE;
+    
+    private static Regex!char XML_SPECIAL_OR_ENTITY;
+    
+    // From RFC 3986 (see "reserved", "unreserved") except don't escape '[' or ']' to be compatible with JS encodeURI
+    private static Regex!char ESCAPE_IN_URI;
+    
+    static this()
+    {
+        WHITESPACE = regex("[ \t\r\n]+");
+        
+        BACKSLASH_OR_AMP = regex("[\\\\&]");
+
+        ENTITY_OR_ESCAPED_CHAR = regex("\\\\" + ESCAPABLE + '|' + ENTITY, Pattern.CASE_INSENSITIVE);
+
+        XML_SPECIAL_RE = regex(XML_SPECIAL);
+
+        XML_SPECIAL_OR_ENTITY = regex(ENTITY + '|' + XML_SPECIAL, Pattern.CASE_INSENSITIVE);
+
+        ESCAPE_IN_URI = regex("(%[a-fA-F0-9]{0,2}|[^:/?#@!$&'()*+,;=a-zA-Z0-9\\-._~])");
+    }
 
     private __gshared Replacer UNSAFE_CHAR_REPLACER = new class Replacer {
         override public void replace(string input, StringBuilder sb) {
@@ -84,7 +99,7 @@ class Escaping {
     };
 
     public static string escapeHtml(string input, bool preserveEntities) {
-        Pattern p = preserveEntities ? XML_SPECIAL_OR_ENTITY : XML_SPECIAL_RE;
+        Regex!char p = preserveEntities ? XML_SPECIAL_OR_ENTITY : XML_SPECIAL_RE;
         return replaceAll(p, input, UNSAFE_CHAR_REPLACER);
     }
 
@@ -110,7 +125,7 @@ class Escaping {
         return WHITESPACE.matcher(lowercase).replaceAll(" ");
     }
 
-    private static string replaceAll(Pattern p, string s, Replacer replacer) {
+    private static string replaceAll(Regex!char p, string s, Replacer replacer) {
         Matcher matcher = p.matcher(s);
 
         if (!matcher.find()) {

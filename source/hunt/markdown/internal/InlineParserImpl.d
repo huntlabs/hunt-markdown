@@ -8,6 +8,7 @@ import hunt.markdown.internal.util.Html5Entities;
 import hunt.markdown.internal.util.Parsing;
 import hunt.markdown.node.Node;
 import hunt.markdown.node.Text;
+import hunt.markdown.node.Link;
 import hunt.markdown.parser.InlineParser;
 import hunt.markdown.parser.delimiter.DelimiterProcessor;
 import hunt.markdown.internal.Delimiter;
@@ -17,6 +18,7 @@ import hunt.container.BitSet;
 import hunt.container.Map;
 import hunt.container.Set;
 import hunt.container.Iterable;
+import hunt.container.List;
 import hunt.lang.character;
 
 import std.regex;
@@ -77,8 +79,7 @@ class InlineParserImpl : InlineParser, ReferenceParser {
     static this()
     {
 
-        PUNCTUATION = Pattern
-            .compile("^[" + ASCII_PUNCTUATION + "\\p{Pc}\\p{Pd}\\p{Pe}\\p{Pf}\\p{Pi}\\p{Po}\\p{Ps}]");
+        PUNCTUATION = regex("^[" + ASCII_PUNCTUATION + "\\p{Pc}\\p{Pd}\\p{Pe}\\p{Pf}\\p{Pi}\\p{Po}\\p{Ps}]");
 
         HTML_TAG = regex('^' + HTMLTAG, Pattern.CASE_INSENSITIVE);
 
@@ -101,11 +102,9 @@ class InlineParserImpl : InlineParser, ReferenceParser {
 
         TICKS_HERE = regex("^`+");
 
-        EMAIL_AUTOLINK = Pattern
-            .compile("^<([a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*)>");
+        EMAIL_AUTOLINK = regex("^<([a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*)>");
 
-        AUTOLINK = Pattern
-            .compile("^<[a-zA-Z][a-zA-Z0-9.+-]{1,31}:[^<>\u0000-\u0020]*>");
+        AUTOLINK = regex("^<[a-zA-Z][a-zA-Z0-9.+-]{1,31}:[^<>\u0000-\u0020]*>");
 
         SPNL = regex("^ *(?:\n *)?");
 

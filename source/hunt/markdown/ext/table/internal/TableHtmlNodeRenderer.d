@@ -8,6 +8,7 @@ import hunt.markdown.ext.table.TableBody;
 import hunt.markdown.ext.table.TableCell;
 import hunt.markdown.ext.table.TableHead;
 import hunt.markdown.ext.table.TableRow;
+import hunt.markdown.ext.table.internal.TableNodeRenderer;
 import hunt.markdown.node.Node;
 import hunt.markdown.renderer.html.HtmlNodeRendererContext;
 import hunt.markdown.renderer.html.HtmlWriter;
@@ -22,7 +23,7 @@ class TableHtmlNodeRenderer : TableNodeRenderer {
         this.context = context;
     }
 
-    protected void renderBlock(TableBlock tableBlock) {
+    override protected void renderBlock(TableBlock tableBlock) {
         htmlWriter.line();
         htmlWriter.tag("table", getAttributes(tableBlock, "table"));
         renderChildren(tableBlock);
@@ -30,7 +31,7 @@ class TableHtmlNodeRenderer : TableNodeRenderer {
         htmlWriter.line();
     }
 
-    protected void renderHead(TableHead tableHead) {
+    override protected void renderHead(TableHead tableHead) {
         htmlWriter.line();
         htmlWriter.tag("thead", getAttributes(tableHead, "thead"));
         renderChildren(tableHead);
@@ -38,7 +39,7 @@ class TableHtmlNodeRenderer : TableNodeRenderer {
         htmlWriter.line();
     }
 
-    protected void renderBody(TableBody tableBody) {
+    override protected void renderBody(TableBody tableBody) {
         htmlWriter.line();
         htmlWriter.tag("tbody", getAttributes(tableBody, "tbody"));
         renderChildren(tableBody);
@@ -46,7 +47,7 @@ class TableHtmlNodeRenderer : TableNodeRenderer {
         htmlWriter.line();
     }
 
-    protected void renderRow(TableRow tableRow) {
+    override protected void renderRow(TableRow tableRow) {
         htmlWriter.line();
         htmlWriter.tag("tr", getAttributes(tableRow, "tr"));
         renderChildren(tableRow);
@@ -54,7 +55,7 @@ class TableHtmlNodeRenderer : TableNodeRenderer {
         htmlWriter.line();
     }
 
-    protected void renderCell(TableCell tableCell) {
+    override protected void renderCell(TableCell tableCell) {
         string tagName = tableCell.isHeader() ? "th" : "td";
         htmlWriter.tag(tagName, getCellAttributes(tableCell, tagName));
         renderChildren(tableCell);

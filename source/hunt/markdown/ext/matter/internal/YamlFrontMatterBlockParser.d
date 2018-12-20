@@ -35,14 +35,14 @@ class YamlFrontMatterBlockParser : AbstractBlockParser {
         block = new YamlFrontMatterBlock();
     }
 
-    override public Block getBlock() {
+    public Block getBlock() {
         return block;
     }
 
     override public void addLine(string line) {
     }
 
-    override public BlockContinue tryContinue(ParserState parserState) {
+    public BlockContinue tryContinue(ParserState parserState) {
         string line = parserState.getLine();
 
         if (REGEX_END.matcher(line).matches()) {
@@ -93,7 +93,7 @@ class YamlFrontMatterBlockParser : AbstractBlockParser {
     }
 
     public static class Factory : AbstractBlockParserFactory {
-        override public BlockStart tryStart(ParserState state, MatchedBlockParser matchedBlockParser) {
+         public BlockStart tryStart(ParserState state, MatchedBlockParser matchedBlockParser) {
             string line = state.getLine();
             BlockParser parentParser = matchedBlockParser.getMatchedBlockParser();
             // check whether this line is the first line of whole document or not

@@ -3,6 +3,7 @@ module hunt.markdown.ext.gfm.strikethrough.internal.StrikethroughTextContentNode
 import hunt.markdown.renderer.text.TextContentWriter;
 import hunt.markdown.renderer.text.TextContentNodeRendererContext;
 import hunt.markdown.node.Node;
+import hunt.markdown.ext.gfm.strikethrough.internal.StrikethroughNodeRenderer;
 
 class StrikethroughTextContentNodeRenderer : StrikethroughNodeRenderer {
 
@@ -14,7 +15,7 @@ class StrikethroughTextContentNodeRenderer : StrikethroughNodeRenderer {
         this.textContent = context.getWriter();
     }
 
-    override public void render(Node node) {
+    public void render(Node node) {
         textContent.write('/');
         renderChildren(node);
         textContent.write('/');

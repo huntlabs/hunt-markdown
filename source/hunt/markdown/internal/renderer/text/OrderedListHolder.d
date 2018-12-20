@@ -1,6 +1,7 @@
 module hunt.markdown.internal.renderer.text.OrderedListHolder;
 
 import hunt.markdown.node.OrderedList;
+import hunt.markdown.internal.renderer.text.ListHolder;
 
 class OrderedListHolder : ListHolder {
     private char delimiter;

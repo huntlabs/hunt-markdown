@@ -4,6 +4,11 @@ import hunt.markdown.internal.util.Parsing;
 import hunt.markdown.node.Block;
 import hunt.markdown.node.BlockQuote;
 import hunt.markdown.parser.block.AbstractBlockParser;
+import hunt.markdown.parser.block.BlockContinue;
+import hunt.markdown.parser.block.ParserState;
+import hunt.markdown.parser.block.AbstractBlockParserFactory;
+import hunt.markdown.parser.block.BlockStart;
+import hunt.markdown.parser.block.MatchedBlockParser;
 
 class BlockQuoteParser : AbstractBlockParser {
 
@@ -17,11 +22,11 @@ class BlockQuoteParser : AbstractBlockParser {
         return true;
     }
 
-    override public BlockQuote getBlock() {
+    public BlockQuote getBlock() {
         return block;
     }
 
-    override public BlockContinue tryContinue(ParserState state) {
+    public BlockContinue tryContinue(ParserState state) {
         int nextNonSpace = state.getNextNonSpaceIndex();
         if (isMarker(state, nextNonSpace)) {
             int newColumn = state.getColumn() + state.getIndent() + 1;

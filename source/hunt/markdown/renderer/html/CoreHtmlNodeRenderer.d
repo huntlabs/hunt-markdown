@@ -1,7 +1,14 @@
 module hunt.markdown.renderer.html.CoreHtmlNodeRenderer;
 
-import hunt.markdown.node.Node;
+import hunt.markdown.node;
+import hunt.markdown.node.AbstractVisitor;
 import hunt.markdown.renderer.NodeRenderer;
+import hunt.markdown.renderer.html.HtmlWriter;
+import hunt.markdown.renderer.html.HtmlNodeRendererContext;
+
+import hunt.container.Set;
+import hunt.container.Map;
+import hunt.string;
 
 /**
  * The node renderer that renders all the core nodes (comes last in the order of node renderers).
@@ -16,7 +23,7 @@ class CoreHtmlNodeRenderer : AbstractVisitor, NodeRenderer {
         this.html = context.getWriter();
     }
 
-    override public Set!Node getNodeTypes() {
+    public Set!Node getNodeTypes() {
         return new HashSet!Node([
                 typeid(Document),
                 typeid(Heading),
@@ -41,7 +48,7 @@ class CoreHtmlNodeRenderer : AbstractVisitor, NodeRenderer {
         ]);
     }
 
-    override public void render(Node node) {
+    public void render(Node node) {
         node.accept(this);
     }
 

@@ -65,7 +65,7 @@ class HtmlRenderer : Renderer {
         return new Builder();
     }
 
-    override public void render(Node node, Appendable output) {
+    public void render(Node node, Appendable output) {
         RendererContext context = new RendererContext(new HtmlWriter(output));
         context.render(node);
     }

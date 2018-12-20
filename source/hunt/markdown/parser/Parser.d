@@ -31,12 +31,12 @@ class Parser {
 
     private List!(BlockParserFactory) blockParserFactories;
     private List!(DelimiterProcessor) delimiterProcessors;
-    private InlineParserFactory inlineParserFactory;
+    private InlineParserFactory _inlineParserFactory;
     private List!(PostProcessor) postProcessors;
 
     private this(Builder builder) {
         this.blockParserFactories = DocumentParser.calculateBlockParserFactories(builder.blockParserFactories, builder.enabledBlockTypes);
-        this.inlineParserFactory = builder.inlineParserFactory;
+        this._inlineParserFactory = builder.inlineParserFactory;
         this.postProcessors = builder.postProcessors;
         this.delimiterProcessors = builder.delimiterProcessors;
 
@@ -95,11 +95,11 @@ class Parser {
     // }
 
     private InlineParser getInlineParser() {
-        if (this.inlineParserFactory is null) {
+        if (this._inlineParserFactory is null) {
             return new InlineParserImpl(delimiterProcessors);
         } else {
             CustomInlineParserContext inlineParserContext = new CustomInlineParserContext(delimiterProcessors);
-            return this.inlineParserFactory.create(inlineParserContext);
+            return this._inlineParserFactory.create(inlineParserContext);
         }
     }
 
@@ -130,8 +130,8 @@ class Parser {
         private List!(BlockParserFactory) blockParserFactories = new ArrayList!(BlockParserFactory)();
         private List!(DelimiterProcessor) delimiterProcessors = new ArrayList!(DelimiterProcessor)();
         private List!(PostProcessor) postProcessors = new ArrayList!(PostProcessor)();
-        private Set!(Block) enabledBlockTypes = DocumentParser.getDefaultBlockParserTypes();
-        private InlineParserFactory inlineParserFactory = null;
+        private Set!(Block) _enabledBlockTypes = DocumentParser.getDefaultBlockParserTypes();
+        private InlineParserFactory _inlineParserFactory = null;
 
         /**
          * @return the configured {@link Parser}
@@ -182,7 +182,7 @@ class Parser {
          * @return {@code this}
          */
         public Builder enabledBlockTypes(Set!Node enabledBlockTypes) {
-            this.enabledBlockTypes = enabledBlockTypes;
+            this._enabledBlockTypes = enabledBlockTypes;
             return this;
         }
 
@@ -241,7 +241,7 @@ class Parser {
          * @return {@code this}
          */
         public Builder inlineParserFactory(InlineParserFactory inlineParserFactory) {
-            this.inlineParserFactory = inlineParserFactory;
+            this._inlineParserFactory = inlineParserFactory;
             return this;
         }
     }

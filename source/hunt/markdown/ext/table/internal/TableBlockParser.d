@@ -5,6 +5,11 @@ import hunt.markdown.node.Block;
 import hunt.markdown.node.Node;
 import hunt.markdown.parser.InlineParser;
 import hunt.markdown.parser.block.AbstractBlockParser;
+import hunt.markdown.parser.block.BlockContinue;
+import hunt.markdown.parser.block.ParserState;
+import hunt.markdown.parser.block.AbstractBlockParserFactory;
+import hunt.markdown.parser.block.BlockStart;
+import hunt.markdown.parser.block.MatchedBlockParser;
 
 import hunt.container.ArrayList;
 import hunt.container.List;
@@ -13,11 +18,7 @@ import std.regex;
 class TableBlockParser : AbstractBlockParser {
 
     private static string COL = "\\s*:?-{1,}:?\\s*";
-    private static Pattern TABLE_HEADER_SEPARATOR = regex(
-            // For single column, require at least one pipe, otherwise it's ambiguous with setext headers
-            "\\|" + COL + "\\|?\\s*" + "|" +
-            COL + "\\|\\s*" + "|" +
-            "\\|?" + "(?:" + COL + "\\|)+" + COL + "\\|?\\s*");
+    private static Regex!char TABLE_HEADER_SEPARATOR;
 
     private TableBlock block = new TableBlock();
     private List!(string) rowLines = new ArrayList!(string)();
@@ -25,15 +26,24 @@ class TableBlockParser : AbstractBlockParser {
     private bool nextIsSeparatorLine = true;
     private string separatorLine = "";
 
+    static this()
+    {
+        TABLE_HEADER_SEPARATOR = regex(
+            // For single column, require at least one pipe, otherwise it's ambiguous with setext headers
+            "\\|" + COL + "\\|?\\s*" + "|" +
+            COL + "\\|\\s*" + "|" +
+            "\\|?" + "(?:" + COL + "\\|)+" + COL + "\\|?\\s*");
+    }
+
     private this(string headerLine) {
         rowLines.add(headerLine);
     }
 
-    override public Block getBlock() {
+    public Block getBlock() {
         return block;
     }
 
-    override public BlockContinue tryContinue(ParserState state) {
+    public BlockContinue tryContinue(ParserState state) {
         if (state.getLine().toString().contains("|")) {
             return BlockContinue.atIndex(state.getIndex());
         } else {
@@ -150,7 +160,7 @@ class TableBlockParser : AbstractBlockParser {
 
     public static class Factory : AbstractBlockParserFactory {
 
-        override public BlockStart tryStart(ParserState state, MatchedBlockParser matchedBlockParser) {
+        public BlockStart tryStart(ParserState state, MatchedBlockParser matchedBlockParser) {
             string line = state.getLine();
             string paragraph = matchedBlockParser.getParagraphContent();
             if (paragraph !is null && paragraph.toString().contains("|") && !paragraph.toString().contains("\n")) {

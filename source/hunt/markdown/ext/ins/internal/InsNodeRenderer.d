@@ -24,7 +24,7 @@ class InsNodeRenderer : NodeRenderer {
         return Collections.singleton!(Node)();
     }
 
-    override public void render(Node node) {
+    public void render(Node node) {
         Map!(string, string) attributes = context.extendAttributes(node, "ins", Collections.emptyMap!(string, string)());
         html.tag("ins", attributes);
         renderChildren(node);

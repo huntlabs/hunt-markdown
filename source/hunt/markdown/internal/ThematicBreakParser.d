@@ -3,23 +3,28 @@ module hunt.markdown.internal.ThematicBreakParser;
 import hunt.markdown.node.Block;
 import hunt.markdown.node.ThematicBreak;
 import hunt.markdown.parser.block.AbstractBlockParser;
+import hunt.markdown.parser.block.BlockContinue;
+import hunt.markdown.parser.block.ParserState;
+import hunt.markdown.parser.block.BlockStart;
+import hunt.markdown.parser.block.MatchedBlockParser;
+import hunt.markdown.parser.block.AbstractBlockParserFactory;
 
 class ThematicBreakParser : AbstractBlockParser {
 
     private ThematicBreak block = new ThematicBreak();
 
-    override public Block getBlock() {
+    public Block getBlock() {
         return block;
     }
 
-    override public BlockContinue tryContinue(ParserState state) {
+    public BlockContinue tryContinue(ParserState state) {
         // a horizontal rule can never container > 1 line, so fail to match
         return BlockContinue.none();
     }
 
     public static class Factory : AbstractBlockParserFactory {
 
-        override public BlockStart tryStart(ParserState state, MatchedBlockParser matchedBlockParser) {
+        public BlockStart tryStart(ParserState state, MatchedBlockParser matchedBlockParser) {
             if (state.getIndent() >= 4) {
                 return BlockStart.none();
             }

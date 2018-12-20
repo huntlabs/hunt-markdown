@@ -5,6 +5,11 @@ import hunt.markdown.node.Block;
 import hunt.markdown.node.Heading;
 import hunt.markdown.parser.InlineParser;
 import hunt.markdown.parser.block.AbstractBlockParser;
+import hunt.markdown.parser.block.BlockContinue;
+import hunt.markdown.parser.block.ParserState;
+import hunt.markdown.parser.block.AbstractBlockParserFactory;
+import hunt.markdown.parser.block.BlockStart;
+import hunt.markdown.parser.block.MatchedBlockParser;
 
 class HeadingParser : AbstractBlockParser {
 
@@ -16,11 +21,11 @@ class HeadingParser : AbstractBlockParser {
         this.content = content;
     }
 
-    override public Block getBlock() {
+    public Block getBlock() {
         return block;
     }
 
-    override public BlockContinue tryContinue(ParserState parserState) {
+    public BlockContinue tryContinue(ParserState parserState) {
         // In both ATX and Setext headings, once we have the heading markup, there's nothing more to parse.
         return BlockContinue.none();
     }
@@ -31,7 +36,7 @@ class HeadingParser : AbstractBlockParser {
 
     public static class Factory : AbstractBlockParserFactory {
 
-        override public BlockStart tryStart(ParserState state, MatchedBlockParser matchedBlockParser) {
+        public BlockStart tryStart(ParserState state, MatchedBlockParser matchedBlockParser) {
             if (state.getIndent() >= Parsing.CODE_BLOCK_INDENT) {
                 return BlockStart.none();
             }

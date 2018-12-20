@@ -10,7 +10,7 @@ class Bracket {
 
     public Text node;
     public int index;
-    public bool image;
+    public bool _image;
 
     /**
      * Previous bracket.
@@ -43,7 +43,7 @@ class Bracket {
     private this(Text node, int index, Bracket previous, Delimiter previousDelimiter, bool image) {
         this.node = node;
         this.index = index;
-        this.image = image;
+        this._image = image;
         this.previous = previous;
         this.previousDelimiter = previousDelimiter;
     }

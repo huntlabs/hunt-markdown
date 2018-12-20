@@ -25,7 +25,7 @@ abstract class TableNodeRenderer : NodeRenderer {
         ]);
     }
 
-    override public void render(Node node) {
+    public void render(Node node) {
         if (cast(TableCell)node !is null) {
             renderBlock(cast(TableBlock) node);
         } else if (cast(TableCell)node !is null ) {

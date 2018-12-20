@@ -1,11 +1,17 @@
 module hunt.markdown.internal.FencedCodeBlockParser;
 
 import hunt.markdown.internal.util.Parsing;
+import hunt.markdown.internal.util.Escaping;
 import hunt.markdown.node.Block;
 import hunt.markdown.node.FencedCodeBlock;
 import hunt.markdown.parser.block.AbstractBlockParser;
+import hunt.markdown.parser.block.BlockContinue;
+import hunt.markdown.parser.block.ParserState;
+import hunt.markdown.parser.block.AbstractBlockParserFactory;
+import hunt.markdown.parser.block.BlockStart;
+import hunt.markdown.parser.block.MatchedBlockParser;
 
-import hunt.markdown.internal.util.Escaping : unescapeString;
+import hunt.string;
 
 class FencedCodeBlockParser : AbstractBlockParser {
 
@@ -20,11 +26,11 @@ class FencedCodeBlockParser : AbstractBlockParser {
         block.setFenceIndent(fenceIndent);
     }
 
-    override public Block getBlock() {
+    public Block getBlock() {
         return block;
     }
 
-    override public BlockContinue tryContinue(ParserState state) {
+    public BlockContinue tryContinue(ParserState state) {
         int nextNonSpace = state.getNextNonSpaceIndex();
         int newIndex = state.getIndex();
         string line = state.getLine();
@@ -61,7 +67,7 @@ class FencedCodeBlockParser : AbstractBlockParser {
 
     public static class Factory : AbstractBlockParserFactory {
 
-        override public BlockStart tryStart(ParserState state, MatchedBlockParser matchedBlockParser) {
+        public BlockStart tryStart(ParserState state, MatchedBlockParser matchedBlockParser) {
             int indent = state.getIndent();
             if (indent >= Parsing.CODE_BLOCK_INDENT) {
                 return BlockStart.none();

@@ -1,10 +1,18 @@
 module hunt.markdown.internal.HtmlBlockParser;
 
 import hunt.markdown.internal.util.Parsing;
+import hunt.markdown.internal.BlockContent;
 import hunt.markdown.node.Block;
 import hunt.markdown.node.HtmlBlock;
 import hunt.markdown.node.Paragraph;
 import hunt.markdown.parser.block.AbstractBlockParser;
+import hunt.markdown.parser.block.BlockContinue;
+import hunt.markdown.parser.block.ParserState;
+import hunt.markdown.parser.block.BlockStart;
+import hunt.markdown.parser.block.AbstractBlockParserFactory;
+import hunt.markdown.parser.block.MatchedBlockParser;
+
+import std.regex;
 
 class HtmlBlockParser : AbstractBlockParser {
 
@@ -41,20 +49,20 @@ class HtmlBlockParser : AbstractBlockParser {
     }
 
     private HtmlBlock block = new HtmlBlock();
-    private Pattern closingPattern;
+    private Regex!char closingPattern;
 
     private bool finished = false;
     private BlockContent content = new BlockContent();
 
-    private this(Pattern closingPattern) {
+    private this(Regex!char closingPattern) {
         this.closingPattern = closingPattern;
     }
 
-    override public Block getBlock() {
+    public Block getBlock() {
         return block;
     }
 
-    override public BlockContinue tryContinue(ParserState state) {
+    public BlockContinue tryContinue(ParserState state) {
         if (finished) {
             return BlockContinue.none();
         }
@@ -82,7 +90,7 @@ class HtmlBlockParser : AbstractBlockParser {
 
     public static class Factory : AbstractBlockParserFactory {
 
-        override public BlockStart tryStart(ParserState state, MatchedBlockParser matchedBlockParser) {
+        public BlockStart tryStart(ParserState state, MatchedBlockParser matchedBlockParser) {
             int nextNonSpace = state.getNextNonSpaceIndex();
             string line = state.getLine();
 

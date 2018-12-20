@@ -1,5 +1,7 @@
 module hunt.markdown.internal.BlockContent;
 
+import hunt.string;
+
 class BlockContent {
 
     private StringBuilder sb;

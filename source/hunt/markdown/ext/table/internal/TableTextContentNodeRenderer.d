@@ -1,5 +1,6 @@
 module hunt.markdown.ext.table.internal.TableTextContentNodeRenderer;
 
+import hunt.markdown.ext.table.internal.TableNodeRenderer;
 import hunt.markdown.ext.table.TableBlock;
 import hunt.markdown.ext.table.TableBody;
 import hunt.markdown.ext.table.TableCell;
@@ -22,28 +23,28 @@ class TableTextContentNodeRenderer : TableNodeRenderer {
         this.context = context;
     }
 
-    protected void renderBlock(TableBlock tableBlock) {
+    override protected void renderBlock(TableBlock tableBlock) {
         renderChildren(tableBlock);
         if (tableBlock.getNext() !is null) {
             textContentWriter.write("\n");
         }
     }
 
-    protected void renderHead(TableHead tableHead) {
+    override protected void renderHead(TableHead tableHead) {
         renderChildren(tableHead);
     }
 
-    protected void renderBody(TableBody tableBody) {
+    override protected void renderBody(TableBody tableBody) {
         renderChildren(tableBody);
     }
 
-    protected void renderRow(TableRow tableRow) {
+    override protected void renderRow(TableRow tableRow) {
         textContentWriter.line();
         renderChildren(tableRow);
         textContentWriter.line();
     }
 
-    protected void renderCell(TableCell tableCell) {
+    override protected void renderCell(TableCell tableCell) {
         renderChildren(tableCell);
         textContentWriter.write('|');
         textContentWriter.whitespace();

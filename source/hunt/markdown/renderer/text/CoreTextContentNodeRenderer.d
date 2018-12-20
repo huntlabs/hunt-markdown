@@ -1,14 +1,17 @@
 module hunt.markdown.renderer.text.CoreTextContentNodeRenderer;
 
-import hunt.markdown.node.Node;
+import hunt.markdown.node;
+import hunt.markdown.node.AbstractVisitor;
 import hunt.markdown.renderer.NodeRenderer;
+import hunt.markdown.renderer.text.TextContentNodeRendererContext;
+import hunt.markdown.renderer.text.TextContentWriter;
 import hunt.markdown.internal.renderer.text.BulletListHolder;
 import hunt.markdown.internal.renderer.text.ListHolder;
 import hunt.markdown.internal.renderer.text.OrderedListHolder;
 
-// import hunt.container.Arrays;
 import hunt.container.HashSet;
 import hunt.container.Set;
+import hunt.lang.Character;
 
 /**
  * The node renderer that renders all the core nodes (comes last in the order of node renderers).
@@ -50,7 +53,7 @@ class CoreTextContentNodeRenderer : AbstractVisitor, NodeRenderer {
         ]);
     }
 
-    override public void render(Node node) {
+    public void render(Node node) {
         node.accept(this);
     }
 

@@ -1,6 +1,7 @@
 module hunt.markdown.internal.renderer.text.BulletListHolder;
 
 import hunt.markdown.node.BulletList;
+import hunt.markdown.internal.renderer.text.ListHolder;
 
 class BulletListHolder : ListHolder {
     private char marker;

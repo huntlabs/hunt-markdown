@@ -3,6 +3,7 @@ module hunt.markdown.ext.gfm.strikethrough.internal.StrikethroughHtmlNodeRendere
 import hunt.markdown.renderer.html.HtmlWriter;
 import hunt.markdown.renderer.html.HtmlNodeRendererContext;
 import hunt.markdown.node.Node;
+import hunt.markdown.ext.gfm.strikethrough.internal.StrikethroughNodeRenderer;
 
 import hunt.container.Collections;
 import hunt.container.Map;
@@ -17,7 +18,7 @@ class StrikethroughHtmlNodeRenderer : StrikethroughNodeRenderer {
         this.html = context.getWriter();
     }
 
-    override public void render(Node node) {
+    public void render(Node node) {
         Map!(string, string) attributes = context.extendAttributes(node, "del", Collections.emptyMap!(string, string)());
         html.tag("del", attributes);
         renderChildren(node);

@@ -42,11 +42,11 @@ class ListItemParser : AbstractBlockParser {
         return true;
     }
 
-    override public Block getBlock() {
+    public Block getBlock() {
         return block;
     }
 
-    override public BlockContinue tryContinue(ParserState state) {
+    public BlockContinue tryContinue(ParserState state) {
         if (state.isBlank()) {
             if (block.getFirstChild() is null) {
                 // Blank line after empty list item
