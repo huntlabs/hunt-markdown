@@ -59,7 +59,7 @@ class InlineParserImpl : InlineParser, ReferenceParser {
     /**
      * Link references by ID, needs to be built up using parseReference before calling parse.
      */
-    private Map!(string, Link) referenceMap = new HashMap!(string, Link)();
+    private Map!(string, Link) referenceMap;
 
     private Node block;
 
@@ -120,6 +120,7 @@ class InlineParserImpl : InlineParser, ReferenceParser {
     }
 
     public this(List!(DelimiterProcessor) delimiterProcessors) {
+        referenceMap = new HashMap!(string, Link)();
         this.delimiterProcessors = calculateDelimiterProcessors(delimiterProcessors);
         this.delimiterCharacters = calculateDelimiterCharacters(this.delimiterProcessors.keySet());
         this.specialCharacters = calculateSpecialCharacters(delimiterCharacters);

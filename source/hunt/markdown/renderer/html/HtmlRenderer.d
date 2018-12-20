@@ -84,8 +84,15 @@ class HtmlRenderer : Renderer {
         private string _softbreak = "\n";
         private bool _escapeHtml = false;
         private bool _percentEncodeUrls = false;
-        private List!(AttributeProviderFactory) _attributeProviderFactories = new ArrayList!AttributeProviderFactory();
-        private List!(HtmlNodeRendererFactory) _nodeRendererFactories = new ArrayList!HtmlNodeRendererFactory();
+
+        private List!(AttributeProviderFactory) _attributeProviderFactories;
+        private List!(HtmlNodeRendererFactory) _nodeRendererFactories;
+
+        this()
+        {
+            _attributeProviderFactories = new ArrayList!AttributeProviderFactory();
+            _nodeRendererFactories = new ArrayList!HtmlNodeRendererFactory();
+        }
 
         /**
          * @return the configured {@link HtmlRenderer}
@@ -195,9 +202,10 @@ class HtmlRenderer : Renderer {
 
         private HtmlWriter _htmlWriter;
         private List!(AttributeProvider) _attributeProviders;
-        private NodeRendererMap _nodeRendererMap = new NodeRendererMap();
+        private NodeRendererMap _nodeRendererMap;
 
         private this(HtmlWriter htmlWriter) {
+            _nodeRendererMap = new NodeRendererMap();
             this._htmlWriter = htmlWriter;
 
             _attributeProviders = new ArrayList!AttributeProvider(attributeProviderFactories.size());

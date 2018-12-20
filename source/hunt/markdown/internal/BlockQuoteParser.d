@@ -12,7 +12,12 @@ import hunt.markdown.parser.block.MatchedBlockParser;
 
 class BlockQuoteParser : AbstractBlockParser {
 
-    private BlockQuote block = new BlockQuote();
+    private BlockQuote block;
+
+    this()
+    {
+        block = new BlockQuote();
+    }
 
     override public bool isContainer() {
         return true;

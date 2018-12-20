@@ -12,8 +12,14 @@ import hunt.markdown.parser.block.ParserState;
 
 class ParagraphParser : AbstractBlockParser {
 
-    private Paragraph block = new Paragraph();
-    private BlockContent content = new BlockContent();
+    private Paragraph block;
+    private BlockContent content;
+
+    this()
+    {
+        block = new Paragraph();
+        content = new BlockContent();
+    }
 
     public Block getBlock() {
         return block;

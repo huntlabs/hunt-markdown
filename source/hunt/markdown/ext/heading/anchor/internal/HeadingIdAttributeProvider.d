@@ -3,6 +3,9 @@ module hunt.markdown.ext.heading.anchor.internal.HeadingIdAttributeProvider;
 import hunt.markdown.ext.heading.anchor.IdGenerator;
 import hunt.markdown.renderer.html.AttributeProvider;
 import hunt.markdown.node.Node;
+import hunt.markdown.node.Heading;
+import hunt.markdown.node.Code;
+import hunt.markdown.node.Text;
 import hunt.markdown.node.AbstractVisitor;
 
 import hunt.container.ArrayList;

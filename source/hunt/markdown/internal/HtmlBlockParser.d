@@ -44,17 +44,19 @@ class HtmlBlockParser : AbstractBlockParser {
                             "table|tbody|td|tfoot|th|thead|title|tr|track|" ~
                             "ul" ~
                             ")(?:\\s|[/]?[>]|$)"],
-            ["^(?:" ~ Parsing.OPENTAG + '|' + Parsing.CLOSETAG ~ ")\\s*$", null]
+            ["^(?:" + Parsing.OPENTAG + '|' + Parsing.CLOSETAG + ")\\s*$", null]
         ];
     }
 
-    private HtmlBlock block = new HtmlBlock();
+    private HtmlBlock block;
     private Regex!char closingPattern;
 
     private bool finished = false;
-    private BlockContent content = new BlockContent();
+    private BlockContent content;
 
     private this(Regex!char closingPattern) {
+        block = new HtmlBlock();
+        content = new BlockContent();
         this.closingPattern = closingPattern;
     }
 

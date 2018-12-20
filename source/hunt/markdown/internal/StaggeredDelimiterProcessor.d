@@ -17,9 +17,10 @@ class StaggeredDelimiterProcessor : DelimiterProcessor {
 
     private char delim;
     private int minLength = 0;
-    private LinkedList!(DelimiterProcessor) processors = new LinkedList!(DelimiterProcessor)(); // in reverse getMinLength order
+    private LinkedList!(DelimiterProcessor) processors; // in reverse getMinLength order
 
     this(char delim) {
+        processors = new LinkedList!(DelimiterProcessor)();
         this.delim = delim;
     }
 

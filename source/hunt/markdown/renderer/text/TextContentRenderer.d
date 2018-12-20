@@ -59,8 +59,13 @@ class TextContentRenderer : Renderer {
     public static class Builder {
 
         private bool _stripNewlines = false;
-        private List!(TextContentNodeRendererFactory) nodeRendererFactories = new ArrayList!TextContentNodeRendererFactory();
+        private List!(TextContentNodeRendererFactory) nodeRendererFactories;
 
+        this()
+        {
+            nodeRendererFactories = new ArrayList!TextContentNodeRendererFactory();
+        }
+        
         /**
          * @return the configured {@link TextContentRenderer}
          */
@@ -120,9 +125,10 @@ class TextContentRenderer : Renderer {
 
     private class RendererContext : TextContentNodeRendererContext {
         private TextContentWriter textContentWriter;
-        private NodeRendererMap nodeRendererMap = new NodeRendererMap();
+        private NodeRendererMap nodeRendererMap;
 
         private this(TextContentWriter textContentWriter) {
+            nodeRendererMap = new NodeRendererMap();
             this.textContentWriter = textContentWriter;
 
             // The first node renderer for a node type "wins".

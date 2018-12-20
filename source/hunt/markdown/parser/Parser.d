@@ -127,14 +127,17 @@ class Parser {
      * Builder for configuring a {@link Parser}.
      */
     public static class Builder {
-        private List!(BlockParserFactory) blockParserFactories = new ArrayList!(BlockParserFactory)();
-        private List!(DelimiterProcessor) delimiterProcessors = new ArrayList!(DelimiterProcessor)();
-        private List!(PostProcessor) postProcessors = new ArrayList!(PostProcessor)();
+        private List!(BlockParserFactory) blockParserFactories;
+        private List!(DelimiterProcessor) delimiterProcessors;
+        private List!(PostProcessor) postProcessors;
         private Set!(Block) _enabledBlockTypes;
         private InlineParserFactory _inlineParserFactory = null;
 
-        static this()
+        this()
         {
+            blockParserFactories = new ArrayList!(BlockParserFactory)();
+            delimiterProcessors = new ArrayList!(DelimiterProcessor)();
+            postProcessors = new ArrayList!(PostProcessor)();
             _enabledBlockTypes = DocumentParser.getDefaultBlockParserTypes();
         }
 

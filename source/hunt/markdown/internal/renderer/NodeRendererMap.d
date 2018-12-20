@@ -8,7 +8,12 @@ import hunt.container.Map;
 
 class NodeRendererMap {
 
-    private Map!(Node, NodeRenderer) renderers = new HashMap!(Node, NodeRenderer)(32);
+    private Map!(Node, NodeRenderer) renderers;
+
+    this()
+    {
+        renderers = new HashMap!(Node, NodeRenderer)(32);
+    }
 
     // public void add(NodeRenderer nodeRenderer) {
     //     for (Class<? : Node> nodeType : nodeRenderer.getNodeTypes()) {

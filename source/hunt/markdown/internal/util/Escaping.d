@@ -29,7 +29,13 @@ class Escaping {
     
     // From RFC 3986 (see "reserved", "unreserved") except don't escape '[' or ']' to be compatible with JS encodeURI
     private static Regex!char ESCAPE_IN_URI;
-    
+
+    private __gshared Replacer UNSAFE_CHAR_REPLACER;
+
+    private __gshared Replacer UNESCAPE_REPLACER;
+
+    private __gshared Replacer URI_REPLACER;
+
     static this()
     {
         WHITESPACE = regex("[ \t\r\n]+");
@@ -43,16 +49,7 @@ class Escaping {
         XML_SPECIAL_OR_ENTITY = regex(ENTITY + '|' + XML_SPECIAL, Pattern.CASE_INSENSITIVE);
 
         ESCAPE_IN_URI = regex("(%[a-fA-F0-9]{0,2}|[^:/?#@!$&'()*+,;=a-zA-Z0-9\\-._~])");
-    }
 
-    private __gshared Replacer UNSAFE_CHAR_REPLACER;
-
-    private __gshared Replacer UNESCAPE_REPLACER;
-
-    private __gshared Replacer URI_REPLACER;
-
-    static this()
-    {
         UNSAFE_CHAR_REPLACER = new class Replacer {
             override public void replace(string input, StringBuilder sb) {
                 switch (input) {

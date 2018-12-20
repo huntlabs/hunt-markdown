@@ -16,8 +16,14 @@ import hunt.container.List;
 
 class IndentedCodeBlockParser : AbstractBlockParser {
 
-    private IndentedCodeBlock block = new IndentedCodeBlock();
-    private List!(string) lines = new ArrayList!(string)();
+    private IndentedCodeBlock block;
+    private List!(string) lines;
+
+    this()
+    {
+        block = new IndentedCodeBlock();
+        lines = new ArrayList!(string)();
+    }
 
     public Block getBlock() {
         return block;

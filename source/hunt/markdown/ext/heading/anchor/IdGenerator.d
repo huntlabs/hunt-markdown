@@ -6,6 +6,8 @@ import hunt.lang.Integer;
 
 import std.regex;
 
+import hunt.string;
+
 /**
  * Generates strings to be used as identifiers.
  * <p>

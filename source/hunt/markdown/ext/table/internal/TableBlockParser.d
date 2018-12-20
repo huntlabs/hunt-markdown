@@ -20,8 +20,8 @@ class TableBlockParser : AbstractBlockParser {
     private static string COL = "\\s*:?-{1,}:?\\s*";
     private static Regex!char TABLE_HEADER_SEPARATOR;
 
-    private TableBlock block = new TableBlock();
-    private List!(string) rowLines = new ArrayList!(string)();
+    private TableBlock block;
+    private List!(string) rowLines;
 
     private bool nextIsSeparatorLine = true;
     private string separatorLine = "";
@@ -36,6 +36,9 @@ class TableBlockParser : AbstractBlockParser {
     }
 
     private this(string headerLine) {
+        block = new TableBlock();
+        rowLines = new ArrayList!(string)();
+
         rowLines.add(headerLine);
     }
 

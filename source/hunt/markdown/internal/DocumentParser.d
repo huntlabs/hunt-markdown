@@ -23,15 +23,6 @@ import hunt.lang.exception;
 
 class DocumentParser : ParserState {
 
-    // private __gshared Set<Class<? : Block>> CORE_FACTORY_TYPES = new LinkedHashSet<>(Arrays.asList(
-    //         BlockQuote.class,
-    //         Heading.class,
-    //         FencedCodeBlock.class,
-    //         HtmlBlock.class,
-    //         ThematicBreak.class,
-    //         ListBlock.class,
-    //         IndentedCodeBlock.class));
-
     private static __gshared Set!(TypeInfo) CORE_FACTORY_TYPES;
 
     private static __gshared Map!(Block, BlockParserFactory) NODES_TO_CORE_FACTORIES;
@@ -84,10 +75,14 @@ class DocumentParser : ParserState {
     private InlineParser inlineParser;
     private DocumentBlockParser documentBlockParser;
 
-    private List!(BlockParser) activeBlockParsers = new ArrayList!(BlockParser)();
-    private Set!(BlockParser) allBlockParsers = new HashSet!(BlockParser)();
+    private List!(BlockParser) activeBlockParsers;
+    private Set!(BlockParser) allBlockParsers;
 
     public this(List!(BlockParserFactory) blockParserFactories, InlineParser inlineParser) {
+        
+        activeBlockParsers = new ArrayList!(BlockParser)();
+        allBlockParsers = new HashSet!(BlockParser)();
+
         this.blockParserFactories = blockParserFactories;
         this.inlineParser = inlineParser;
 

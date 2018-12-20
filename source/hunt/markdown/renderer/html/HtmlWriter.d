@@ -10,10 +10,15 @@ import hunt.container.Map;
 
 class HtmlWriter {
 
-    private static Map!(string, string) NO_ATTRIBUTES = Collections.emptyMap();
+    private static Map!(string, string) NO_ATTRIBUTES;
 
     private Appendable buffer;
     private char lastChar = 0;
+
+    static this()
+    {
+        NO_ATTRIBUTES = Collections.emptyMap!(string, string)();
+    }
 
     this(Appendable o) {
         this.buffer = o;

@@ -267,7 +267,12 @@ class CoreHtmlNodeRenderer : AbstractVisitor, NodeRenderer {
 
     private static class AltTextVisitor : AbstractVisitor {
 
-        private StringBuilder sb = new StringBuilder();
+        private StringBuilder sb;
+
+        this()
+        {
+            sb = new StringBuilder();
+        }
 
         string getAltText() {
             return sb.toString();

@@ -11,7 +11,12 @@ import hunt.markdown.parser.block.AbstractBlockParserFactory;
 
 class ThematicBreakParser : AbstractBlockParser {
 
-    private ThematicBreak block = new ThematicBreak();
+    private ThematicBreak block;
+
+    this()
+    {
+        block = new ThematicBreak();
+    }
 
     public Block getBlock() {
         return block;

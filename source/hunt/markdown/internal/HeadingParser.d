@@ -13,10 +13,11 @@ import hunt.markdown.parser.block.MatchedBlockParser;
 
 class HeadingParser : AbstractBlockParser {
 
-    private Heading block = new Heading();
+    private Heading block;
     private string content;
 
     public this(int level, string content) {
+        block = new Heading();
         block.setLevel(level);
         this.content = content;
     }

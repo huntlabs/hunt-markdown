@@ -15,12 +15,17 @@ import hunt.string;
 
 class FencedCodeBlockParser : AbstractBlockParser {
 
-    private FencedCodeBlock block = new FencedCodeBlock();
+    private FencedCodeBlock block;
 
     private string firstLine;
-    private StringBuilder otherLines = new StringBuilder();
+    
+    private StringBuilder otherLines;
 
     public this(char fenceChar, int fenceLength, int fenceIndent) {
+
+        block = new FencedCodeBlock();
+        otherLines = new StringBuilder();
+
         block.setFenceChar(fenceChar);
         block.setFenceLength(fenceLength);
         block.setFenceIndent(fenceIndent);

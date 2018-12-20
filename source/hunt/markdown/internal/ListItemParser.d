@@ -10,7 +10,7 @@ import hunt.markdown.parser.block.ParserState;
 
 class ListItemParser : AbstractBlockParser {
 
-    private ListItem block = new ListItem();
+    private ListItem block;
 
     /**
      * Minimum number of columns that the content has to be indented (relative to the containing block) to be part of
@@ -21,6 +21,7 @@ class ListItemParser : AbstractBlockParser {
     private bool hadBlankLine;
 
     public this(int contentIndent) {
+        block = new ListItem();
         this.contentIndent = contentIndent;
     }
 
