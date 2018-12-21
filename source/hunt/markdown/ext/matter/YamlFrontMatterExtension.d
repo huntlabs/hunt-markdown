@@ -1,7 +1,7 @@
 module hunt.markdown.ext.front.matter.YamlFrontMatterExtension;
 
 import hunt.markdown.Extension;
-// import hunt.markdown.ext.front.matter.internal.YamlFrontMatterBlockParser;
+import hunt.markdown.ext.matter.internal.YamlFrontMatterBlockParser;
 import hunt.markdown.parser.Parser;
 import hunt.markdown.renderer.html.HtmlRenderer;
 

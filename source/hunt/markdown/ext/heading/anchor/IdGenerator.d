@@ -15,17 +15,17 @@ import hunt.string;
  */
 class IdGenerator {
     private Regex!(char)[] allowedCharacters;
-    private Map!(string, Integer) identityMap;
+    private Map!(string, int) identityMap;
     private string prefix;
     private string suffix;
     private string defaultIdentifier;
 
     private this(Builder builder) {
         this.allowedCharacters = compileAllowedCharactersPattern();
-        this.defaultIdentifier = builder.defaultIdentifier;
-        this.prefix = builder.prefix;
-        this.suffix = builder.suffix;
-        this.identityMap = new HashMap!(string, Integer)();
+        this.defaultIdentifier = builder._defaultIdentifier;
+        this.prefix = builder._prefix;
+        this.suffix = builder._suffix;
+        this.identityMap = new HashMap!(string, int)();
     }
 
     /**
@@ -79,7 +79,7 @@ class IdGenerator {
         } else {
             int currentCount = identityMap.get(normalizedIdentity);
             identityMap.put(normalizedIdentity, currentCount + 1);
-            return prefix ~ normalizedIdentity ~ "-" ~ currentCount ~ suffix;
+            return prefix ~ normalizedIdentity ~ "-" ~ currentCount!toString() ~ suffix;
         }
     }
 

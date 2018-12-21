@@ -34,9 +34,9 @@ class HeadingAnchorExtension : HtmlRenderer.HtmlRendererExtension {
     private string idSuffix;
 
     private this(Builder builder) {
-        this.defaultId = builder.defaultId;
-        this.idPrefix = builder.idPrefix;
-        this.idSuffix = builder.idSuffix;
+        this.defaultId = builder._defaultId;
+        this.idPrefix = builder._idPrefix;
+        this.idSuffix = builder._idSuffix;
     }
 
     /**
