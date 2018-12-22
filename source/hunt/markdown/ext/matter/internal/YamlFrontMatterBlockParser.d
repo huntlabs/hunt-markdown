@@ -11,6 +11,7 @@ import hunt.markdown.parser.block.BlockContinue;
 import hunt.markdown.parser.block.ParserState;
 import hunt.markdown.parser.block.BlockStart;
 import hunt.markdown.parser.block.MatchedBlockParser;
+import hunt.markdown.parser.block.BlockParser;
 
 import hunt.container.ArrayList;
 import hunt.container.List;
