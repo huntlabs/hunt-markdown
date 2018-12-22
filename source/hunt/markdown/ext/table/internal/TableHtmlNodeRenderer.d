@@ -76,14 +76,14 @@ class TableHtmlNodeRenderer : TableNodeRenderer {
 
     private static string getAlignValue(TableCell.Alignment alignment) {
         switch (alignment) {
-            case LEFT:
+            case TableCell.Alignment.LEFT:
                 return "left";
-            case CENTER:
+            case TableCell.Alignment.CENTER:
                 return "center";
-            case RIGHT:
+            case TableCell.Alignment.RIGHT:
                 return "right";
         }
-        throw new IllegalStateException("Unknown alignment: " ~ alignment);
+        throw new Exception("Unknown alignment: " ~ alignment);
     }
 
     private void renderChildren(Node parent) {

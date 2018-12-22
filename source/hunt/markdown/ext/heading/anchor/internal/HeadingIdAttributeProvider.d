@@ -12,6 +12,8 @@ import hunt.container.ArrayList;
 import hunt.container.List;
 import hunt.container.Map;
 
+import std.string;
+
 class HeadingIdAttributeProvider : AttributeProvider {
 
     private IdGenerator idGenerator;
@@ -46,11 +48,11 @@ class HeadingIdAttributeProvider : AttributeProvider {
 
             string finalstring = "";
             foreach (string word ; wordList) {
-                finalstring += word;
+                finalstring ~= word;
             }
-            finalstring = finalString.trim().toLowerCase();
+            finalstring = strip(finalstring).toLower();
 
-            attributes.put("id", idGenerator.generateId(finalString));
+            attributes.put("id", idGenerator.generateId(finalstring));
         }
     }
 }

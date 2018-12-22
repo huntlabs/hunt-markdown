@@ -4,7 +4,9 @@ import hunt.container.HashMap;
 import hunt.container.Map;
 import hunt.lang.Integer;
 
+import std.string;
 import std.regex;
+import std.conv : to;
 
 import hunt.string;
 
@@ -14,7 +16,7 @@ import hunt.string;
  * Use {@link #builder()} to create an instance.
  */
 class IdGenerator {
-    private Regex!(char)[] allowedCharacters;
+    private Regex!char allowedCharacters;
     private Map!(string, int) identityMap;
     private string prefix;
     private string suffix;
@@ -69,7 +71,7 @@ class IdGenerator {
     public string generateId(string text) {
         string normalizedIdentity = text !is null ? normalizeText(text) : defaultIdentifier;
 
-        if (normalizedIdentity.length() == 0) {
+        if (normalizedIdentity.length == 0) {
             normalizedIdentity = defaultIdentifier;
         }
 
@@ -79,19 +81,12 @@ class IdGenerator {
         } else {
             int currentCount = identityMap.get(normalizedIdentity);
             identityMap.put(normalizedIdentity, currentCount + 1);
-            return prefix ~ normalizedIdentity ~ "-" ~ currentCount!toString() ~ suffix;
+            return prefix ~ normalizedIdentity ~ "-" ~ currentCount.to!string() ~ suffix;
         }
     }
 
     private static Regex!char compileAllowedCharactersPattern() {
-        string r = "[\\w\\-_]+";
-        try {
-            return regex(r, Pattern.UNICODE_CHARACTER_CLASS);
-        } catch (IllegalArgumentException e) {
-            // Android only supports the flag in API level 24. But it actually uses Unicode character classes by
-            // default, so not specifying the flag is ok. See issue #71.
-            return regex(r);
-        }
+        return regex("[\\w\\-_]+");
     }
 
     /**
@@ -99,14 +94,26 @@ class IdGenerator {
      *
      * @param text Text to normalize to an ID
      */
+    // private string normalizeText(string text) {
+    //     string firstPassNormalising = text.toLowerCase().replace(" ", "-");
+
+    //     StringBuilder sb = new StringBuilder();
+    //     Matcher matcher = allowedCharacters.matcher(firstPassNormalising);
+
+    //     while (matcher.find()) {
+    //         sb.append(matcher.group());
+    //     }
+
+    //     return sb.toString();
+    // }
+
     private string normalizeText(string text) {
-        string firstPassNormalising = text.toLowerCase().replace(" ", "-");
+        string firstPassNormalising = text.toLower().replace(" ", "-");
 
         StringBuilder sb = new StringBuilder();
-        Matcher matcher = allowedCharacters.matcher(firstPassNormalising);
-
-        while (matcher.find()) {
-            sb.append(matcher.group());
+        
+        foreach (c ; matchAll(firstPassNormalising, allowedCharacters)) {
+            sb.append(c[0]);
         }
 
         return sb.toString();

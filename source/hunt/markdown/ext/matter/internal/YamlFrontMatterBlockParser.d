@@ -14,6 +14,8 @@ import hunt.markdown.parser.block.MatchedBlockParser;
 
 import hunt.container.ArrayList;
 import hunt.container.List;
+
+import std.string;
 import std.regex;
 
 class YamlFrontMatterBlockParser : AbstractBlockParser {
@@ -45,43 +47,43 @@ class YamlFrontMatterBlockParser : AbstractBlockParser {
     public BlockContinue tryContinue(ParserState parserState) {
         string line = parserState.getLine();
 
-        if (REGEX_END.matcher(line).matches()) {
+        if (match(line, REGEX_END)) {
             if (currentKey !is null) {
                 block.appendChild(new YamlFrontMatterNode(currentKey, currentValues));
             }
             return BlockContinue.finished();
         }
 
-        Matcher matcher = REGEX_METADATA.matcher(line);
-        if (matcher.matches()) {
+        auto matches = match(line, REGEX_METADATA);
+        if (matches) {
             if (currentKey !is null) {
                 block.appendChild(new YamlFrontMatterNode(currentKey, currentValues));
             }
 
             inLiteral = false;
-            currentKey = matcher.group(1);
+            currentKey = matches.front[1];
             currentValues = new ArrayList!(string)();
-            if ("|" == matcher.group(2)) {
+            if ("|" == matches.front[2]) {
                 inLiteral = true;
-            } else if (!"" == matcher.group(2)) {
-                currentValues.add(matcher.group(2));
+            } else if ("" != matches.front[2]) {
+                currentValues.add(matches.front[2]);
             }
 
             return BlockContinue.atIndex(parserState.getIndex());
         } else {
             if (inLiteral) {
-                matcher = REGEX_METADATA_LITERAL.matcher(line);
-                if (matcher.matches()) {
+                matches = match(line, REGEX_METADATA_LITERAL);
+                if (matches) {
                     if (currentValues.size() == 1) {
-                        currentValues.set(0, currentValues.get(0) + "\n" ~ matcher.group(1).trim());
+                        currentValues.set(0, currentValues.get(0) + "\n" ~ matches.front[1].strip());
                     } else {
-                        currentValues.add(matcher.group(1).trim());
+                        currentValues.add(matches.front[1].strip());
                     }
                 }
             } else {
-                matcher = REGEX_METADATA_LIST.matcher(line);
-                if (matcher.matches()) {
-                    currentValues.add(matcher.group(1));
+                matches = match(line, REGEX_METADATA_LIST);
+                if (matches) {
+                    currentValues.add(matches.front[1]);
                 }
             }
 
@@ -97,8 +99,7 @@ class YamlFrontMatterBlockParser : AbstractBlockParser {
             string line = state.getLine();
             BlockParser parentParser = matchedBlockParser.getMatchedBlockParser();
             // check whether this line is the first line of whole document or not
-            if (cast(DocumentBlockParser)parentParser !is null && parentParser.getBlock().getFirstChild() is null &&
-                    REGEX_BEGIN.matcher(line).matches()) {
+            if (cast(DocumentBlockParser)parentParser !is null && parentParser.getBlock().getFirstChild() is null && match(line, REGEX_BEGIN)) {
                 return BlockStart.of(new YamlFrontMatterBlockParser()).atIndex(state.getNextNonSpaceIndex());
             }
 

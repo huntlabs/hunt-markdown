@@ -13,7 +13,11 @@ import hunt.markdown.parser.block.MatchedBlockParser;
 
 import hunt.container.ArrayList;
 import hunt.container.List;
+
+import std.string;
 import std.regex;
+
+import hunt.string;
 
 class TableBlockParser : AbstractBlockParser {
 
@@ -30,8 +34,8 @@ class TableBlockParser : AbstractBlockParser {
     {
         TABLE_HEADER_SEPARATOR = regex(
             // For single column, require at least one pipe, otherwise it's ambiguous with setext headers
-            "\\|" ~ COL ~ "\\|?\\s*" ~ "|" +
-            COL ~ "\\|\\s*" ~ "|" +
+            "\\|" ~ COL ~ "\\|?\\s*" ~ "|" ~
+            COL ~ "\\|\\s*" ~ "|" ~
             "\\|?" ~ "(?:" ~ COL ~ "\\|)+" ~ COL ~ "\\|?\\s*");
     }
 
@@ -47,7 +51,7 @@ class TableBlockParser : AbstractBlockParser {
     }
 
     public BlockContinue tryContinue(ParserState state) {
-        if (state.getLine().toString().contains("|")) {
+        if (state.getLine().contains("|")) {
             return BlockContinue.atIndex(state.getIndex());
         } else {
             return BlockContinue.none();
@@ -57,7 +61,7 @@ class TableBlockParser : AbstractBlockParser {
     override public void addLine(string line) {
         if (nextIsSeparatorLine) {
             nextIsSeparatorLine = false;
-            separatorLine = line.toString();
+            separatorLine = line;
         } else {
             rowLines.add(line);
         }
@@ -86,7 +90,7 @@ class TableBlockParser : AbstractBlockParser {
                 TableCell tableCell = new TableCell();
                 tableCell.setHeader(header);
                 tableCell.setAlignment(alignment);
-                inlineParser.parse(cell.trim(), tableCell);
+                inlineParser.parse(cell.strip(), tableCell);
                 tableRow.appendChild(tableCell);
             }
 
@@ -105,7 +109,7 @@ class TableBlockParser : AbstractBlockParser {
         List!(string) parts = split(separatorLine);
         List!(TableCell.Alignment) alignments = new ArrayList!(TableCell.Alignment)();
         foreach (string part ; parts) {
-            string trimmed = part.trim();
+            string trimmed = part.strip();
             bool left = trimmed.startsWith(":");
             bool right = trimmed.endsWith(":");
             TableCell.Alignment alignment = getAlignment(left, right);
@@ -115,14 +119,14 @@ class TableBlockParser : AbstractBlockParser {
     }
 
     private static List!(string) split(string input) {
-        string line = input.toString().trim();
+        string line = input.strip();
         if (line.startsWith("|")) {
             line = line.substring(1);
         }
         List!(string) cells = new ArrayList!(string)();
         StringBuilder sb = new StringBuilder();
         bool escape = false;
-        for (int i = 0; i < line.length(); i++) {
+        for (int i = 0; i < line.length; i++) {
             char c = line[i];
             if (escape) {
                 escape = false;
@@ -166,8 +170,8 @@ class TableBlockParser : AbstractBlockParser {
         public BlockStart tryStart(ParserState state, MatchedBlockParser matchedBlockParser) {
             string line = state.getLine();
             string paragraph = matchedBlockParser.getParagraphContent();
-            if (paragraph !is null && paragraph.toString().contains("|") && !paragraph.toString().contains("\n")) {
-                string separatorLine = line.subSequence(state.getIndex(), line.length());
+            if (paragraph !is null && paragraph.contains("|") && !paragraph.contains("\n")) {
+                string separatorLine = line[state.getIndex()..line.length];
                 if (TABLE_HEADER_SEPARATOR.matcher(separatorLine).matches()) {
                     List!(string) headParts = split(paragraph);
                     List!(string) separatorParts = split(separatorLine);
