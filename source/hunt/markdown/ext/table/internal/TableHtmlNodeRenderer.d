@@ -13,6 +13,8 @@ import hunt.markdown.node.Node;
 import hunt.markdown.renderer.html.HtmlNodeRendererContext;
 import hunt.markdown.renderer.html.HtmlWriter;
 
+import std.conv : to;
+
 class TableHtmlNodeRenderer : TableNodeRenderer {
 
     private HtmlWriter htmlWriter;
@@ -83,7 +85,7 @@ class TableHtmlNodeRenderer : TableNodeRenderer {
             case TableCell.Alignment.RIGHT:
                 return "right";
         }
-        throw new Exception("Unknown alignment: " ~ alignment);
+        throw new Exception("Unknown alignment: " ~ alignment.to!string);
     }
 
     private void renderChildren(Node parent) {

@@ -51,7 +51,9 @@ class TableBlockParser : AbstractBlockParser {
     }
 
     public BlockContinue tryContinue(ParserState state) {
-        if (state.getLine().contains("|")) {
+        import std.algorithm;
+
+        if (state.getLine().findSplit("|").length > 0) {
             return BlockContinue.atIndex(state.getIndex());
         } else {
             return BlockContinue.none();
@@ -86,7 +88,7 @@ class TableBlockParser : AbstractBlockParser {
             // Body can not have more columns than head
             for (int i = 0; i < headerColumns; i++) {
                 string cell = i < cells.size() ? cells.get(i) : "";
-                TableCell.Alignment alignment = i < alignments.size() ? alignments.get(i) : null;
+                TableCell.Alignment alignment = alignments.get(i);
                 TableCell tableCell = new TableCell();
                 tableCell.setHeader(header);
                 tableCell.setAlignment(alignment);
@@ -158,10 +160,8 @@ class TableBlockParser : AbstractBlockParser {
             return TableCell.Alignment.CENTER;
         } else if (left) {
             return TableCell.Alignment.LEFT;
-        } else if (right) {
-            return TableCell.Alignment.RIGHT;
         } else {
-            return null;
+            return TableCell.Alignment.RIGHT;
         }
     }
 
@@ -170,9 +170,11 @@ class TableBlockParser : AbstractBlockParser {
         public BlockStart tryStart(ParserState state, MatchedBlockParser matchedBlockParser) {
             string line = state.getLine();
             string paragraph = matchedBlockParser.getParagraphContent();
-            if (paragraph !is null && paragraph.contains("|") && !paragraph.contains("\n")) {
+            import std.algorithm;
+
+            if (paragraph !is null && paragraph.findSplit("|").length > 0 && paragraph.findSplit("\n").length == 0) {
                 string separatorLine = line[state.getIndex()..line.length];
-                if (TABLE_HEADER_SEPARATOR.matcher(separatorLine).matches()) {
+                if (match(separatorLine, TABLE_HEADER_SEPARATOR)) {
                     List!(string) headParts = split(paragraph);
                     List!(string) separatorParts = split(separatorLine);
                     if (separatorParts.size() >= headParts.size()) {
