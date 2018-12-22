@@ -1,6 +1,7 @@
 module hunt.markdown.renderer.text.CoreTextContentNodeRenderer;
 
 import hunt.markdown.node;
+import hunt.markdown.node.Heading;
 import hunt.markdown.node.AbstractVisitor;
 import hunt.markdown.renderer.NodeRenderer;
 import hunt.markdown.renderer.text.TextContentNodeRendererContext;

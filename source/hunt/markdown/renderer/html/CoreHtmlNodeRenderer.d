@@ -2,6 +2,7 @@ module hunt.markdown.renderer.html.CoreHtmlNodeRenderer;
 
 import hunt.markdown.node;
 import hunt.markdown.node.AbstractVisitor;
+import hunt.markdown.node.Heading;
 import hunt.markdown.renderer.NodeRenderer;
 import hunt.markdown.renderer.html.HtmlWriter;
 import hunt.markdown.renderer.html.HtmlNodeRendererContext;
