@@ -74,7 +74,7 @@ class Escaping {
         UNESCAPE_REPLACER = new class Replacer {
             override public void replace(string input, StringBuilder sb) {
                 if (input[0] == '\\') {
-                    sb.append(input, 1, input.length);
+                    sb.append(input, 1, cast(int)input.length);
                 } else {
                     sb.append(Html5Entities.entityToString(input));
                 }
@@ -90,7 +90,7 @@ class Escaping {
                     } else {
                         // %25 is the percent-encoding for %
                         sb.append("%25");
-                        sb.append(input, 1, input.length);
+                        sb.append(input, 1, cast(int)input.length);
                     }
                 } else {
                     byte[] bytes = input.getBytes(Charset.forName("UTF-8"));
@@ -126,7 +126,7 @@ class Escaping {
 
     public static string normalizeReference(string input) {
         // Strip '[' and ']', then trim
-        string stripped = input.substring(1, input.length - 1).trim();
+        string stripped = input.substring(1, cast(int)input.length - 1).trim();
         string lowercase = stripped.toLowerCase(Locale.ROOT);
         return WHITESPACE.matcher(lowercase).replaceAll(" ");
     }
@@ -147,7 +147,7 @@ class Escaping {
         } while (matcher.find());
 
         if (lastEnd != s.length) {
-            sb.append(s, lastEnd, s.length);
+            sb.append(s, lastEnd, cast(int)s.length);
         }
         return sb.toString();
     }

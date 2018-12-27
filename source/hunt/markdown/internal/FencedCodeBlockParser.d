@@ -12,6 +12,7 @@ import hunt.markdown.parser.block.BlockStart;
 import hunt.markdown.parser.block.MatchedBlockParser;
 
 import hunt.string;
+import std.string;
 
 class FencedCodeBlockParser : AbstractBlockParser {
 
@@ -46,7 +47,7 @@ class FencedCodeBlockParser : AbstractBlockParser {
         } else {
             // skip optional spaces of fence indent
             int i = block.getFenceIndent();
-            int length = line.length;
+            int length = cast(int)line.length;
             while (i > 0 && newIndex < length && line[newIndex] == ' ') {
                 newIndex++;
                 i--;
@@ -57,7 +58,7 @@ class FencedCodeBlockParser : AbstractBlockParser {
 
     override public void addLine(string line) {
         if (firstLine is null) {
-            firstLine = line.toString();
+            firstLine = line;
         } else {
             otherLines.append(line);
             otherLines.append('\n');
@@ -66,7 +67,7 @@ class FencedCodeBlockParser : AbstractBlockParser {
 
     override public void closeBlock() {
         // first line becomes info string
-        block.setInfo(unescapeString(firstLine.trim()));
+        block.setInfo(unescapeString(firstLine.strip()));
         block.setLiteral(otherLines.toString());
     }
 
@@ -81,7 +82,7 @@ class FencedCodeBlockParser : AbstractBlockParser {
             int nextNonSpace = state.getNextNonSpaceIndex();
             FencedCodeBlockParser blockParser = checkOpener(state.getLine(), nextNonSpace, indent);
             if (blockParser !is null) {
-                return BlockStart.of(blockParser).atIndex(nextNonSpace ~ blockParser.block.getFenceLength());
+                return BlockStart.of(blockParser).atIndex(nextNonSpace + blockParser.block.getFenceLength());
             } else {
                 return BlockStart.none();
             }
@@ -93,7 +94,7 @@ class FencedCodeBlockParser : AbstractBlockParser {
     private static FencedCodeBlockParser checkOpener(string line, int index, int indent) {
         int backticks = 0;
         int tildes = 0;
-        int length = line.length;
+        int length = cast(int)line.length;
         loop:
         for (int i = index; i < length; i++) {
             switch (line[i]) {
@@ -109,12 +110,12 @@ class FencedCodeBlockParser : AbstractBlockParser {
         }
         if (backticks >= 3 && tildes == 0) {
             // spec: The info string may not contain any backtick characters.
-            if (Parsing.find('`', line, index ~ backticks) != -1) {
+            if (Parsing.find('`', line, index + backticks) != -1) {
                 return null;
             }
             return new FencedCodeBlockParser('`', backticks, indent);
         } else if (tildes >= 3 && backticks == 0) {
-            if (Parsing.find('~', line, index ~ tildes) != -1) {
+            if (Parsing.find('~', line, index + tildes) != -1) {
                 return null;
             }
             return new FencedCodeBlockParser('~', tildes, indent);
@@ -129,12 +130,12 @@ class FencedCodeBlockParser : AbstractBlockParser {
     private bool isClosing(string line, int index) {
         char fenceChar = block.getFenceChar();
         int fenceLength = block.getFenceLength();
-        int fences = Parsing.skip(fenceChar, line, index, line.length) - index;
+        int fences = Parsing.skip(fenceChar, line, index, cast(int)line.length) - index;
         if (fences < fenceLength) {
             return false;
         }
         // spec: The closing code fence [...] may be followed only by spaces, which are ignored.
-        int after = Parsing.skipSpaceTab(line, index ~ fences, line.length);
+        int after = Parsing.skipSpaceTab(line, index + fences, cast(int)line.length);
         return after == line.length;
     }
 }

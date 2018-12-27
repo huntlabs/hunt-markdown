@@ -102,9 +102,9 @@ class HtmlBlockParser : AbstractBlockParser {
                     if (blockType == 7 && cast(Paragraph)matchedBlockParser.getMatchedBlockParser().getBlock() !is null) {
                         continue;
                     }
-                    Pattern opener = BLOCK_PATTERNS[blockType][0];
-                    Pattern closer = BLOCK_PATTERNS[blockType][1];
-                    bool matches = opener.matcher(line.subSequence(nextNonSpace, line.length)).find();
+                    Regex!char opener = BLOCK_PATTERNS[blockType][0];
+                    Regex!char closer = BLOCK_PATTERNS[blockType][1];
+                    bool matches = opener.matcher(line.subSequence(nextNonSpace, cast(int)line.length)).find();
                     if (matches) {
                         return BlockStart.of(new HtmlBlockParser(closer)).atIndex(state.getIndex());
                     }

@@ -14,6 +14,8 @@ import hunt.markdown.parser.block.MatchedBlockParser;
 import hunt.container.ArrayList;
 import hunt.container.List;
 
+import hunt.string;
+
 class IndentedCodeBlockParser : AbstractBlockParser {
 
     private IndentedCodeBlock block;

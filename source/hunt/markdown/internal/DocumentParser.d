@@ -11,6 +11,7 @@ import hunt.markdown.internal.FencedCodeBlockParser;
 import hunt.markdown.internal.ThematicBreakParser;
 import hunt.markdown.internal.ListBlockParser;
 import hunt.markdown.internal.IndentedCodeBlockParser;
+import hunt.markdown.internal.ParagraphParser;
 import hunt.markdown.node.Block;
 import hunt.markdown.node.Document;
 import hunt.markdown.node.BlockQuote;
@@ -20,6 +21,7 @@ import hunt.markdown.node.HtmlBlock;
 import hunt.markdown.node.ThematicBreak;
 import hunt.markdown.node.ListBlock;
 import hunt.markdown.node.IndentedCodeBlock;
+import hunt.markdown.node.Paragraph;
 import hunt.markdown.parser.InlineParser;
 import hunt.markdown.parser.block.BlockParser;
 import hunt.markdown.parser.block.BlockParserFactory;
@@ -113,11 +115,11 @@ class DocumentParser : ParserState {
         return CORE_FACTORY_TYPES;
     }
 
-    public static List!(BlockParserFactory) calculateBlockParserFactories(List!(BlockParserFactory) customBlockParserFactories, Set!(Block) enabledBlockTypes) {
+    public static List!(BlockParserFactory) calculateBlockParserFactories(List!(BlockParserFactory) customBlockParserFactories, Set!(TypeInfo_Class) enabledBlockTypes) {
         List!(BlockParserFactory) list = new ArrayList!(BlockParserFactory)();
         // By having the custom factories come first, extensions are able to change behavior of core syntax.
         list.addAll(customBlockParserFactories);
-        foreach (Block blockType ; enabledBlockTypes) {
+        foreach (blockType ; enabledBlockTypes) {
             list.add(NODES_TO_CORE_FACTORIES.get(blockType));
         }
         return list;
@@ -302,7 +304,7 @@ class DocumentParser : ParserState {
         int cols = column;
 
         blank = true;
-        int length = line.length;
+        int length = cast(int)line.length;
         while (i < length) {
             char c = line[i];
             switch (c) {
@@ -313,6 +315,8 @@ class DocumentParser : ParserState {
                 case '\t':
                     i++;
                     cols += (4 - (cols % 4));
+                    continue;
+                default:
                     continue;
             }
             blank = false;
@@ -378,16 +382,16 @@ class DocumentParser : ParserState {
         if (columnIsInTab) {
             // Our column is in a partially consumed tab. Expand the remaining columns (to the next tab stop) to spaces.
             int afterTab = index + 1;
-            string rest = line.subSequence(afterTab, line.length);
+            string rest = line.subSequence(afterTab, cast(int)line.length);
             int spaces = Parsing.columnsToNextTabStop(column);
-            StringBuilder sb = new StringBuilder(spaces ~ rest.length);
+            StringBuilder sb = new StringBuilder(spaces + rest.length);
             for (int i = 0; i < spaces; i++) {
                 sb.append(' ');
             }
             sb.append(rest);
             content = sb.toString();
         } else {
-            content = line.subSequence(index, line.length);
+            content = line.subSequence(index, cast(int)line.length);
         }
         getActiveBlockParser().addLine(content);
     }
@@ -452,7 +456,7 @@ class DocumentParser : ParserState {
     }
 
     private void deactivateBlockParser() {
-        activeBlockParsers.remove(activeBlockParsers.size() - 1);
+        activeBlockParsers.removeAt(activeBlockParsers.size() - 1);
     }
 
     private void removeActiveBlockParser() {

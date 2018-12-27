@@ -359,7 +359,7 @@ class InlineParserImpl : InlineParser, ReferenceParser {
             return null;
         }
         Matcher matcher = re.matcher(input);
-        matcher.region(index, input.length);
+        matcher.region(index, cast(int)input.length);
         bool m = matcher.find();
         if (m) {
             index = matcher.end();
@@ -403,7 +403,7 @@ class InlineParserImpl : InlineParser, ReferenceParser {
             Matcher matcher = FINAL_SPACE.matcher(literal);
             int spaces = matcher.find() ? matcher.end() - matcher.start() : 0;
             if (spaces > 0) {
-                text.setLiteral(literal.substring(0, literal.length - spaces));
+                text.setLiteral(literal.substring(0, cast(int)literal.length - spaces));
             }
             appendNode(spaces >= 2 ? new HardLineBreak() : new SoftLineBreak());
         } else {
@@ -659,7 +659,7 @@ class InlineParserImpl : InlineParser, ReferenceParser {
             if (res.length == 2) {
                 return "";
             } else {
-                return Escaping.unescapeString(res.substring(1, res.length - 1));
+                return Escaping.unescapeString(res.substring(1, cast(int)res.length - 1));
             }
         } else {
             int startIndex = index;
@@ -714,7 +714,7 @@ class InlineParserImpl : InlineParser, ReferenceParser {
         string title = match(LINK_TITLE);
         if (title !is null) {
             // chop off quotes from title and unescape:
-            return Escaping.unescapeString(title.substring(1, title.length - 1));
+            return Escaping.unescapeString(title.substring(1, cast(int)title.length - 1));
         } else {
             return null;
         }
@@ -739,13 +739,13 @@ class InlineParserImpl : InlineParser, ReferenceParser {
     private bool parseAutolink() {
         string m;
         if ((m = match(EMAIL_AUTOLINK)) !is null) {
-            string dest = m.substring(1, m.length - 1);
+            string dest = m.substring(1, cast(int)m.length - 1);
             Link node = new Link("mailto:" ~ dest, null);
             node.appendChild(new Text(dest));
             appendNode(node);
             return true;
         } else if ((m = match(AUTOLINK)) !is null) {
-            string dest = m.substring(1, m.length - 1);
+            string dest = m.substring(1, cast(int)m.length - 1);
             Link node = new Link(dest, null);
             node.appendChild(new Text(dest));
             appendNode(node);

@@ -46,16 +46,16 @@ class HeadingParser : AbstractBlockParser {
             int nextNonSpace = state.getNextNonSpaceIndex();
             HeadingParser atxHeading = getAtxHeading(line, nextNonSpace);
             if (atxHeading !is null) {
-                return BlockStart.of(atxHeading).atIndex(line.length);
+                return BlockStart.of(atxHeading).atIndex(cast(int)line.length);
             }
 
             int setextHeadingLevel = getSetextHeadingLevel(line, nextNonSpace);
             if (setextHeadingLevel > 0) {
                 string paragraph = matchedBlockParser.getParagraphContent();
                 if (paragraph !is null) {
-                    string content = paragraph.toString();
+                    string content = paragraph;
                     return BlockStart.of(new HeadingParser(setextHeadingLevel, content))
-                            .atIndex(line.length)
+                            .atIndex(cast(int)line.length)
                             .replaceActiveBlockParser();
                 }
             }
@@ -69,13 +69,13 @@ class HeadingParser : AbstractBlockParser {
     // sequence of # characters must be followed by a space or by the end of line. The optional closing sequence of #s
     // must be preceded by a space and may be followed by spaces only.
     private static HeadingParser getAtxHeading(string line, int index) {
-        int level = Parsing.skip('#', line, index, line.length) - index;
+        int level = Parsing.skip('#', line, index, cast(int)line.length) - index;
 
         if (level == 0 || level > 6) {
             return null;
         }
 
-        int start = index ~ level;
+        int start = index + level;
         if (start >= line.length) {
             // End of line after markers is an empty heading
             return new HeadingParser(level, "");
@@ -86,7 +86,7 @@ class HeadingParser : AbstractBlockParser {
             return null;
         }
 
-        int beforeSpace = Parsing.skipSpaceTabBackwards(line, line.length - 1, start);
+        int beforeSpace = Parsing.skipSpaceTabBackwards(line, cast(int)line.length - 1, start);
         int beforeHash = Parsing.skipBackwards('#', line, beforeSpace, start);
         int beforeTrailer = Parsing.skipSpaceTabBackwards(line, beforeHash, start);
         if (beforeTrailer != beforeHash) {
@@ -113,8 +113,8 @@ class HeadingParser : AbstractBlockParser {
     }
 
     private static bool isSetextHeadingRest(string line, int index, char marker) {
-        int afterMarker = Parsing.skip(marker, line, index, line.length);
-        int afterSpace = Parsing.skipSpaceTab(line, afterMarker, line.length);
+        int afterMarker = Parsing.skip(marker, line, index, cast(int)line.length);
+        int afterSpace = Parsing.skipSpaceTab(line, afterMarker, cast(int)line.length);
         return afterSpace >= line.length;
     }
 }
