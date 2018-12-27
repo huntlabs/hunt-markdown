@@ -29,4 +29,6 @@ public interface BlockParser {
 
     void parseInlines(InlineParser inlineParser);
 
+    int opCmp(BlockParser o);
+
 }

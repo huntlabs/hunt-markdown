@@ -65,7 +65,7 @@ class DocumentParser : ParserState {
         map.put(typeid(ListBlock), new ListBlockParser.Factory());
         map.put(typeid(IndentedCodeBlock), new IndentedCodeBlockParser.Factory());
 
-        NODES_TO_CORE_FACTORIES = Collections.unmodifiableMap(map);
+        NODES_TO_CORE_FACTORIES = map; // Collections.unmodifiableMap(map);
     }
 
     private string line;

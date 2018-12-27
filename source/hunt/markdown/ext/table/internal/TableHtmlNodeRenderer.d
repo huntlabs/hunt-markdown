@@ -2,6 +2,7 @@ module hunt.markdown.ext.table.internal.TableHtmlNodeRenderer;
 
 import hunt.container.Collections;
 import hunt.container.Map;
+import hunt.container.HashMap;
 
 import hunt.markdown.ext.table.TableBlock;
 import hunt.markdown.ext.table.TableBody;
@@ -69,8 +70,11 @@ class TableHtmlNodeRenderer : TableNodeRenderer {
     }
 
     private Map!(string, string) getCellAttributes(TableCell tableCell, string tagName) {
+        HashMap!(string, string) hs = new HashMap!(string, string);
+        hs.put("align", getAlignValue(tableCell.getAlignment()));
+        return context.extendAttributes(tableCell, tagName, hs);
         // if (tableCell.getAlignment() !is null) {
-            return context.extendAttributes(tableCell, tagName, Collections.singletonMap!(string, string)("align", getAlignValue(tableCell.getAlignment())));
+            // return context.extendAttributes(tableCell, tagName, Collections.singletonMap!(string, string)("align", getAlignValue(tableCell.getAlignment())));
         // } else {
         //     return context.extendAttributes(tableCell, tagName, Collections.emptyMap!(string, string)());
         // }
