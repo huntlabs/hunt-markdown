@@ -74,7 +74,7 @@ class Escaping {
         UNESCAPE_REPLACER = new class Replacer {
             override public void replace(string input, StringBuilder sb) {
                 if (input[0] == '\\') {
-                    sb.append(input, 1, input.length());
+                    sb.append(input, 1, input.length);
                 } else {
                     sb.append(Html5Entities.entityToString(input));
                 }
@@ -84,13 +84,13 @@ class Escaping {
         URI_REPLACER = new class Replacer {
             override public void replace(string input, StringBuilder sb) {
                 if (input.startsWith("%")) {
-                    if (input.length() == 3) {
+                    if (input.length == 3) {
                         // Already percent-encoded, preserve
                         sb.append(input);
                     } else {
                         // %25 is the percent-encoding for %
                         sb.append("%25");
-                        sb.append(input, 1, input.length());
+                        sb.append(input, 1, input.length);
                     }
                 } else {
                     byte[] bytes = input.getBytes(Charset.forName("UTF-8"));
@@ -126,7 +126,7 @@ class Escaping {
 
     public static string normalizeReference(string input) {
         // Strip '[' and ']', then trim
-        string stripped = input.substring(1, input.length() - 1).trim();
+        string stripped = input.substring(1, input.length - 1).trim();
         string lowercase = stripped.toLowerCase(Locale.ROOT);
         return WHITESPACE.matcher(lowercase).replaceAll(" ");
     }
@@ -138,7 +138,7 @@ class Escaping {
             return s;
         }
 
-        StringBuilder sb = new StringBuilder(s.length() + 16);
+        StringBuilder sb = new StringBuilder(s.length + 16);
         int lastEnd = 0;
         do {
             sb.append(s, lastEnd, matcher.start());
@@ -146,8 +146,8 @@ class Escaping {
             lastEnd = matcher.end();
         } while (matcher.find());
 
-        if (lastEnd != s.length()) {
-            sb.append(s, lastEnd, s.length());
+        if (lastEnd != s.length) {
+            sb.append(s, lastEnd, s.length);
         }
         return sb.toString();
     }

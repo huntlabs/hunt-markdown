@@ -78,7 +78,7 @@ class ListBlockParser : AbstractBlockParser {
 
         // See at which column the content starts if there is content
         bool hasContent = false;
-        int length = line.length();
+        int length = line.length;
         for (int i = indexAfterMarker; i < length; i++) {
             char c = line[i];
             if (c == '\t') {
@@ -133,7 +133,7 @@ class ListBlockParser : AbstractBlockParser {
     // `)` character.
     private static ListMarkerData parseOrderedList(string line, int index) {
         int digits = 0;
-        int length = line.length();
+        int length = line.length;
         for (int i = index; i < length; i++) {
             char c = line[i];
             switch (c) {
@@ -171,7 +171,7 @@ class ListBlockParser : AbstractBlockParser {
     }
 
     private static bool isSpaceTabOrEnd(string line, int index) {
-        if (index < line.length()) {
+        if (index < line.length) {
             switch (line[index]) {
                 case ' ':
                 case '\t':

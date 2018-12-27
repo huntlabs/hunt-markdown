@@ -104,7 +104,7 @@ class HtmlBlockParser : AbstractBlockParser {
                     }
                     Pattern opener = BLOCK_PATTERNS[blockType][0];
                     Pattern closer = BLOCK_PATTERNS[blockType][1];
-                    bool matches = opener.matcher(line.subSequence(nextNonSpace, line.length())).find();
+                    bool matches = opener.matcher(line.subSequence(nextNonSpace, line.length)).find();
                     if (matches) {
                         return BlockStart.of(new HtmlBlockParser(closer)).atIndex(state.getIndex());
                     }

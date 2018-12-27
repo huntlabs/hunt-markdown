@@ -50,7 +50,7 @@ class TextContentWriter {
             throw new RuntimeException(e);
         }
 
-        int length = s.length();
+        int length = s.length;
         if (length != 0) {
             lastChar = s.charAt(length - 1);
         }

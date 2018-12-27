@@ -69,7 +69,7 @@ class StaggeredDelimiterProcessor : DelimiterProcessor {
     }
 
     override public int getDelimiterUse(DelimiterRun opener, DelimiterRun closer) {
-        return findProcessor(opener.length()).getDelimiterUse(opener, closer);
+        return findProcessor(opener.length).getDelimiterUse(opener, closer);
     }
 
     override public void process(Text opener, Text closer, int delimiterUse) {

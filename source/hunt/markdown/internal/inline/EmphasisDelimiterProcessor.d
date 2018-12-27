@@ -33,7 +33,7 @@ abstract class EmphasisDelimiterProcessor : DelimiterProcessor {
             return 0;
         }
         // calculate actual number of delimiters used from this closer
-        if (opener.length() >= 2 && closer.length() >= 2) {
+        if (opener.length >= 2 && closer.length >= 2) {
             return 2;
         } else {
             return 1;

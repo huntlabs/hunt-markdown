@@ -15,8 +15,8 @@ import hunt.markdown.renderer.NodeRenderer;
 abstract class TableNodeRenderer : NodeRenderer {
 
     // TypeInfo for D
-    override public Set!Node getNodeTypes() {
-        return new HashSet!Node([
+    override public Set!TypeInfo_Class getNodeTypes() {
+        return new HashSet!TypeInfo_Class([
                 typeid(TableBlock),
                 typeid(TableHead),
                 typeid(TableBody),

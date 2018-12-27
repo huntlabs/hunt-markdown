@@ -32,7 +32,7 @@ class Parsing {
     }
 
     public static int find(char c, string s, int startIndex) {
-        int length = s.length();
+        int length = s.length;
         for (int i = startIndex; i < length; i++) {
             if (s[i] == c) {
                 return i;
@@ -42,7 +42,7 @@ class Parsing {
     }
 
     public static int findLineBreak(string s, int startIndex) {
-        int length = s.length();
+        int length = s.length;
         for (int i = startIndex; i < length; i++) {
             switch (s[i]) {
                 case '\n':
@@ -63,7 +63,7 @@ class Parsing {
     }
 
     public static bool isSpaceOrTab(string s, int index) {
-        if (index < s.length()) {
+        if (index < s.length) {
             switch (s[index]) {
                 case ' ':
                 case '\t':
@@ -79,7 +79,7 @@ class Parsing {
     public static string prepareLine(string line) {
         // Avoid building a new string in the majority of cases (no \0)
         StringBuilder sb = null;
-        int length = line.length();
+        int length = line.length;
         for (int i = 0; i < length; i++) {
             char c = line[i];
             switch (c) {
@@ -149,7 +149,7 @@ class Parsing {
     }
 
     private static int findNonSpace(string s, int startIndex) {
-        int length = s.length();
+        int length = s.length;
         for (int i = startIndex; i < length; i++) {
             switch (s[i]) {
                 case ' ':

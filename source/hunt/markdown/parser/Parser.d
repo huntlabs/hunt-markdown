@@ -13,10 +13,10 @@ import hunt.markdown.parser.InlineParser;
 import hunt.markdown.parser.PostProcessor;
 
 import hunt.lang.exception;
+import hunt.lang.common;
 import hunt.container.ArrayList;
 import hunt.container.List;
 import hunt.container.Set;
-import hunt.container.Iterable;
 
 /**
  * Parses input text to a tree of nodes.

@@ -21,7 +21,7 @@ class InsDelimiterProcessor : DelimiterProcessor {
     }
 
     override public int getDelimiterUse(DelimiterRun opener, DelimiterRun closer) {
-        if (opener.length() >= 2 && closer.length() >= 2) {
+        if (opener.length >= 2 && closer.length >= 2) {
             // Use exactly two delimiters even if we have more, and don't care about internal openers/closers.
             return 2;
         } else {

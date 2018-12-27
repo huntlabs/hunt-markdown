@@ -12,7 +12,7 @@ public interface NodeRenderer {
     /**
      * @return the types of nodes that this renderer handles
      */
-    Set!Node getNodeTypes();
+    Set!TypeInfo_Class getNodeTypes();
 
     /**
      * Render the specified node.

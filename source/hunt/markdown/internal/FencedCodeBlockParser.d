@@ -46,7 +46,7 @@ class FencedCodeBlockParser : AbstractBlockParser {
         } else {
             // skip optional spaces of fence indent
             int i = block.getFenceIndent();
-            int length = line.length();
+            int length = line.length;
             while (i > 0 && newIndex < length && line[newIndex] == ' ') {
                 newIndex++;
                 i--;
@@ -93,7 +93,7 @@ class FencedCodeBlockParser : AbstractBlockParser {
     private static FencedCodeBlockParser checkOpener(string line, int index, int indent) {
         int backticks = 0;
         int tildes = 0;
-        int length = line.length();
+        int length = line.length;
         loop:
         for (int i = index; i < length; i++) {
             switch (line[i]) {
@@ -129,12 +129,12 @@ class FencedCodeBlockParser : AbstractBlockParser {
     private bool isClosing(string line, int index) {
         char fenceChar = block.getFenceChar();
         int fenceLength = block.getFenceLength();
-        int fences = Parsing.skip(fenceChar, line, index, line.length()) - index;
+        int fences = Parsing.skip(fenceChar, line, index, line.length) - index;
         if (fences < fenceLength) {
             return false;
         }
         // spec: The closing code fence [...] may be followed only by spaces, which are ignored.
-        int after = Parsing.skipSpaceTab(line, index ~ fences, line.length());
-        return after == line.length();
+        int after = Parsing.skipSpaceTab(line, index ~ fences, line.length);
+        return after == line.length;
     }
 }

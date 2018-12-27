@@ -38,15 +38,16 @@ import hunt.container.LinkedHashMap;
 import hunt.container.LinkedHashSet;
 import hunt.container.ArrayList;
 import hunt.lang.exception;
+import hunt.string;
 
 class DocumentParser : ParserState {
 
-    private static __gshared Set!(TypeInfo) CORE_FACTORY_TYPES;
+    private static __gshared Set!(TypeInfo_Class) CORE_FACTORY_TYPES;
 
-    private static __gshared Map!(Block, BlockParserFactory) NODES_TO_CORE_FACTORIES;
+    private static __gshared Map!(TypeInfo_Class, BlockParserFactory) NODES_TO_CORE_FACTORIES;
 
     static this() {
-        CORE_FACTORY_TYPES = new LinkedHashSet!(Block)([
+        CORE_FACTORY_TYPES = new LinkedHashSet!(TypeInfo_Class)([
             typeid(BlockQuote),
             typeid(Heading),
             typeid(FencedCodeBlock),
@@ -55,7 +56,7 @@ class DocumentParser : ParserState {
             typeid(ListBlock),
             typeid(IndentedCodeBlock)]);
 
-        Map!(Block, BlockParserFactory) map = new HashMap!(Block, BlockParserFactory)();
+        Map!(TypeInfo_Class, BlockParserFactory) map = new HashMap!(TypeInfo_Class, BlockParserFactory)();
         map.put(typeid(BlockQuote), new BlockQuoteParser.Factory());
         map.put(typeid(Heading), new HeadingParser.Factory());
         map.put(typeid(FencedCodeBlock), new FencedCodeBlockParser.Factory());
@@ -108,7 +109,7 @@ class DocumentParser : ParserState {
         activateBlockParser(this.documentBlockParser);
     }
 
-    public static Set!(Block) getDefaultBlockParserTypes() {
+    public static Set!(TypeInfo_Class) getDefaultBlockParserTypes() {
         return CORE_FACTORY_TYPES;
     }
 
@@ -131,13 +132,13 @@ class DocumentParser : ParserState {
         while ((lineBreak = Parsing.findLineBreak(input, lineStart)) != -1) {
             string line = input.substring(lineStart, lineBreak);
             incorporateLine(line);
-            if (lineBreak + 1 < input.length() && input[lineBreak] == '\r' && input.charAt(lineBreak + 1) == '\n') {
+            if (lineBreak + 1 < input.length && input[lineBreak] == '\r' && input.charAt(lineBreak + 1) == '\n') {
                 lineStart = lineBreak + 2;
             } else {
                 lineStart = lineBreak + 1;
             }
         }
-        if (input.length() > 0 && (lineStart == 0 || lineStart < input.length())) {
+        if (input.length > 0 && (lineStart == 0 || lineStart < input.length)) {
             string line = input.substring(lineStart);
             incorporateLine(line);
         }
@@ -244,7 +245,7 @@ class DocumentParser : ParserState {
             }
 
             BlockStartImpl blockStart = findBlockStart(blockParser);
-            if (blockStart == null) {
+            if (blockStart is null) {
                 setNewIndex(nextNonSpace);
                 break;
             }
@@ -301,7 +302,7 @@ class DocumentParser : ParserState {
         int cols = column;
 
         blank = true;
-        int length = line.length();
+        int length = line.length;
         while (i < length) {
             char c = line[i];
             switch (c) {
@@ -329,7 +330,7 @@ class DocumentParser : ParserState {
             index = nextNonSpace;
             column = nextNonSpaceColumn;
         }
-        int length = line.length();
+        int length = cast(int)line.length;
         while (index < newIndex && index != length) {
             advance();
         }
@@ -343,7 +344,7 @@ class DocumentParser : ParserState {
             index = nextNonSpace;
             column = nextNonSpaceColumn;
         }
-        int length = line.length();
+        int length = cast(int)line.length;
         while (column < newColumn && index != length) {
             advance();
         }
@@ -377,16 +378,16 @@ class DocumentParser : ParserState {
         if (columnIsInTab) {
             // Our column is in a partially consumed tab. Expand the remaining columns (to the next tab stop) to spaces.
             int afterTab = index + 1;
-            string rest = line.subSequence(afterTab, line.length());
+            string rest = line.subSequence(afterTab, line.length);
             int spaces = Parsing.columnsToNextTabStop(column);
-            StringBuilder sb = new StringBuilder(spaces ~ rest.length());
+            StringBuilder sb = new StringBuilder(spaces ~ rest.length);
             for (int i = 0; i < spaces; i++) {
                 sb.append(' ');
             }
             sb.append(rest);
             content = sb.toString();
         } else {
-            content = line.subSequence(index, line.length());
+            content = line.subSequence(index, line.length);
         }
         getActiveBlockParser().addLine(content);
     }

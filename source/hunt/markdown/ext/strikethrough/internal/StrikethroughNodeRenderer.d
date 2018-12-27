@@ -9,7 +9,7 @@ import hunt.container.Set;
 
 abstract class StrikethroughNodeRenderer : NodeRenderer {
 
-    public Set!(Strikethrough) getNodeTypes() {
-        return Collections.singleton!(Strikethrough)();
+    public Set!(TypeInfo_Class) getNodeTypes() {
+        return Collections.singleton!(TypeInfo_Class)(typeid(Strikethrough));
     }
 }

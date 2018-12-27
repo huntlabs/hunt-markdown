@@ -24,8 +24,8 @@ class CoreHtmlNodeRenderer : AbstractVisitor, NodeRenderer {
         this.html = context.getWriter();
     }
 
-    public Set!Node getNodeTypes() {
-        return new HashSet!Node([
+    public Set!TypeInfo_Class getNodeTypes() {
+        return new HashSet!TypeInfo_Class([
                 typeid(Document),
                 typeid(Heading),
                 typeid(Paragraph),

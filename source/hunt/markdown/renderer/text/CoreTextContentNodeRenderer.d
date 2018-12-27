@@ -12,7 +12,7 @@ import hunt.markdown.internal.renderer.text.OrderedListHolder;
 
 import hunt.container.HashSet;
 import hunt.container.Set;
-import hunt.lang.character;
+import hunt.lang.Character;
 
 /**
  * The node renderer that renders all the core nodes (comes last in the order of node renderers).
@@ -29,8 +29,8 @@ class CoreTextContentNodeRenderer : AbstractVisitor, NodeRenderer {
         this.textContent = context.getWriter();
     }
 
-    override public Set!Node getNodeTypes() {
-        return new HashSet!Node([
+    override public Set!TypeInfo_Class getNodeTypes() {
+        return new HashSet!TypeInfo_Class([
                 typeid(Document),
                 typeid(Heading),
                 typeid(Paragraph),

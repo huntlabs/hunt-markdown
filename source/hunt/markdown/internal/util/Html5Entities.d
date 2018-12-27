@@ -31,7 +31,7 @@ class Html5Entities {
         if (matcher.find()) {
             int base = matcher.end() == 2 ? 10 : 16;
             try {
-                int codePoint = Integer.parseInt(input.substring(matcher.end(), input.length() - 1), base);
+                int codePoint = Integer.parseInt(input.substring(matcher.end(), input.length - 1), base);
                 if (codePoint == 0) {
                     return "\uFFFD";
                 }
@@ -40,7 +40,7 @@ class Html5Entities {
                 return "\uFFFD";
             }
         } else {
-            string name = input.substring(1, input.length() - 1);
+            string name = input.substring(1, input.length - 1);
             string s = NAMED_CHARACTER_REFERENCES.get(name);
             if (s !is null) {
                 return s;
@@ -58,7 +58,7 @@ class Html5Entities {
             BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(stream, charset));
             string line;
             while ((line = bufferedReader.readLine()) !is null) {
-                if (line.length() == 0) {
+                if (line.length == 0) {
                     continue;
                 }
                 int equal = line.indexOf("=");

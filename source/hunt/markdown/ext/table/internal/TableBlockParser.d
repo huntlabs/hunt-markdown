@@ -149,7 +149,7 @@ class TableBlockParser : AbstractBlockParser {
                 }
             }
         }
-        if (sb.length() > 0) {
+        if (sb.length > 0) {
             cells.add(sb.toString());
         }
         return cells;

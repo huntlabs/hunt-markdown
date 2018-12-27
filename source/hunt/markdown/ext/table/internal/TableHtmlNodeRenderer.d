@@ -69,11 +69,11 @@ class TableHtmlNodeRenderer : TableNodeRenderer {
     }
 
     private Map!(string, string) getCellAttributes(TableCell tableCell, string tagName) {
-        if (tableCell.getAlignment() !is null) {
-            return context.extendAttributes(tableCell, tagName, Collections.singletonMap("align", getAlignValue(tableCell.getAlignment())));
-        } else {
-            return context.extendAttributes(tableCell, tagName, Collections.emptyMap!(string, string)());
-        }
+        // if (tableCell.getAlignment() !is null) {
+            return context.extendAttributes(tableCell, tagName, Collections.singletonMap!(string, string)("align", getAlignValue(tableCell.getAlignment())));
+        // } else {
+        //     return context.extendAttributes(tableCell, tagName, Collections.emptyMap!(string, string)());
+        // }
     }
 
     private static string getAlignValue(TableCell.Alignment alignment) {
@@ -84,8 +84,10 @@ class TableHtmlNodeRenderer : TableNodeRenderer {
                 return "center";
             case TableCell.Alignment.RIGHT:
                 return "right";
+            default:
+                return "left";
+            //throw new Exception("Unknown alignment: " ~ alignment.to!string);
         }
-        throw new Exception("Unknown alignment: " ~ alignment.to!string);
     }
 
     private void renderChildren(Node parent) {

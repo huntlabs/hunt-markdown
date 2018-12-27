@@ -17,10 +17,10 @@ import hunt.markdown.internal.Bracket;
 import hunt.container.BitSet;
 import hunt.container.Map;
 import hunt.container.Set;
-import hunt.container.Iterable;
 import hunt.container.List;
 import hunt.container.HashMap;
-import hunt.lang.character;
+import hunt.lang.common;
+import hunt.lang.Character;
 
 import std.regex;
 
@@ -236,7 +236,7 @@ class InlineParserImpl : InlineParser, ReferenceParser {
         spnl();
 
         dest = parseLinkDestination();
-        if (dest is null || dest.length() == 0) {
+        if (dest is null || dest.length == 0) {
             return 0;
         }
 
@@ -249,7 +249,7 @@ class InlineParserImpl : InlineParser, ReferenceParser {
         }
 
         bool atLineEnd = true;
-        if (index != input.length() && match(LINE_END) is null) {
+        if (index != input.length && match(LINE_END) is null) {
             if (title is null) {
                 atLineEnd = false;
             } else {
@@ -355,11 +355,11 @@ class InlineParserImpl : InlineParser, ReferenceParser {
      * If RE matches at current index in the input, advance index and return the match; otherwise return null.
      */
     private string match(Regex!char re) {
-        if (index >= input.length()) {
+        if (index >= input.length) {
             return null;
         }
         Matcher matcher = re.matcher(input);
-        matcher.region(index, input.length());
+        matcher.region(index, input.length);
         bool m = matcher.find();
         if (m) {
             index = matcher.end();
@@ -373,7 +373,7 @@ class InlineParserImpl : InlineParser, ReferenceParser {
      * Returns the char at the current input index, or {@code '\0'} in case there are no more characters.
      */
     private char peek() {
-        if (index < input.length()) {
+        if (index < input.length) {
             return input[index];
         } else {
             return '\0';
@@ -403,7 +403,7 @@ class InlineParserImpl : InlineParser, ReferenceParser {
             Matcher matcher = FINAL_SPACE.matcher(literal);
             int spaces = matcher.find() ? matcher.end() - matcher.start() : 0;
             if (spaces > 0) {
-                text.setLiteral(literal.substring(0, literal.length() - spaces));
+                text.setLiteral(literal.substring(0, literal.length - spaces));
             }
             appendNode(spaces >= 2 ? new HardLineBreak() : new SoftLineBreak());
         } else {
@@ -426,7 +426,7 @@ class InlineParserImpl : InlineParser, ReferenceParser {
         if (peek() == '\n') {
             appendNode(new HardLineBreak());
             index++;
-        } else if (index < input.length() && ESCAPABLE.matcher(input.substring(index, index + 1)).matches()) {
+        } else if (index < input.length && ESCAPABLE.matcher(input.substring(index, index + 1)).matches()) {
             appendText(input, index, index + 1);
             index++;
         } else {
@@ -448,7 +448,7 @@ class InlineParserImpl : InlineParser, ReferenceParser {
         while ((matched = match(TICKS)) !is null) {
             if (matched == ticks) {
                 Code node = new Code();
-                string content = input.substring(afterOpenTicks, index - ticks.length());
+                string content = input.substring(afterOpenTicks, index - ticks.length);
                 string literal = WHITESPACE.matcher(content.trim()).replaceAll(" ");
                 node.setLiteral(literal);
                 appendNode(node);
@@ -656,10 +656,10 @@ class InlineParserImpl : InlineParser, ReferenceParser {
     private string parseLinkDestination() {
         string res = match(LINK_DESTINATION_BRACES);
         if (res !is null) { // chop off surrounding <..>:
-            if (res.length() == 2) {
+            if (res.length == 2) {
                 return "";
             } else {
-                return Escaping.unescapeString(res.substring(1, res.length() - 1));
+                return Escaping.unescapeString(res.substring(1, res.length - 1));
             }
         } else {
             int startIndex = index;
@@ -677,7 +677,7 @@ class InlineParserImpl : InlineParser, ReferenceParser {
                     return;
                 case '\\':
                     // check if we have an escapable character
-                    if (index + 1 < input.length() && ESCAPABLE.matcher(input.substring(index + 1, index + 2)).matches()) {
+                    if (index + 1 < input.length && ESCAPABLE.matcher(input.substring(index + 1, index + 2)).matches()) {
                         // skip over the escaped character (after switch)
                         index++;
                         break;
@@ -714,7 +714,7 @@ class InlineParserImpl : InlineParser, ReferenceParser {
         string title = match(LINK_TITLE);
         if (title !is null) {
             // chop off quotes from title and unescape:
-            return Escaping.unescapeString(title.substring(1, title.length() - 1));
+            return Escaping.unescapeString(title.substring(1, title.length - 1));
         } else {
             return null;
         }
@@ -726,10 +726,10 @@ class InlineParserImpl : InlineParser, ReferenceParser {
     private int parseLinkLabel() {
         string m = match(LINK_LABEL);
         // Spec says "A link label can have at most 999 characters inside the square brackets"
-        if (m is null || m.length() > 1001) {
+        if (m is null || m.length > 1001) {
             return 0;
         } else {
-            return m.length();
+            return m.length;
         }
     }
 
@@ -739,13 +739,13 @@ class InlineParserImpl : InlineParser, ReferenceParser {
     private bool parseAutolink() {
         string m;
         if ((m = match(EMAIL_AUTOLINK)) !is null) {
-            string dest = m.substring(1, m.length() - 1);
+            string dest = m.substring(1, m.length - 1);
             Link node = new Link("mailto:" ~ dest, null);
             node.appendChild(new Text(dest));
             appendNode(node);
             return true;
         } else if ((m = match(AUTOLINK)) !is null) {
-            string dest = m.substring(1, m.length() - 1);
+            string dest = m.substring(1, m.length - 1);
             Link node = new Link(dest, null);
             node.appendChild(new Text(dest));
             appendNode(node);
@@ -788,7 +788,7 @@ class InlineParserImpl : InlineParser, ReferenceParser {
      */
     private bool parseString() {
         int begin = index;
-        int length = input.length();
+        int length = input.length;
         while (index != length) {
             if (specialCharacters.get(input[index])) {
                 break;
@@ -920,10 +920,10 @@ class InlineParserImpl : InlineParser, ReferenceParser {
             closer.length -= useDelims;
             openerNode.setLiteral(
                     openerNode.getLiteral().substring(0,
-                            openerNode.getLiteral().length() - useDelims));
+                            openerNode.getLiteral().length - useDelims));
             closerNode.setLiteral(
                     closerNode.getLiteral().substring(0,
-                            closerNode.getLiteral().length() - useDelims));
+                            closerNode.getLiteral().length - useDelims));
 
             removeDelimitersBetween(opener, closer);
             // The delimiter processor can re-parent the nodes between opener and closer,
@@ -1016,7 +1016,7 @@ class InlineParserImpl : InlineParser, ReferenceParser {
                 if (first is null) {
                     first = text;
                 }
-                length += text.getLiteral().length();
+                length += text.getLiteral().length;
                 last = text;
             } else {
                 mergeIfNeeded(first, last, length);
