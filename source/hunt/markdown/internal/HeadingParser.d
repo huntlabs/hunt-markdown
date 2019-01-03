@@ -104,11 +104,22 @@ class HeadingParser : AbstractBlockParser {
                 if (isSetextHeadingRest(line, index + 1, '=')) {
                     return 1;
                 }
+                else
+                {
+                    return 0;
+                }
             case '-':
                 if (isSetextHeadingRest(line, index + 1, '-')) {
                     return 2;
                 }
+                else
+                {
+                    return 0;
+                }
+            default:
+                return 0;
         }
+
         return 0;
     }
 

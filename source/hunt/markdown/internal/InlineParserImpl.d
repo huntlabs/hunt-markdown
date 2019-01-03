@@ -83,22 +83,22 @@ class InlineParserImpl : InlineParser, ReferenceParser {
         
         PUNCTUATION = regex("^[" ~ ASCII_PUNCTUATION ~ "\\p{Pc}\\p{Pd}\\p{Pe}\\p{Pf}\\p{Pi}\\p{Po}\\p{Ps}]");
 
-        HTML_TAG = regex('^' + HTMLTAG, Pattern.CASE_INSENSITIVE);
+        HTML_TAG = regex('^' ~ HTMLTAG, Pattern.CASE_INSENSITIVE);
 
         LINK_TITLE = regex(
-            "^(?:\"(" ~ ESCAPED_CHAR ~ "|[^\"\\x00])*\"" +
-                    '|' +
-                    "'(" ~ ESCAPED_CHAR ~ "|[^'\\x00])*'" +
-                    '|' +
+            "^(?:\"(" ~ ESCAPED_CHAR ~ "|[^\"\\x00])*\"" ~
+                    '|' ~
+                    "'(" ~ ESCAPED_CHAR ~ "|[^'\\x00])*'" ~
+                    '|' ~
                     "\\((" ~ ESCAPED_CHAR ~ "|[^)\\x00])*\\))");
 
         LINK_DESTINATION_BRACES = regex("^(?:[<](?:[^<> \\t\\n\\\\]|\\\\.)*[>])");
 
         LINK_LABEL = regex("^\\[(?:[^\\\\\\[\\]]|\\\\.)*\\]");
 
-        ESCAPABLE = regex('^' + Escaping.ESCAPABLE);
+        ESCAPABLE = regex('^' ~ Escaping.ESCAPABLE);
 
-        ENTITY_HERE = regex('^' + ENTITY, Pattern.CASE_INSENSITIVE);
+        ENTITY_HERE = regex('^' ~ ENTITY, Pattern.CASE_INSENSITIVE);
 
         TICKS = regex("`+");
 

@@ -22,7 +22,7 @@ class HtmlBlockParser : AbstractBlockParser {
     {
         BLOCK_PATTERNS = [
             [null, null],
-            ["^<(?:script|pre|style)(?:\\s|>|$)", "</(?:script|pre|style)>"]
+            ["^<(?:script|pre|style)(?:\\s|>|$)", "</(?:script|pre|style)>"],
             ["^<!--", "-->"],
             ["^<[?]", "\\?>"],
             ["^<![A-Z]", ">"],
@@ -44,7 +44,7 @@ class HtmlBlockParser : AbstractBlockParser {
                             "table|tbody|td|tfoot|th|thead|title|tr|track|" ~
                             "ul" ~
                             ")(?:\\s|[/]?[>]|$)"],
-            ["^(?:" + Parsing.OPENTAG + '|' + Parsing.CLOSETAG + ")\\s*$", null]
+            ["^(?:" ~ Parsing.OPENTAG ~ '|' ~ Parsing.CLOSETAG ~ ")\\s*$", null]
         ];
     }
 

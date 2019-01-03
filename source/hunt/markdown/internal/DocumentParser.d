@@ -40,6 +40,7 @@ import hunt.container.LinkedHashMap;
 import hunt.container.LinkedHashSet;
 import hunt.container.ArrayList;
 import hunt.lang.exception;
+
 import hunt.string;
 
 class DocumentParser : ParserState {
