@@ -10,6 +10,8 @@ import hunt.markdown.parser.block.BlockContinue;
 import hunt.markdown.parser.InlineParser;
 import hunt.markdown.parser.block.ParserState;
 
+import hunt.text.Common;
+
 class ParagraphParser : AbstractBlockParser {
 
     private Paragraph block;
@@ -41,14 +43,14 @@ class ParagraphParser : AbstractBlockParser {
     }
 
     public void closeBlock(ReferenceParser inlineParser) {
-        string contentstring = content.getString();
+        string contentString = content.getString();
         bool hasReferenceDefs = false;
 
         int pos;
         // try parsing the beginning as link reference definitions:
         while (contentString.length > 3 && contentString[0] == '[' &&
                 (pos = inlineParser.parseReference(contentString)) != 0) {
-            contentstring = contentString.substring(pos);
+            contentString = contentString.substring(pos);
             hasReferenceDefs = true;
         }
         if (hasReferenceDefs && Parsing.isBlank(contentString)) {

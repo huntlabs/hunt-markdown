@@ -4,8 +4,8 @@ import hunt.markdown.ext.gfm.strikethrough.Strikethrough;
 import hunt.markdown.node.Node;
 import hunt.markdown.renderer.NodeRenderer;
 
-import hunt.container.Collections;
-import hunt.container.Set;
+import hunt.collection.Collections;
+import hunt.collection.Set;
 
 abstract class StrikethroughNodeRenderer : NodeRenderer {
 

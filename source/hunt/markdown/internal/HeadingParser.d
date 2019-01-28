@@ -11,6 +11,8 @@ import hunt.markdown.parser.block.AbstractBlockParserFactory;
 import hunt.markdown.parser.block.BlockStart;
 import hunt.markdown.parser.block.MatchedBlockParser;
 
+import hunt.text.Common;
+
 class HeadingParser : AbstractBlockParser {
 
     private Heading block;
@@ -90,9 +92,9 @@ class HeadingParser : AbstractBlockParser {
         int beforeHash = Parsing.skipBackwards('#', line, beforeSpace, start);
         int beforeTrailer = Parsing.skipSpaceTabBackwards(line, beforeHash, start);
         if (beforeTrailer != beforeHash) {
-            return new HeadingParser(level, line.subSequence(start, beforeTrailer + 1).toString());
+            return new HeadingParser(level, line.substring(start, beforeTrailer + 1));
         } else {
-            return new HeadingParser(level, line.subSequence(start, beforeSpace + 1).toString());
+            return new HeadingParser(level, line.substring(start, beforeSpace + 1));
         }
     }
 
@@ -117,7 +119,7 @@ class HeadingParser : AbstractBlockParser {
                     return 0;
                 }
             default:
-                return 0;
+                break;
         }
 
         return 0;

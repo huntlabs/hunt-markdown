@@ -15,12 +15,12 @@ import hunt.markdown.renderer.html.HtmlNodeRendererFactory;
 import hunt.markdown.renderer.html.AttributeProviderContext;
 import hunt.markdown.renderer.html.HtmlNodeRendererContext;
 
-import hunt.container.ArrayList;
-import hunt.container.LinkedHashMap;
-import hunt.container.List;
-import hunt.container.Map;
+import hunt.collection.ArrayList;
+import hunt.collection.LinkedHashMap;
+import hunt.collection.List;
+import hunt.collection.Map;
 
-import hunt.lang.common;
+import hunt.util.Common;
 
 /**
  * Renders a tree of nodes to HTML.

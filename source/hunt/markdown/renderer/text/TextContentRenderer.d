@@ -9,9 +9,9 @@ import hunt.markdown.renderer.text.TextContentWriter;
 import hunt.markdown.renderer.text.TextContentNodeRendererFactory;
 import hunt.markdown.renderer.text.TextContentNodeRendererContext;
 
-import hunt.container.ArrayList;
-import hunt.container.List;
-import hunt.lang.common;
+import hunt.collection.ArrayList;
+import hunt.collection.List;
+import hunt.util.Common;
 
 class TextContentRenderer : Renderer {
 

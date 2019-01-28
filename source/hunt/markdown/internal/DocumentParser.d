@@ -29,19 +29,20 @@ import hunt.markdown.parser.block.ParserState;
 import hunt.markdown.parser.block.BlockStart;
 import hunt.markdown.parser.block.MatchedBlockParser;
 import hunt.markdown.parser.block.BlockContinue;
+import hunt.markdown.internal.BlockContinueImpl;
 
-import hunt.container.Collections;
-import hunt.container.Map;
-import hunt.container.Set;
-import hunt.container.List;
-import hunt.container.HashSet;
-import hunt.container.HashMap;
-import hunt.container.LinkedHashMap;
-import hunt.container.LinkedHashSet;
-import hunt.container.ArrayList;
-import hunt.lang.exception;
+import hunt.collection.Collections;
+import hunt.collection.Map;
+import hunt.collection.Set;
+import hunt.collection.List;
+import hunt.collection.HashSet;
+import hunt.collection.HashMap;
+import hunt.collection.LinkedHashMap;
+import hunt.collection.LinkedHashSet;
+import hunt.collection.ArrayList;
+import hunt.Exceptions;
 
-import hunt.string;
+import hunt.text;
 
 class DocumentParser : ParserState {
 
@@ -208,7 +209,11 @@ class DocumentParser : ParserState {
         // Set all_matched to false if not all containers match.
         // The document will always match, can be skipped
         int matches = 1;
-        foreach (BlockParser blockParser ; activeBlockParsers.subList(1, activeBlockParsers.size())) {
+        List!BlockParser tempList;
+        for(int i = 1;i < activeBlockParsers.size();i++) {
+            tempList.add(activeBlockParsers.get(i));
+        }
+        foreach (BlockParser blockParser ; tempList) {
             findNextNonSpace();
 
             BlockContinue result = blockParser.tryContinue(this);
@@ -229,8 +234,11 @@ class DocumentParser : ParserState {
                 break;
             }
         }
-
-        List!(BlockParser) unmatchedBlockParsers = new ArrayList!(BlockParser)(activeBlockParsers.subList(matches, activeBlockParsers.size()));
+        List!BlockParser tempList2;
+        for(int i = matches;i < activeBlockParsers.size();i++) {
+            tempList2.add(activeBlockParsers.get(i));
+        }
+        List!(BlockParser) unmatchedBlockParsers = new ArrayList!(BlockParser)(tempList2);
         BlockParser lastMatchedBlockParser = activeBlockParsers.get(matches - 1);
         BlockParser blockParser = lastMatchedBlockParser;
         bool allClosed = unmatchedBlockParsers.isEmpty();
@@ -317,8 +325,7 @@ class DocumentParser : ParserState {
                     i++;
                     cols += (4 - (cols % 4));
                     continue;
-                default:
-                    continue;
+                default:break;
             }
             blank = false;
             break;
@@ -383,7 +390,7 @@ class DocumentParser : ParserState {
         if (columnIsInTab) {
             // Our column is in a partially consumed tab. Expand the remaining columns (to the next tab stop) to spaces.
             int afterTab = index + 1;
-            string rest = line.subSequence(afterTab, cast(int)line.length);
+            string rest = line.substring(afterTab, cast(int)line.length);
             int spaces = Parsing.columnsToNextTabStop(column);
             StringBuilder sb = new StringBuilder(spaces + rest.length);
             for (int i = 0; i < spaces; i++) {
@@ -392,7 +399,7 @@ class DocumentParser : ParserState {
             sb.append(rest);
             content = sb.toString();
         } else {
-            content = line.subSequence(index, cast(int)line.length);
+            content = line.substring(index, cast(int)line.length);
         }
         getActiveBlockParser().addLine(content);
     }

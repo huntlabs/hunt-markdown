@@ -1,8 +1,8 @@
 module hunt.markdown.ext.table.internal.TableNodeRenderer;
 
-// import hunt.container.Arrays;
-import hunt.container.HashSet;
-import hunt.container.Set;
+// import hunt.collection.Arrays;
+import hunt.collection.HashSet;
+import hunt.collection.Set;
 
 import hunt.markdown.ext.table.TableBlock;
 import hunt.markdown.ext.table.TableBody;

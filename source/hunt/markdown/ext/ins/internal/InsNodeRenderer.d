@@ -6,9 +6,9 @@ import hunt.markdown.renderer.html.HtmlNodeRendererContext;
 import hunt.markdown.node.Node;
 import hunt.markdown.renderer.NodeRenderer;
 
-import hunt.container.Collections;
-import hunt.container.Map;
-import hunt.container.Set;
+import hunt.collection.Collections;
+import hunt.collection.Map;
+import hunt.collection.Set;
 
 class InsNodeRenderer : NodeRenderer {
 

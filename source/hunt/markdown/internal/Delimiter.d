@@ -47,7 +47,15 @@ class Delimiter : DelimiterRun {
         return _length;
     }
 
+    public void setLength(int len) {
+        _length = len;
+    }
+
     @property public int originalLength() {
         return _originalLength;
+    }
+
+     public void setOriginalLength(int len) {
+        _originalLength = len;
     }
 }

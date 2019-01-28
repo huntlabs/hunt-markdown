@@ -12,6 +12,8 @@ import hunt.markdown.parser.block.BlockStart;
 import hunt.markdown.parser.block.AbstractBlockParserFactory;
 import hunt.markdown.parser.block.MatchedBlockParser;
 
+import hunt.text.Common;
+
 import std.regex;
 
 class HtmlBlockParser : AbstractBlockParser {
@@ -21,7 +23,7 @@ class HtmlBlockParser : AbstractBlockParser {
     static this()
     {
         BLOCK_PATTERNS = [
-            [null, null],
+            ["", ""],
             ["^<(?:script|pre|style)(?:\\s|>|$)", "</(?:script|pre|style)>"],
             ["^<!--", "-->"],
             ["^<[?]", "\\?>"],
@@ -70,7 +72,7 @@ class HtmlBlockParser : AbstractBlockParser {
         }
 
         // Blank line ends type 6 and type 7 blocks
-        if (state.isBlank() && closingPattern is null) {
+        if (state.isBlank() && closingPattern.empty()) {
             return BlockContinue.none();
         } else {
             return BlockContinue.atIndex(state.getIndex());
@@ -80,7 +82,7 @@ class HtmlBlockParser : AbstractBlockParser {
     override public void addLine(string line) {
         content.add(line);
 
-        if (closingPattern !is null && closingPattern.matcher(line).find()) {
+        if (!closingPattern.empty() && !matchAll(line,closingPattern).empty()) {
             finished = true;
         }
     }
@@ -102,10 +104,10 @@ class HtmlBlockParser : AbstractBlockParser {
                     if (blockType == 7 && cast(Paragraph)matchedBlockParser.getMatchedBlockParser().getBlock() !is null) {
                         continue;
                     }
-                    Regex!char opener = BLOCK_PATTERNS[blockType][0];
-                    Regex!char closer = BLOCK_PATTERNS[blockType][1];
-                    bool matches = opener.matcher(line.subSequence(nextNonSpace, cast(int)line.length)).find();
-                    if (matches) {
+                    Regex!char opener = regex(BLOCK_PATTERNS[blockType][0]);
+                    Regex!char closer = regex(BLOCK_PATTERNS[blockType][1]);
+                    bool matches = matchAll(line.substring(nextNonSpace, cast(int)line.length),opener).empty();
+                    if (!matches) {
                         return BlockStart.of(new HtmlBlockParser(closer)).atIndex(state.getIndex());
                     }
                 }

@@ -1,8 +1,8 @@
 module hunt.markdown.ext.table.internal.TableHtmlNodeRenderer;
 
-import hunt.container.Collections;
-import hunt.container.Map;
-import hunt.container.HashMap;
+import hunt.collection.Collections;
+import hunt.collection.Map;
+import hunt.collection.HashMap;
 
 import hunt.markdown.ext.table.TableBlock;
 import hunt.markdown.ext.table.TableBody;

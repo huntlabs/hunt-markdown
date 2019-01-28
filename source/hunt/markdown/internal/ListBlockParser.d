@@ -10,6 +10,15 @@ import hunt.markdown.parser.block.ParserState;
 import hunt.markdown.parser.block.BlockStart;
 import hunt.markdown.parser.block.AbstractBlockParserFactory;
 import hunt.markdown.parser.block.MatchedBlockParser;
+import hunt.markdown.node.ListItem;
+import hunt.markdown.node.OrderedList;
+import hunt.markdown.node.BulletList;
+import hunt.markdown.parser.block.BlockParser;
+import hunt.markdown.internal.ListItemParser;
+
+import hunt.text.Common;
+import hunt.Integer;
+import hunt.Char;
 
 class ListBlockParser : AbstractBlockParser {
 
@@ -72,7 +81,7 @@ class ListBlockParser : AbstractBlockParser {
         int indexAfterMarker = listMarker.indexAfterMarker;
         int markerLength = indexAfterMarker - markerIndex;
         // marker doesn't include tabs, so counting them as columns directly is ok
-        int columnAfterMarker = markerColumn ~ markerLength;
+        int columnAfterMarker = markerColumn + markerLength;
         // the column within the line where the content starts
         int contentColumn = columnAfterMarker;
 
@@ -155,7 +164,7 @@ class ListBlockParser : AbstractBlockParser {
                 case '.':
                 case ')':
                     if (digits >= 1 && isSpaceTabOrEnd(line, i + 1)) {
-                        string number = line.subSequence(index, i).toString();
+                        string number = line.substring(index, i);
                         OrderedList orderedList = new OrderedList();
                         orderedList.setStartNumber(Integer.parseInt(number));
                         orderedList.setDelimiter(c);
@@ -191,9 +200,9 @@ class ListBlockParser : AbstractBlockParser {
      */
     private static bool listsMatch(ListBlock a, ListBlock b) {
         if (cast(BulletList)a !is null && cast(BulletList)b !is null) {
-            return equals((cast(BulletList) a).getBulletMarker(), (cast(BulletList) b).getBulletMarker());
+            return equals(new Char((cast(BulletList) a).getBulletMarker()), new Char((cast(BulletList) b).getBulletMarker()));
         } else if (cast(OrderedList)a !is null && cast(OrderedList)b !is null) {
-            return equals((cast(OrderedList) a).getDelimiter(), (cast(OrderedList) b).getDelimiter());
+            return equals(new Char((cast(OrderedList) a).getDelimiter()), new Char((cast(OrderedList) b).getDelimiter()));
         }
         return false;
     }

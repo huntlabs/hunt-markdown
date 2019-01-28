@@ -41,7 +41,7 @@ abstract class EmphasisDelimiterProcessor : DelimiterProcessor {
     }
 
     override public void process(Text opener, Text closer, int delimiterUse) {
-        string singleDelimiter = String.valueOf(getOpeningCharacter());
+        string singleDelimiter = "" ~ (getOpeningCharacter());
         Node emphasis = delimiterUse == 1
                 ? new Emphasis(singleDelimiter)
                 : new StrongEmphasis(singleDelimiter ~ singleDelimiter);

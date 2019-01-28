@@ -10,9 +10,12 @@ import hunt.markdown.internal.renderer.text.BulletListHolder;
 import hunt.markdown.internal.renderer.text.ListHolder;
 import hunt.markdown.internal.renderer.text.OrderedListHolder;
 
-import hunt.container.HashSet;
-import hunt.container.Set;
-import hunt.lang.Character;
+import hunt.collection.HashSet;
+import hunt.collection.Set;
+import hunt.Char;
+import hunt.text.StringBuilder;
+
+alias Character = Char;
 
 /**
  * The node renderer that renders all the core nodes (comes last in the order of node renderers).

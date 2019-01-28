@@ -4,9 +4,10 @@ import hunt.markdown.node.Text;
 import hunt.markdown.parser.delimiter.DelimiterProcessor;
 import hunt.markdown.parser.delimiter.DelimiterRun;
 
-import hunt.container.LinkedList;
-// import hunt.container.ListIterator;
-
+import hunt.collection.LinkedList;
+// import hunt.collection.ListIterator;
+import hunt.Exceptions;
+import std.conv;
 /**
  * An implementation of DelimiterProcessor that dispatches all calls to two or more other DelimiterProcessors
  * depending on the length of the delimiter run. All child DelimiterProcessors must have different minimum
@@ -39,20 +40,35 @@ class StaggeredDelimiterProcessor : DelimiterProcessor {
 
     void add(DelimiterProcessor dp) {
         int len = dp.getMinLength();
-        ListIterator!(DelimiterProcessor) it = processors.listIterator();
+        // ListIterator!(DelimiterProcessor) it = processors.listIterator();
         bool added = false;
-        while (it.hasNext()) {
-            DelimiterProcessor p = it.next();
+        // while (it.hasNext()) {
+        //     DelimiterProcessor p = it.next();
+        //     int pLen = p.getMinLength();
+        //     if (len > pLen) {
+        //         it.previous();
+        //         it.add(dp);
+        //         added = true;
+        //         break;
+        //     } else if (len == pLen) {
+        //         throw new IllegalArgumentException("Cannot add two delimiter processors for char '" ~ delim ~ "' and minimum length " ~ len);
+        //     }
+        // }
+        int idx = 0;
+        foreach(p; processors) {
             int pLen = p.getMinLength();
             if (len > pLen) {
-                it.previous();
-                it.add(dp);
+                // it.previous();
+                // it.add(dp);
+                processors.add(idx,dp);
                 added = true;
                 break;
             } else if (len == pLen) {
-                throw new IllegalArgumentException("Cannot add two delimiter processors for char '" ~ delim ~ "' and minimum length " ~ len);
+                throw new IllegalArgumentException("Cannot add two delimiter processors for char '" ~ delim ~ "' and minimum length " ~ len.to!string);
             }
+            idx++;
         }
+
         if (!added) {
             processors.add(dp);
             this.minLength = len;

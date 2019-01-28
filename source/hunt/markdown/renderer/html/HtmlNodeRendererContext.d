@@ -3,7 +3,7 @@ module hunt.markdown.renderer.html.HtmlNodeRendererContext;
 import hunt.markdown.node.Node;
 import hunt.markdown.renderer.html.HtmlWriter;
 
-import hunt.container.Map;
+import hunt.collection.Map;
 
 public interface HtmlNodeRendererContext {
 

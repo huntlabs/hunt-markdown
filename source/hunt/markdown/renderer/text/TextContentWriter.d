@@ -1,7 +1,7 @@
 module hunt.markdown.renderer.text.TextContentWriter;
 
-import hunt.lang.exception;
-import hunt.lang.common;
+import hunt.Exceptions;
+import hunt.util.Common;
 
 class TextContentWriter {
 

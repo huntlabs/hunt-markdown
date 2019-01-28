@@ -2,7 +2,7 @@ module hunt.markdown.renderer.NodeRenderer;
 
 import hunt.markdown.node.Node;
 
-import hunt.container.Set;
+import hunt.collection.Set;
 
 /**
  * A renderer for a set of node types.

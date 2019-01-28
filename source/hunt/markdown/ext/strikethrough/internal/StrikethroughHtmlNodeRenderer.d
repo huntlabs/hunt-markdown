@@ -5,8 +5,8 @@ import hunt.markdown.renderer.html.HtmlNodeRendererContext;
 import hunt.markdown.node.Node;
 import hunt.markdown.ext.gfm.strikethrough.internal.StrikethroughNodeRenderer;
 
-import hunt.container.Collections;
-import hunt.container.Map;
+import hunt.collection.Collections;
+import hunt.collection.Map;
 
 class StrikethroughHtmlNodeRenderer : StrikethroughNodeRenderer {
 

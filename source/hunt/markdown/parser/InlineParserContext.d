@@ -2,7 +2,7 @@ module hunt.markdown.parser.InlineParserContext;
 
 import hunt.markdown.parser.delimiter.DelimiterProcessor;
 
-import hunt.container.List;
+import hunt.collection.List;
 
 /**
  * Parameter context for custom inline parser.

@@ -10,7 +10,7 @@ class BlockStartImpl : BlockStart {
     private int newColumn = -1;
     private bool _replaceActiveBlockParser = false;
 
-    public this(BlockParser[] blockParsers) {
+    public this(BlockParser[] blockParsers...) {
         this.blockParsers = blockParsers;
     }
 

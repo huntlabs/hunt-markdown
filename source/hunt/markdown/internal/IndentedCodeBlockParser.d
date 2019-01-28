@@ -11,10 +11,10 @@ import hunt.markdown.parser.block.BlockStart;
 import hunt.markdown.parser.block.AbstractBlockParserFactory;
 import hunt.markdown.parser.block.MatchedBlockParser;
 
-import hunt.container.ArrayList;
-import hunt.container.List;
+import hunt.collection.ArrayList;
+import hunt.collection.List;
 
-import hunt.string;
+import hunt.text;
 
 class IndentedCodeBlockParser : AbstractBlockParser {
 

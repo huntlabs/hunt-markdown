@@ -1,15 +1,15 @@
 module hunt.markdown.ext.heading.anchor.IdGenerator;
 
-import hunt.container.HashMap;
-import hunt.container.Map;
-import hunt.lang.Integer;
+import hunt.collection.HashMap;
+import hunt.collection.Map;
+import hunt.Integer;
 
 import std.string;
 import std.regex;
 import std.conv : to;
 
-import hunt.string;
-
+import hunt.text;
+import hunt.text.StringBuilder;
 /**
  * Generates strings to be used as identifiers.
  * <p>

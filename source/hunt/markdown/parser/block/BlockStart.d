@@ -16,7 +16,7 @@ abstract class BlockStart {
         return null;
     }
 
-    public static BlockStart of(BlockParser blockParsers) {
+    public static BlockStart of(BlockParser[] blockParsers...) {
         return new BlockStartImpl(blockParsers);
     }
 

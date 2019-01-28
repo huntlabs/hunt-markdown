@@ -4,9 +4,9 @@ import hunt.markdown.node.AbstractVisitor;
 import hunt.markdown.node.CustomNode;
 
 import hunt.markdown.ext.front.matter.YamlFrontMatterNode;
-import hunt.container.LinkedHashMap;
-import hunt.container.List;
-import hunt.container.Map;
+import hunt.collection.LinkedHashMap;
+import hunt.collection.List;
+import hunt.collection.Map;
 
 class YamlFrontMatterVisitor : AbstractVisitor {
     private Map!(string, List!(string)) data;

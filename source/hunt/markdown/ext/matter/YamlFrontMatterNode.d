@@ -2,7 +2,7 @@ module hunt.markdown.ext.front.matter.YamlFrontMatterNode;
 
 import hunt.markdown.node.CustomNode;
 
-import hunt.container.List;
+import hunt.collection.List;
 
 class YamlFrontMatterNode : CustomNode {
     private string key;

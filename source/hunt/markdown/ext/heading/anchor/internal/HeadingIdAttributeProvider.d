@@ -8,9 +8,9 @@ import hunt.markdown.node.Code;
 import hunt.markdown.node.Text;
 import hunt.markdown.node.AbstractVisitor;
 
-import hunt.container.ArrayList;
-import hunt.container.List;
-import hunt.container.Map;
+import hunt.collection.ArrayList;
+import hunt.collection.List;
+import hunt.collection.Map;
 
 import std.string;
 

@@ -7,9 +7,10 @@ import hunt.markdown.renderer.NodeRenderer;
 import hunt.markdown.renderer.html.HtmlWriter;
 import hunt.markdown.renderer.html.HtmlNodeRendererContext;
 
-import hunt.container.Set;
-import hunt.container.Map;
-import hunt.string;
+import hunt.collection.Set;
+import hunt.collection.Map;
+import hunt.text;
+import hunt.text.StringBuilder;
 
 /**
  * The node renderer that renders all the core nodes (comes last in the order of node renderers).
@@ -63,7 +64,7 @@ class CoreHtmlNodeRenderer : AbstractVisitor, NodeRenderer {
         html.line();
         html.tag(htag, getAttrs(heading, htag));
         visitChildren(heading);
-        html.tag('/' + htag);
+        html.tag('/' ~ htag);
         html.line();
     }
 
@@ -242,7 +243,7 @@ class CoreHtmlNodeRenderer : AbstractVisitor, NodeRenderer {
         html.line();
         visitChildren(listBlock);
         html.line();
-        html.tag('/' + tagName);
+        html.tag('/' ~ tagName);
         html.line();
     }
 

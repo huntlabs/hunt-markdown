@@ -1,11 +1,14 @@
 module hunt.markdown.internal.util.Escaping;
 
+import hunt.markdown.internal.util.Html5Entities;
+
 // import java.nio.charset.Charset;
-
-import hunt.time.util.Locale;
-import hunt.string;
-
+import std.algorithm.searching;
+// import hunt.time.util.Locale;
+import hunt.text;
+import hunt.text.StringBuilder;
 import std.regex;
+import std.string;
 
 class Escaping {
 
@@ -42,11 +45,11 @@ class Escaping {
         
         BACKSLASH_OR_AMP = regex("[\\\\&]");
 
-        ENTITY_OR_ESCAPED_CHAR = regex("\\\\" ~ ESCAPABLE + '|' + ENTITY, Pattern.CASE_INSENSITIVE);
+        ENTITY_OR_ESCAPED_CHAR = regex("\\\\" ~ ESCAPABLE ~ '|' ~ ENTITY, "i");
 
         XML_SPECIAL_RE = regex(XML_SPECIAL);
 
-        XML_SPECIAL_OR_ENTITY = regex(ENTITY + '|' + XML_SPECIAL, Pattern.CASE_INSENSITIVE);
+        XML_SPECIAL_OR_ENTITY = regex(ENTITY ~ '|' ~ XML_SPECIAL, "i");
 
         ESCAPE_IN_URI = regex("(%[a-fA-F0-9]{0,2}|[^:/?#@!$&'()*+,;=a-zA-Z0-9\\-._~])");
 
@@ -93,7 +96,7 @@ class Escaping {
                         sb.append(input, 1, cast(int)input.length);
                     }
                 } else {
-                    byte[] bytes = input.getBytes(Charset.forName("UTF-8"));
+                    byte[] bytes = cast(byte[])input/* .getBytes(Charset.forName("UTF-8")) */;
                     foreach (byte b ; bytes) {
                         sb.append('%');
                         sb.append(HEX_DIGITS[(b >> 4) & 0xF]);
@@ -113,7 +116,7 @@ class Escaping {
      * Replace entities and backslash escapes with literal characters.
      */
     public static string unescapeString(string s) {
-        if (BACKSLASH_OR_AMP.matcher(s).find()) {
+        if (!matchAll(s,BACKSLASH_OR_AMP).empty()) {
             return replaceAll(ENTITY_OR_ESCAPED_CHAR, s, UNESCAPE_REPLACER);
         } else {
             return s;
@@ -125,8 +128,8 @@ class Escaping {
     }
 
     public static string normalizeReference(string input) {
-        // Strip '[' and ']', then trim
-        string stripped = input.substring(1, cast(int)input.length - 1).trim();
+        // Strip '[' and ']', then strip
+        string stripped = input.substring(1, cast(int)input.length - 1).strip();
         string lowercase = stripped.toLowerCase(Locale.ROOT);
         return WHITESPACE.matcher(lowercase).replaceAll(" ");
     }

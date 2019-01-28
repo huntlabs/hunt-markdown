@@ -2,11 +2,11 @@ module hunt.markdown.renderer.html.HtmlWriter;
 
 import hunt.markdown.internal.util.Escaping;
 
-import hunt.lang.exception;
-import hunt.lang.common;
+import hunt.Exceptions;
+import hunt.util.Common;
 
-import hunt.container.Collections;
-import hunt.container.Map;
+import hunt.collection.Collections;
+import hunt.collection.Map;
 
 class HtmlWriter {
 

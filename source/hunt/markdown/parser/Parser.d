@@ -12,11 +12,11 @@ import hunt.markdown.parser.InlineParserFactory;
 import hunt.markdown.parser.InlineParser;
 import hunt.markdown.parser.PostProcessor;
 
-import hunt.lang.exception;
-import hunt.lang.common;
-import hunt.container.ArrayList;
-import hunt.container.List;
-import hunt.container.Set;
+import hunt.Exceptions;
+import hunt.util.Common;
+import hunt.collection.ArrayList;
+import hunt.collection.List;
+import hunt.collection.Set;
 
 /**
  * Parses input text to a tree of nodes.

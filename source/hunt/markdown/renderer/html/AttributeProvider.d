@@ -2,7 +2,7 @@ module hunt.markdown.renderer.html.AttributeProvider;
 
 import hunt.markdown.node.Node;
 
-import hunt.container.Map;
+import hunt.collection.Map;
 
 /**
  * Extension point for adding/changing attributes on HTML tags for a node.

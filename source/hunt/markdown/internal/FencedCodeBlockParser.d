@@ -11,8 +11,9 @@ import hunt.markdown.parser.block.AbstractBlockParserFactory;
 import hunt.markdown.parser.block.BlockStart;
 import hunt.markdown.parser.block.MatchedBlockParser;
 
-import hunt.string;
+import hunt.text;
 import std.string;
+import hunt.text.StringBuilder;
 
 class FencedCodeBlockParser : AbstractBlockParser {
 
@@ -67,7 +68,7 @@ class FencedCodeBlockParser : AbstractBlockParser {
 
     override public void closeBlock() {
         // first line becomes info string
-        block.setInfo(unescapeString(firstLine.strip()));
+        block.setInfo(Escaping.unescapeString(firstLine.strip()));
         block.setLiteral(otherLines.toString());
     }
 
