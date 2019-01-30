@@ -95,7 +95,7 @@ class IdGenerator {
      * @param text Text to normalize to an ID
      */
     // private string normalizeText(string text) {
-    //     string firstPassNormalising = text.toLowerCase().replace(" ", "-");
+    //     string firstPassNormalising = text.toLower().replace(" ", "-");
 
     //     StringBuilder sb = new StringBuilder();
     //     Matcher matcher = allowedCharacters.matcher(firstPassNormalising);

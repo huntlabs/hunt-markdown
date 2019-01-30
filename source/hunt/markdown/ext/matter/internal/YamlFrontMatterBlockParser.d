@@ -18,6 +18,7 @@ import hunt.collection.List;
 
 import std.string;
 import std.regex;
+import hunt.util.Comparator;
 
 class YamlFrontMatterBlockParser : AbstractBlockParser {
     private __gshared Regex!char REGEX_METADATA = regex("^[ ]{0,3}([A-Za-z0-9_-]+):\\s*(.*)");
@@ -37,6 +38,17 @@ class YamlFrontMatterBlockParser : AbstractBlockParser {
         currentValues = new ArrayList!(string)();
         block = new YamlFrontMatterBlock();
     }
+
+    // /* override */ int opCmp(BlockParser o)
+    // {
+    //     auto cmp = compare(this.currentKey,(cast(YamlFrontMatterBlockParser)o).currentKey);
+    //     if(cmp == 0)
+    //     {
+    //         cmp = compare(this.inLiteral,(cast(YamlFrontMatterBlockParser)o).inLiteral);
+    //     }
+    //     return cmp;
+    // }
+
 
     public Block getBlock() {
         return block;

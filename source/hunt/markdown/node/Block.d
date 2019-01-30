@@ -1,6 +1,7 @@
 module hunt.markdown.node.Block;
 
 import hunt.markdown.node.Node;
+import hunt.Exceptions;
 
 abstract class Block : Node {
 

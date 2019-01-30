@@ -14,6 +14,7 @@ import hunt.markdown.renderer.html.AttributeProviderFactory;
 import hunt.markdown.renderer.html.HtmlNodeRendererFactory;
 import hunt.markdown.renderer.html.AttributeProviderContext;
 import hunt.markdown.renderer.html.HtmlNodeRendererContext;
+import hunt.markdown.renderer.html.CoreHtmlNodeRenderer;
 
 import hunt.collection.ArrayList;
 import hunt.collection.LinkedHashMap;
@@ -21,7 +22,7 @@ import hunt.collection.List;
 import hunt.collection.Map;
 
 import hunt.util.Common;
-
+import hunt.text.StringBuilder;
 /**
  * Renders a tree of nodes to HTML.
  * <p>
@@ -40,13 +41,13 @@ class HtmlRenderer : Renderer {
     private List!(HtmlNodeRendererFactory) nodeRendererFactories;
 
     private this(Builder builder) {
-        this.softbreak = builder.softbreak;
-        this.escapeHtml = builder.escapeHtml;
-        this.percentEncodeUrls = builder.percentEncodeUrls;
-        this.attributeProviderFactories = new ArrayList!AttributeProviderFactory(builder.attributeProviderFactories);
+        this.softbreak = builder._softbreak;
+        this.escapeHtml = builder._escapeHtml;
+        this.percentEncodeUrls = builder._percentEncodeUrls;
+        this.attributeProviderFactories = new ArrayList!AttributeProviderFactory(builder._attributeProviderFactories);
 
-        this.nodeRendererFactories = new ArrayList!HtmlNodeRendererFactory(builder.nodeRendererFactories.size() + 1);
-        this.nodeRendererFactories.addAll(builder.nodeRendererFactories);
+        this.nodeRendererFactories = new ArrayList!HtmlNodeRendererFactory(builder._nodeRendererFactories.size() + 1);
+        this.nodeRendererFactories.addAll(builder._nodeRendererFactories);
         // Add as last. This means clients can override the rendering of core nodes if they want.
         this.nodeRendererFactories.add(new class HtmlNodeRendererFactory {
             override public NodeRenderer create(HtmlNodeRendererContext context) {
@@ -216,7 +217,7 @@ class HtmlRenderer : Renderer {
             for (int i = nodeRendererFactories.size() - 1; i >= 0; i--) {
                 HtmlNodeRendererFactory nodeRendererFactory = nodeRendererFactories.get(i);
                 NodeRenderer nodeRenderer = nodeRendererFactory.create(this);
-                nodeRendererMap.add(nodeRenderer);
+                _nodeRendererMap.add(nodeRenderer);
             }
         }
 
@@ -239,7 +240,7 @@ class HtmlRenderer : Renderer {
         }
 
         override public HtmlWriter getWriter() {
-            return htmlWriter;
+            return _htmlWriter;
         }
 
         public string getSoftbreak() {
@@ -247,11 +248,11 @@ class HtmlRenderer : Renderer {
         }
 
         public void render(Node node) {
-            nodeRendererMap.render(node);
+            _nodeRendererMap.render(node);
         }
 
         private void setCustomAttributes(Node node, string tagName, Map!(string, string) attrs) {
-            foreach (AttributeProvider attributeProvider ; attributeProviders) {
+            foreach (AttributeProvider attributeProvider ; _attributeProviders) {
                 attributeProvider.setAttributes(node, tagName, attrs);
             }
         }

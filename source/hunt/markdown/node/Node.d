@@ -107,7 +107,7 @@ abstract class Node {
     }
 
     override public string toString() {
-        return getClass().getSimpleName() + "{" ~ toStringAttributes() + "}";
+        return typeid(this).name ~ "{" ~ toStringAttributes() ~ "}";
     }
 
     protected string toStringAttributes() {

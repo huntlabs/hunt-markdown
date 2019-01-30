@@ -35,8 +35,8 @@ class Parser {
     private List!(PostProcessor) postProcessors;
 
     private this(Builder builder) {
-        this.blockParserFactories = DocumentParser.calculateBlockParserFactories(builder.blockParserFactories, builder.enabledBlockTypes);
-        this._inlineParserFactory = builder.inlineParserFactory;
+        this.blockParserFactories = DocumentParser.calculateBlockParserFactories(builder.blockParserFactories, builder._enabledBlockTypes);
+        this._inlineParserFactory = builder._inlineParserFactory;
         this.postProcessors = builder.postProcessors;
         this.delimiterProcessors = builder.delimiterProcessors;
 
@@ -130,7 +130,7 @@ class Parser {
         private List!(BlockParserFactory) blockParserFactories;
         private List!(DelimiterProcessor) delimiterProcessors;
         private List!(PostProcessor) postProcessors;
-        private Set!(Block) _enabledBlockTypes;
+        private Set!(TypeInfo_Class) _enabledBlockTypes;
         private InlineParserFactory _inlineParserFactory = null;
 
         this()
@@ -189,7 +189,10 @@ class Parser {
          * If this list is empty, the parser will not recognize any CommonMark core features.
          * @return {@code this}
          */
-        public Builder enabledBlockTypes(Set!Node enabledBlockTypes) {
+        public Builder enabledBlockTypes(Set!TypeInfo_Class enabledBlockTypes) {
+            if (enabledBlockTypes is null) {
+                throw new NullPointerException("enabledBlockTypes must not be null");
+            }
             this._enabledBlockTypes = enabledBlockTypes;
             return this;
         }

@@ -7,11 +7,17 @@ module hunt.markdown.internal.util.Html5Entities;
 // import java.nio.charset.Charset;
 
 
-import hunt.io.common;
+import hunt.io.Common;
 import hunt.collection.HashMap;
 import hunt.collection.Map;
+import hunt.Exceptions;
+import hunt.Integer;
+import hunt.text.Common;
+import hunt.Char;
+import hunt.Exceptions;
 
 import std.regex;
+import std.string;
 
 class Html5Entities {
 
@@ -26,16 +32,18 @@ class Html5Entities {
     }
 
     public static string entityToString(string input) {
-        Matcher matcher = NUMERIC_PATTERN.matcher(input);
+        auto matcher = matchAll(input,NUMERIC_PATTERN);
 
-        if (matcher.find()) {
-            int base = matcher.end() == 2 ? 10 : 16;
+        if (!matcher.empty()) {
+            auto group = matcher.front.captures[0];
+            auto end = input.indexOf(group) + group.length;
+            int base = end == 2 ? 10 : 16;
             try {
-                int codePoint = Integer.parseInt(input.substring(matcher.end(), cast(int)input.length - 1), base);
+                int codePoint = Integer.parseInt(input.substring(end, cast(int)input.length - 1), base);
                 if (codePoint == 0) {
                     return "\uFFFD";
                 }
-                return new String(Character.toChars(codePoint));
+                return cast(string)(Char.toChars(codePoint));
             } catch (IllegalArgumentException e) {
                 return "\uFFFD";
             }
@@ -51,25 +59,27 @@ class Html5Entities {
     }
 
     private static Map!(string, string) readEntities() {
-        Map!(string, string) entities = new HashMap!(string, string)();
-        InputStream stream = Html5Entities.getResourceAsStream(ENTITY_PATH);
-        Charset charset = Charset.forName("UTF-8");
-        try {
-            BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(stream, charset));
-            string line;
-            while ((line = bufferedReader.readLine()) !is null) {
-                if (line.length == 0) {
-                    continue;
-                }
-                int equal = line.indexOf("=");
-                string key = line.substring(0, equal);
-                string value = line.substring(equal + 1);
-                entities.put(key, value);
-            }
-        } catch (IOException e) {
-            throw new IllegalStateException("Failed reading data for HTML named character references", e);
-        }
-        entities.put("NewLine", "\n");
-        return entities;
+        implementationMissing();
+        return null;
+        // Map!(string, string) entities = new HashMap!(string, string)();
+        // InputStream stream = Html5Entities.getResourceAsStream(ENTITY_PATH);
+        // Charset charset = Charset.forName("UTF-8");
+        // try {
+        //     BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(stream, charset));
+        //     string line;
+        //     while ((line = bufferedReader.readLine()) !is null) {
+        //         if (line.length == 0) {
+        //             continue;
+        //         }
+        //         int equal = line.indexOf("=");
+        //         string key = line.substring(0, equal);
+        //         string value = line.substring(equal + 1);
+        //         entities.put(key, value);
+        //     }
+        // } catch (IOException e) {
+        //     throw new IllegalStateException("Failed reading data for HTML named character references", e);
+        // }
+        // entities.put("NewLine", "\n");
+        // return entities;
     }
 }

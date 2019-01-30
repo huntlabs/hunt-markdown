@@ -8,10 +8,15 @@ import hunt.markdown.renderer.html.HtmlWriter;
 import hunt.markdown.renderer.html.HtmlNodeRendererContext;
 
 import hunt.collection.Set;
+import hunt.collection.HashSet;
 import hunt.collection.Map;
+import hunt.collection.LinkedHashMap;
+import hunt.collection.Collections;
 import hunt.text;
 import hunt.text.StringBuilder;
 
+import std.conv;
+import std.string;
 /**
  * The node renderer that renders all the core nodes (comes last in the order of node renderers).
  */
@@ -60,7 +65,7 @@ class CoreHtmlNodeRenderer : AbstractVisitor, NodeRenderer {
     }
 
     override public void visit(Heading heading) {
-        string htag = "h" ~ heading.getLevel();
+        string htag = "h" ~ heading.getLevel().to!string;
         html.line();
         html.tag(htag, getAttrs(heading, htag));
         visitChildren(heading);
@@ -100,7 +105,7 @@ class CoreHtmlNodeRenderer : AbstractVisitor, NodeRenderer {
         Map!(string, string) attributes = new LinkedHashMap!(string, string)();
         string info = fencedCodeBlock.getInfo();
         if (info !is null && !info.isEmpty()) {
-            int space = info.indexOf(" ");
+            int space = cast(int)(info.indexOf(" "));
             string language;
             if (space == -1) {
                 language = info;
@@ -157,7 +162,7 @@ class CoreHtmlNodeRenderer : AbstractVisitor, NodeRenderer {
         int start = orderedList.getStartNumber();
         Map!(string, string) attrs = new LinkedHashMap!(string, string)();
         if (start != 1) {
-            attrs.put("start", String.valueOf(start));
+            attrs.put("start", to!string(start));
         }
         renderListBlock(orderedList, "ol", getAttrs(orderedList, "ol", attrs));
     }
@@ -260,7 +265,7 @@ class CoreHtmlNodeRenderer : AbstractVisitor, NodeRenderer {
     }
 
     private Map!(string, string) getAttrs(Node node, string tagName) {
-        return getAttrs(node, tagName, Collections.emptyMap!(string, String)());
+        return getAttrs(node, tagName, Collections.emptyMap!(string, string)());
     }
 
     private Map!(string, string) getAttrs(Node node, string tagName, Map!(string, string) defaultAttributes) {

@@ -1,4 +1,9 @@
 module hunt.markdown.internal.util.Parsing;
+import hunt.Char;
+import hunt.text.StringBuilder;
+import hunt.text.Common;
+
+alias Character = Char;
 
 class Parsing {
 
@@ -32,7 +37,7 @@ class Parsing {
     }
 
     public static int find(char c, string s, int startIndex) {
-        int length = s.length;
+        int length = cast(int)(s.length);
         for (int i = startIndex; i < length; i++) {
             if (s[i] == c) {
                 return i;
@@ -42,12 +47,13 @@ class Parsing {
     }
 
     public static int findLineBreak(string s, int startIndex) {
-        int length = s.length;
+        int length = cast(int)(s.length);
         for (int i = startIndex; i < length; i++) {
             switch (s[i]) {
                 case '\n':
                 case '\r':
                     return i;
+                default:break;
             }
         }
         return -1;
@@ -58,8 +64,10 @@ class Parsing {
     }
 
     public static bool isLetter(string s, int index) {
-        int codePoint = Character.codePointAt(s, index);
-        return Character.isLetter(codePoint);
+        // int codePoint = Char.codePointAt(s, index);
+        // return Char.isLetter(codePoint);
+        import std.ascii;
+        return isAlphaNum(s.charAt(index));
     }
 
     public static bool isSpaceOrTab(string s, int index) {
@@ -68,6 +76,7 @@ class Parsing {
                 case ' ':
                 case '\t':
                     return true;
+                default: break;
             }
         }
         return false;
@@ -79,7 +88,7 @@ class Parsing {
     public static string prepareLine(string line) {
         // Avoid building a new string in the majority of cases (no \0)
         StringBuilder sb = null;
-        int length = line.length;
+        int length = cast(int)(line.length);
         for (int i = 0; i < length; i++) {
             char c = line[i];
             switch (c) {
@@ -149,7 +158,7 @@ class Parsing {
     }
 
     private static int findNonSpace(string s, int startIndex) {
-        int length = s.length;
+        int length = cast(int)(s.length);
         for (int i = startIndex; i < length; i++) {
             switch (s[i]) {
                 case ' ':

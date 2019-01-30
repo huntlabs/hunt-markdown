@@ -2,6 +2,8 @@ module hunt.markdown.renderer.text.TextContentWriter;
 
 import hunt.Exceptions;
 import hunt.util.Common;
+import hunt.text.Common;
+import std.regex;
 
 class TextContentWriter {
 
@@ -32,7 +34,7 @@ class TextContentWriter {
     }
 
     public void writeStripped(string s) {
-        append(s.replaceAll("[\\r\\n\\s]+", " "));
+        append(s.replaceAll(regex("[\\r\\n\\s]+"), " "));
     }
 
     public void write(string s) {
@@ -50,7 +52,7 @@ class TextContentWriter {
             throw new RuntimeException(e);
         }
 
-        int length = s.length;
+        int length = cast(int)(s.length);
         if (length != 0) {
             lastChar = s.charAt(length - 1);
         }

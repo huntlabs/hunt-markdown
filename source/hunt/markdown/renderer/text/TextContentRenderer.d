@@ -8,10 +8,12 @@ import hunt.markdown.renderer.Renderer;
 import hunt.markdown.renderer.text.TextContentWriter;
 import hunt.markdown.renderer.text.TextContentNodeRendererFactory;
 import hunt.markdown.renderer.text.TextContentNodeRendererContext;
+import hunt.markdown.renderer.text.CoreTextContentNodeRenderer;
 
 import hunt.collection.ArrayList;
 import hunt.collection.List;
 import hunt.util.Common;
+import hunt.text.StringBuilder;
 
 class TextContentRenderer : Renderer {
 
@@ -20,7 +22,7 @@ class TextContentRenderer : Renderer {
     private List!(TextContentNodeRendererFactory) nodeRendererFactories;
 
     private this(Builder builder) {
-        this._stripNewlines = builder.stripNewlines;
+        this._stripNewlines = builder._stripNewlines;
 
         this.nodeRendererFactories = new ArrayList!TextContentNodeRendererFactory(builder.nodeRendererFactories.size() + 1);
         this.nodeRendererFactories.addAll(builder.nodeRendererFactories);
@@ -105,7 +107,7 @@ class TextContentRenderer : Renderer {
          */
         public Builder extensions(Iterable!Extension extensions) {
             foreach (Extension extension ; extensions) {
-                if (cast(TextContentRenderer)extension !is null.TextContentRendererExtension) {
+                if (cast(TextContentRenderer.TextContentRendererExtension)extension !is null) {
                     TextContentRenderer.TextContentRendererExtension htmlRendererExtension =
                             cast(TextContentRenderer.TextContentRendererExtension) extension;
                     htmlRendererExtension.extend(this);

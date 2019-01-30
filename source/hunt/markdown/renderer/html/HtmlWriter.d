@@ -4,7 +4,7 @@ import hunt.markdown.internal.util.Escaping;
 
 import hunt.Exceptions;
 import hunt.util.Common;
-
+import hunt.text.Common;
 import hunt.collection.Collections;
 import hunt.collection.Map;
 
@@ -44,11 +44,11 @@ class HtmlWriter {
         append("<");
         append(name);
         if (attrs !is null && !attrs.isEmpty()) {
-            foreach (Map.Entry!(string, string) attrib ; attrs.entrySet()) {
+            foreach (string k ,string v ; attrs) {
                 append(" ");
-                append(Escaping.escapeHtml(attrib.getKey(), true));
+                append(Escaping.escapeHtml(k, true));
                 append("=\"");
-                append(Escaping.escapeHtml(attrib.getValue(), true));
+                append(Escaping.escapeHtml(v, true));
                 append("\"");
             }
         }
@@ -71,7 +71,7 @@ class HtmlWriter {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        int length = s.length;
+        int length = cast(int)(s.length);
         if (length != 0) {
             lastChar = s.charAt(length - 1);
         }

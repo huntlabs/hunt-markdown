@@ -392,7 +392,7 @@ class InlineParserImpl : InlineParser, ReferenceParser {
         // bool m = matcher.find();
         if (!matcher.empty()) {
             auto cp = matcher.front.captures[0];
-            index = index + input[index..$].indexOf(cp) + cp.length;
+            index = index + cast(int)(input[index..$].indexOf(cp)) + cast(int)(cp.length);
             return cp;
         } else {
             return null;
@@ -431,7 +431,7 @@ class InlineParserImpl : InlineParser, ReferenceParser {
             Text text = cast(Text) lastChild;
             string literal = text.getLiteral();
             auto matcher = matchAll(literal,FINAL_SPACE);
-            int spaces = !matcher.empty() ? matcher.front.captures[0].length : 0;
+            int spaces = !matcher.empty() ? cast(int)(matcher.front.captures[0].length) : 0;
             if (spaces > 0) {
                 text.setLiteral(literal.substring(0, cast(int)literal.length - spaces));
             }
@@ -759,7 +759,7 @@ class InlineParserImpl : InlineParser, ReferenceParser {
         if (m is null || m.length > 1001) {
             return 0;
         } else {
-            return m.length;
+            return cast(int)(m.length);
         }
     }
 
@@ -818,7 +818,7 @@ class InlineParserImpl : InlineParser, ReferenceParser {
      */
     private bool parseString() {
         int begin = index;
-        int length = input.length;
+        int length = cast(int)(input.length);
         while (index != length) {
             if (specialCharacters.get(input[index])) {
                 break;

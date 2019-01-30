@@ -36,7 +36,7 @@ class ThematicBreakParser : AbstractBlockParser {
             int nextNonSpace = state.getNextNonSpaceIndex();
             string line = state.getLine();
             if (isThematicBreak(line, nextNonSpace)) {
-                return BlockStart.of(new ThematicBreakParser()).atIndex(line.length);
+                return BlockStart.of(new ThematicBreakParser()).atIndex(cast(int)(line.length));
             } else {
                 return BlockStart.none();
             }
@@ -49,7 +49,7 @@ class ThematicBreakParser : AbstractBlockParser {
         int dashes = 0;
         int underscores = 0;
         int asterisks = 0;
-        int length = line.length;
+        int length =cast(int)(line.length);
         for (int i = index; i < length; i++) {
             switch (line[i]) {
                 case '-':

@@ -3,6 +3,7 @@ module hunt.markdown.parser.block.AbstractBlockParser;
 import hunt.markdown.node.Block;
 import hunt.markdown.parser.InlineParser;
 import hunt.markdown.parser.block.BlockParser;
+import hunt.util.Comparator;
 
 abstract class AbstractBlockParser : BlockParser {
 
@@ -21,5 +22,12 @@ abstract class AbstractBlockParser : BlockParser {
     }
 
     public void parseInlines(InlineParser inlineParser) {
+    }
+
+    override int opCmp(BlockParser o)
+    {
+        auto cmp = compare(getBlock(),o.getBlock());
+        
+        return cmp;
     }
 }

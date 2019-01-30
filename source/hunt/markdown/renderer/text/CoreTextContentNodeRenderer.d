@@ -15,6 +15,8 @@ import hunt.collection.Set;
 import hunt.Char;
 import hunt.text.StringBuilder;
 
+import std.conv;
+
 alias Character = Char;
 
 /**
@@ -67,9 +69,9 @@ class CoreTextContentNodeRenderer : AbstractVisitor, NodeRenderer {
     }
 
     override public void visit(BlockQuote blockQuote) {
-        textContent.write('«');
+        textContent.write("«");
         visitChildren(blockQuote);
-        textContent.write('»');
+        textContent.write("»");
 
         writeEndOfLineIfNeeded(blockQuote, null);
     }
@@ -109,7 +111,7 @@ class CoreTextContentNodeRenderer : AbstractVisitor, NodeRenderer {
 
     override public void visit(Heading heading) {
         visitChildren(heading);
-        writeEndOfLineIfNeeded(heading, ':');
+        writeEndOfLineIfNeeded(heading, new Char(':'));
     }
 
     override public void visit(ThematicBreak thematicBreak) {
@@ -148,14 +150,14 @@ class CoreTextContentNodeRenderer : AbstractVisitor, NodeRenderer {
         if (listHolder !is null && cast(OrderedListHolder)listHolder !is null) {
             OrderedListHolder orderedListHolder = cast(OrderedListHolder) listHolder;
             string indent = context.stripNewlines() ? "" : orderedListHolder.getIndent();
-            textContent.write(indent ~ orderedListHolder.getCounter() + orderedListHolder.getDelimiter() + " ");
+            textContent.write(indent ~ orderedListHolder.getCounter().to!string ~ orderedListHolder.getDelimiter() ~ " ");
             visitChildren(listItem);
             writeEndOfLineIfNeeded(listItem, null);
             orderedListHolder.increaseCounter();
         } else if (listHolder !is null && cast(BulletListHolder)listHolder !is null) {
             BulletListHolder bulletListHolder = cast(BulletListHolder) listHolder;
             if (!context.stripNewlines()) {
-                textContent.write(bulletListHolder.getIndent() + bulletListHolder.getMarker() + " ");
+                textContent.write(bulletListHolder.getIndent() ~ bulletListHolder.getMarker() ~ " ");
             }
             visitChildren(listItem);
             writeEndOfLineIfNeeded(listItem, null);
@@ -211,8 +213,8 @@ class CoreTextContentNodeRenderer : AbstractVisitor, NodeRenderer {
 
     private void writeLink(Node node, string title, string destination) {
         bool hasChild = node.getFirstChild() !is null;
-        bool hasTitle = title !is null && !title == destination;
-        bool hasDestination = destination !is null && !destination.equals("");
+        bool hasTitle = title !is null && !(title == destination);
+        bool hasDestination = destination !is null && !(destination == (""));
 
         if (hasChild) {
             textContent.write('"');
@@ -244,7 +246,7 @@ class CoreTextContentNodeRenderer : AbstractVisitor, NodeRenderer {
     private void writeEndOfLineIfNeeded(Node node, Character c) {
         if (context.stripNewlines()) {
             if (c !is null) {
-                textContent.write(c);
+                textContent.write(c.charValue);
             }
             if (node.getNext() !is null) {
                 textContent.whitespace();

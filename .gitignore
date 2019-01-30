@@ -1,0 +1,36 @@
+# Visual Studio Code
+#.vscode/
+.suo
+
+# Compiled Object files
+*.o
+*.obj
+
+# Compiled Dynamic libraries
+*.so
+*.dylib
+*.dll
+
+# Compiled Static libraries
+*.a
+*.lib
+
+# Executables
+*.exe
+
+# DUB
+.dub
+dub.selections.json
+docs.json
+__dummy.html
+
+
+# Code coverage
+*.lst
+
+# Examples
+
+
+# others
+.DS_Store
+*.zip

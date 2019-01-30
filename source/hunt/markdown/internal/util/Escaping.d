@@ -130,24 +130,33 @@ class Escaping {
     public static string normalizeReference(string input) {
         // Strip '[' and ']', then strip
         string stripped = input.substring(1, cast(int)input.length - 1).strip();
-        string lowercase = stripped.toLowerCase(Locale.ROOT);
-        return WHITESPACE.matcher(lowercase).replaceAll(" ");
+        string lowercase = stripped.toLower(/* Locale.ROOT */);
+        return std.regex.replaceAll(lowercase,WHITESPACE," ");
     }
 
     private static string replaceAll(Regex!char p, string s, Replacer replacer) {
-        Matcher matcher = p.matcher(s);
+        auto matchers = matchAll(s,p);
 
-        if (!matcher.find()) {
+        if (matchers.empty()) {
             return s;
         }
 
         StringBuilder sb = new StringBuilder(s.length + 16);
         int lastEnd = 0;
-        do {
-            sb.append(s, lastEnd, matcher.start());
-            replacer.replace(matcher.group(), sb);
-            lastEnd = matcher.end();
-        } while (matcher.find());
+        // do {
+        //     sb.append(s, lastEnd, matcher.start());
+        //     replacer.replace(matcher.group(), sb);
+        //     lastEnd = matcher.end();
+        // } while (matcher.find());
+        int offset = 0;
+        foreach(matcher; matchers) {
+            auto cap = matcher.captures[0];
+            auto start =cast(int)(s[offset..$].indexOf(cap)) + offset;
+            sb.append(s, lastEnd, start);
+            replacer.replace(cap, sb);
+            lastEnd = start + cast(int)(cap.length);
+            offset = lastEnd;
+        }
 
         if (lastEnd != s.length) {
             sb.append(s, lastEnd, cast(int)s.length);
