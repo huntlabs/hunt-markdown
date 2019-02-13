@@ -21,13 +21,18 @@ abstract class AbstractBlockParser : BlockParser {
     void closeBlock() {
     }
 
+    override Block getBlock(){
+        return null;
+    }
+
     public void parseInlines(InlineParser inlineParser) {
     }
 
     override int opCmp(BlockParser o)
     {
         auto cmp = compare(getBlock(),o.getBlock());
-        
+        import hunt.logging;
+        logDebug("------223---");
         return cmp;
     }
 }

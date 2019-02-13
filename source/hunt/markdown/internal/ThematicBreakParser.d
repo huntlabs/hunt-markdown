@@ -18,7 +18,7 @@ class ThematicBreakParser : AbstractBlockParser {
         block = new ThematicBreak();
     }
 
-    public Block getBlock() {
+    override public Block getBlock() {
         return block;
     }
 

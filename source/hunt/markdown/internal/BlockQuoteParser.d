@@ -27,7 +27,8 @@ class BlockQuoteParser : AbstractBlockParser {
         return true;
     }
 
-    public BlockQuote getBlock() {
+    override
+    public Block getBlock() {
         return block;
     }
 

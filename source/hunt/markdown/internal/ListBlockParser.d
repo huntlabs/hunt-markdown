@@ -42,6 +42,7 @@ class ListBlockParser : AbstractBlockParser {
             //
             // spec: A list is loose if any of its constituent list items are separated by blank lines
             if (hadBlankLine && linesAfterBlank == 1) {
+                assert(block !is null);
                 block.setTight(false);
                 hadBlankLine = false;
             }
@@ -51,7 +52,7 @@ class ListBlockParser : AbstractBlockParser {
         }
     }
 
-    public Block getBlock() {
+    override public Block getBlock() {
         return block;
     }
 
@@ -208,7 +209,7 @@ class ListBlockParser : AbstractBlockParser {
     }
 
     private static bool equals(Object a, Object b) {
-        return (a is null) ? (b is null) : a == b;
+        return (a is null) ? (b is null) : a is b;
     }
 
     public static class Factory : AbstractBlockParserFactory {

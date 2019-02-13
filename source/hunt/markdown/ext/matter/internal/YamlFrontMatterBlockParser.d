@@ -50,7 +50,7 @@ class YamlFrontMatterBlockParser : AbstractBlockParser {
     // }
 
 
-    public Block getBlock() {
+    override public Block getBlock() {
         return block;
     }
 

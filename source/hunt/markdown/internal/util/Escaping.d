@@ -9,51 +9,40 @@ import hunt.text;
 import hunt.text.StringBuilder;
 import std.regex;
 import std.string;
+import hunt.markdown.internal.util.Common;
 
 class Escaping {
 
-    public static enum ESCAPABLE = "[!\"#$%&\'()*+,./:;<=>?@\\[\\\\\\]^_`{|}~-]";
+     public enum string ESCAPABLE = "[!\"#$%&\'()*+,./:;<=>?@\\[\\\\\\]^_`{|}~-]";
 
-    private static enum ENTITY = "&(?:#x[a-f0-9]{1,8}|#[0-9]{1,8}|[a-z][a-z0-9]{1,31});";
+    private enum string ENTITY = "&(?:#x[a-f0-9]{1,8}|#[0-9]{1,8}|[a-z][a-z0-9]{1,31});";
 
-    private static enum XML_SPECIAL = "[&<>\"]";
+    private enum string BACKSLASH_OR_AMP = /* Pattern.compile */"[\\\\&]";
 
-    private static char[] HEX_DIGITS = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F'];
+    private enum string ENTITY_OR_ESCAPED_CHAR =
+            /* Pattern.compile */"\\\\" ~ ESCAPABLE ~ '|' ~ ENTITY;
 
-    private static Regex!char WHITESPACE;
+    private enum string XML_SPECIAL = "[&<>\"]";
 
-    private static Regex!char BACKSLASH_OR_AMP;
+    private enum string XML_SPECIAL_RE = /* Pattern.compile */XML_SPECIAL;
 
-    private static Regex!char ENTITY_OR_ESCAPED_CHAR;
+    private enum string XML_SPECIAL_OR_ENTITY =
+            /* Pattern.compile */ENTITY ~ '|' ~ XML_SPECIAL;
 
-    private static Regex!char XML_SPECIAL_RE;
-    
-    private static Regex!char XML_SPECIAL_OR_ENTITY;
-    
     // From RFC 3986 (see "reserved", "unreserved") except don't escape '[' or ']' to be compatible with JS encodeURI
-    private static Regex!char ESCAPE_IN_URI;
+    private enum string ESCAPE_IN_URI =
+            /* Pattern.compile */"(%[a-fA-F0-9]{0,2}|[^:/?#@!$&'()*+,;=a-zA-Z0-9\\-._~])";
 
-    private __gshared Replacer UNSAFE_CHAR_REPLACER;
+    private enum char[] HEX_DIGITS =['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F'];
 
-    private __gshared Replacer UNESCAPE_REPLACER;
+    private enum string WHITESPACE = /* Pattern.compile */"[ \t\r\n]+";
 
-    private __gshared Replacer URI_REPLACER;
+    // private __gshared Replacer UNSAFE_CHAR_REPLACER;
 
-    static this()
-    {
-        WHITESPACE = regex("[ \t\r\n]+");
-        
-        BACKSLASH_OR_AMP = regex("[\\\\&]");
+    // private __gshared Replacer UNESCAPE_REPLACER;
 
-        ENTITY_OR_ESCAPED_CHAR = regex("\\\\" ~ ESCAPABLE ~ '|' ~ ENTITY, "i");
-
-        XML_SPECIAL_RE = regex(XML_SPECIAL);
-
-        XML_SPECIAL_OR_ENTITY = regex(ENTITY ~ '|' ~ XML_SPECIAL, "i");
-
-        ESCAPE_IN_URI = regex("(%[a-fA-F0-9]{0,2}|[^:/?#@!$&'()*+,;=a-zA-Z0-9\\-._~])");
-
-        UNSAFE_CHAR_REPLACER = new class Replacer {
+    // private __gshared Replacer URI_REPLACER;
+        mixin(MakeGlobalVar!(Replacer)("UNSAFE_CHAR_REPLACER",`new class Replacer {
             override public void replace(string input, StringBuilder sb) {
                 switch (input) {
                     case "&":
@@ -72,9 +61,8 @@ class Escaping {
                         sb.append(input);
                 }
             }
-        };
-
-        UNESCAPE_REPLACER = new class Replacer {
+        }`));
+        mixin(MakeGlobalVar!(Replacer)("UNESCAPE_REPLACER",`new class Replacer {
             override public void replace(string input, StringBuilder sb) {
                 if (input[0] == '\\') {
                     sb.append(input, 1, cast(int)input.length);
@@ -82,9 +70,8 @@ class Escaping {
                     sb.append(Html5Entities.entityToString(input));
                 }
             }
-        };
-
-        URI_REPLACER = new class Replacer {
+        }`));
+        mixin(MakeGlobalVar!(Replacer)("URI_REPLACER",`new class Replacer {
             override public void replace(string input, StringBuilder sb) {
                 if (input.startsWith("%")) {
                     if (input.length == 3) {
@@ -104,11 +91,66 @@ class Escaping {
                     }
                 }
             }
-        };
-    }
+        }`));
+
+    // shared static this()
+    // {
+    //     UNSAFE_CHAR_REPLACER = new class Replacer {
+    //         override public void replace(string input, StringBuilder sb) {
+    //             switch (input) {
+    //                 case "&":
+    //                     sb.append("&amp;");
+    //                     break;
+    //                 case "<":
+    //                     sb.append("&lt;");
+    //                     break;
+    //                 case ">":
+    //                     sb.append("&gt;");
+    //                     break;
+    //                 case "\"":
+    //                     sb.append("&quot;");
+    //                     break;
+    //                 default:
+    //                     sb.append(input);
+    //             }
+    //         }
+    //     };
+
+    //     UNESCAPE_REPLACER = new class Replacer {
+    //         override public void replace(string input, StringBuilder sb) {
+    //             if (input[0] == '\\') {
+    //                 sb.append(input, 1, cast(int)input.length);
+    //             } else {
+    //                 sb.append(Html5Entities.entityToString(input));
+    //             }
+    //         }
+    //     };
+
+    //     URI_REPLACER = new class Replacer {
+    //         override public void replace(string input, StringBuilder sb) {
+    //             if (input.startsWith("%")) {
+    //                 if (input.length == 3) {
+    //                     // Already percent-encoded, preserve
+    //                     sb.append(input);
+    //                 } else {
+    //                     // %25 is the percent-encoding for %
+    //                     sb.append("%25");
+    //                     sb.append(input, 1, cast(int)input.length);
+    //                 }
+    //             } else {
+    //                 byte[] bytes = cast(byte[])input/* .getBytes(Charset.forName("UTF-8")) */;
+    //                 foreach (byte b ; bytes) {
+    //                     sb.append('%');
+    //                     sb.append(HEX_DIGITS[(b >> 4) & 0xF]);
+    //                     sb.append(HEX_DIGITS[b & 0xF]);
+    //                 }
+    //             }
+    //         }
+    //     };
+    // }
 
     public static string escapeHtml(string input, bool preserveEntities) {
-        Regex!char p = preserveEntities ? XML_SPECIAL_OR_ENTITY : XML_SPECIAL_RE;
+        Regex!char p = preserveEntities ? regex(XML_SPECIAL_OR_ENTITY,"i") : regex(XML_SPECIAL_RE);
         return replaceAll(p, input, UNSAFE_CHAR_REPLACER);
     }
 
@@ -117,21 +159,21 @@ class Escaping {
      */
     public static string unescapeString(string s) {
         if (!matchAll(s,BACKSLASH_OR_AMP).empty()) {
-            return replaceAll(ENTITY_OR_ESCAPED_CHAR, s, UNESCAPE_REPLACER);
+            return replaceAll(regex(ENTITY_OR_ESCAPED_CHAR,"i"), s, UNESCAPE_REPLACER);
         } else {
             return s;
         }
     }
 
     public static string percentEncodeUrl(string s) {
-        return replaceAll(ESCAPE_IN_URI, s, URI_REPLACER);
+        return replaceAll(regex(ESCAPE_IN_URI), s, URI_REPLACER);
     }
 
     public static string normalizeReference(string input) {
         // Strip '[' and ']', then strip
         string stripped = input.substring(1, cast(int)input.length - 1).strip();
         string lowercase = stripped.toLower(/* Locale.ROOT */);
-        return std.regex.replaceAll(lowercase,WHITESPACE," ");
+        return std.regex.replaceAll(lowercase,regex(WHITESPACE)," ");
     }
 
     private static string replaceAll(Regex!char p, string s, Replacer replacer) {

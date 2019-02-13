@@ -39,31 +39,52 @@ alias Character = Char;
 
 class InlineParserImpl : InlineParser, ReferenceParser {
 
-    private __gshared string  ESCAPED_CHAR = "\\\\" ~ Escaping.ESCAPABLE;
-    private __gshared string  HTMLCOMMENT = "<!---->|<!--(?:-?[^>-])(?:-?[^-])*-->";
-    private __gshared string  PROCESSINGINSTRUCTION = "[<][?].*?[?][>]";
-    private __gshared string  DECLARATION = "<![A-Z]+\\s+[^>]*>";
-    private __gshared string  CDATA = "<!\\[CDATA\\[[\\s\\S]*?\\]\\]>";
-    private __gshared string  ENTITY = "&(?:#x[a-f0-9]{1,8}|#[0-9]{1,8}|[a-z][a-z0-9]{1,31});";
-    private __gshared string  ASCII_PUNCTUATION = "!\"#\\$%&'\\(\\)\\*\\+,\\-\\./:;<=>\\?@\\[\\\\\\]\\^_`\\{\\|\\}~";
+    private enum string ESCAPED_CHAR = "\\\\" ~ Escaping.ESCAPABLE;
+    private enum string HTMLCOMMENT = "<!---->|<!--(?:-?[^>-])(?:-?[^-])*-->";
+    private enum string PROCESSINGINSTRUCTION = "[<][?].*?[?][>]";
+    private enum string DECLARATION = "<![A-Z]+\\s+[^>]*>";
+    private enum string CDATA = "<!\\[CDATA\\[[\\s\\S]*?\\]\\]>";
+    private enum string HTMLTAG = "(?:" ~ Parsing.OPENTAG ~ "|" ~ Parsing.CLOSETAG ~ "|" ~ HTMLCOMMENT
+            ~ "|" ~ PROCESSINGINSTRUCTION ~ "|" ~ DECLARATION ~ "|" ~ CDATA ~ ")";
+    private enum string ENTITY = "&(?:#x[a-f0-9]{1,8}|#[0-9]{1,8}|[a-z][a-z0-9]{1,31});";
 
-    private __gshared string  HTMLTAG;
-    private __gshared Regex!char PUNCTUATION;
-    private __gshared Regex!char HTML_TAG;
-    private __gshared Regex!char LINK_TITLE;
-    private __gshared Regex!char LINK_DESTINATION_BRACES;
-    private __gshared Regex!char LINK_LABEL;
-    private __gshared Regex!char ESCAPABLE;
-    private __gshared Regex!char ENTITY_HERE;
-    private __gshared Regex!char TICKS;
-    private __gshared Regex!char TICKS_HERE;
-    private __gshared Regex!char EMAIL_AUTOLINK;
-    private __gshared Regex!char AUTOLINK;
-    private __gshared Regex!char SPNL;
-    private __gshared Regex!char UNICODE_WHITESPACE_CHAR;
-    private __gshared Regex!char WHITESPACE;
-    private __gshared Regex!char FINAL_SPACE;
-    private __gshared Regex!char LINE_END;
+    private enum string ASCII_PUNCTUATION = "!\"#\\$%&'\\(\\)\\*\\+,\\-\\./:;<=>\\?@\\[\\\\\\]\\^_`\\{\\|\\}~";
+    private enum string PUNCTUATION = ("^[" ~ ASCII_PUNCTUATION ~ "\\p{Pc}\\p{Pd}\\p{Pe}\\p{Pf}\\p{Pi}\\p{Po}\\p{Ps}]");
+
+    private enum string HTML_TAG = '^' ~ HTMLTAG; //i
+
+    private enum string LINK_TITLE = (
+            "^(?:\"(" ~ ESCAPED_CHAR ~ "|[^\"\\x00])*\"" ~
+                    '|' ~
+                    "'(" ~ ESCAPED_CHAR ~ "|[^'\\x00])*'" ~
+                    '|' ~
+                    "\\((" ~ ESCAPED_CHAR ~ "|[^)\\x00])*\\))");
+
+    private enum string LINK_DESTINATION_BRACES = ("^(?:[<](?:[^<> \\t\\n\\\\]|\\\\.)*[>])");
+
+    private enum string LINK_LABEL = ("^\\[(?:[^\\\\\\[\\]]|\\\\.)*\\]");
+
+    private enum string ESCAPABLE = ('^' ~ Escaping.ESCAPABLE);
+
+    private enum string ENTITY_HERE = '^' ~ ENTITY; //i
+
+    private enum string TICKS = ("`+");
+
+    private enum string TICKS_HERE = ("^`+");
+
+    private enum string EMAIL_AUTOLINK = ("^<([a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*)>");
+
+    private enum string AUTOLINK = ("^<[a-zA-Z][a-zA-Z0-9.+-]{1,31}:[^<>\u0000-\u0020]*>");
+
+    private enum string SPNL = ("^ *(?:\n *)?");
+
+    private enum string UNICODE_WHITESPACE_CHAR = ("^[\\p{Zs}\t\r\n\f]");
+
+    private enum string WHITESPACE = ("\\s+");
+
+    private enum string FINAL_SPACE = (" *$");
+
+    private enum string LINE_END = ("^ *(?:\n|$)");
 
     private BitSet specialCharacters;
     private BitSet delimiterCharacters;
@@ -89,48 +110,6 @@ class InlineParserImpl : InlineParser, ReferenceParser {
      * Top opening bracket (<code>[</code> or <code>![)</code>).
      */
     private Bracket lastBracket;
-
-    static this()
-    {
-        HTMLTAG = "(?:" ~ Parsing.OPENTAG ~ "|" ~ Parsing.CLOSETAG ~ "|" ~ HTMLCOMMENT ~ "|" ~ PROCESSINGINSTRUCTION ~ "|" ~ DECLARATION ~ "|" ~ CDATA ~ ")";
-        
-        PUNCTUATION = regex("^[" ~ ASCII_PUNCTUATION ~ "\\p{Pc}\\p{Pd}\\p{Pe}\\p{Pf}\\p{Pi}\\p{Po}\\p{Ps}]");
-
-        HTML_TAG = regex('^' ~ HTMLTAG, "i");
-
-        LINK_TITLE = regex(
-            "^(?:\"(" ~ ESCAPED_CHAR ~ "|[^\"\\x00])*\"" ~
-                    '|' ~
-                    "'(" ~ ESCAPED_CHAR ~ "|[^'\\x00])*'" ~
-                    '|' ~
-                    "\\((" ~ ESCAPED_CHAR ~ "|[^)\\x00])*\\))");
-
-        LINK_DESTINATION_BRACES = regex("^(?:[<](?:[^<> \\t\\n\\\\]|\\\\.)*[>])");
-
-        LINK_LABEL = regex("^\\[(?:[^\\\\\\[\\]]|\\\\.)*\\]");
-
-        ESCAPABLE = regex('^' ~ Escaping.ESCAPABLE);
-
-        ENTITY_HERE = regex('^' ~ ENTITY, "i");
-
-        TICKS = regex("`+");
-
-        TICKS_HERE = regex("^`+");
-
-        EMAIL_AUTOLINK = regex("^<([a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*)>");
-
-        AUTOLINK = regex("^<[a-zA-Z][a-zA-Z0-9.+-]{1,31}:[^<>\u0000-\u0020]*>");
-
-        SPNL = regex("^ *(?:\n *)?");
-
-        UNICODE_WHITESPACE_CHAR = regex("^[\\p{Zs}\t\r\n\f]");
-
-        WHITESPACE = regex("\\s+");
-
-        FINAL_SPACE = regex(" *$");
-
-        LINE_END = regex("^ *(?:\n|$)");
-    }
 
     public this(List!(DelimiterProcessor) delimiterProcessors) {
         referenceMap = new HashMap!(string, Link)();
@@ -278,7 +257,7 @@ class InlineParserImpl : InlineParser, ReferenceParser {
         }
 
         bool atLineEnd = true;
-        if (index != input.length && match(LINE_END) is null) {
+        if (index != input.length && match(regex(LINE_END)) is null) {
             if (title is null) {
                 atLineEnd = false;
             } else {
@@ -289,7 +268,7 @@ class InlineParserImpl : InlineParser, ReferenceParser {
                 // rewind before spaces
                 index = beforeTitle;
                 // and instead check if the link URL is at the line end
-                atLineEnd = match(LINE_END) !is null;
+                atLineEnd = match(regex(LINE_END)) !is null;
             }
         }
 
@@ -414,7 +393,7 @@ class InlineParserImpl : InlineParser, ReferenceParser {
      * Parse zero or more space characters, including at most one newline.
      */
     private bool spnl() {
-        match(SPNL);
+        match(regex(SPNL));
         return true;
     }
 
@@ -430,7 +409,7 @@ class InlineParserImpl : InlineParser, ReferenceParser {
         if (lastChild !is null && cast(Text)lastChild !is null && (cast(Text) lastChild).getLiteral().endsWith(" ")) {
             Text text = cast(Text) lastChild;
             string literal = text.getLiteral();
-            auto matcher = matchAll(literal,FINAL_SPACE);
+            auto matcher = matchAll(literal,regex(FINAL_SPACE));
             int spaces = !matcher.empty() ? cast(int)(matcher.front.captures[0].length) : 0;
             if (spaces > 0) {
                 text.setLiteral(literal.substring(0, cast(int)literal.length - spaces));
@@ -456,7 +435,7 @@ class InlineParserImpl : InlineParser, ReferenceParser {
         if (peek() == '\n') {
             appendNode(new HardLineBreak());
             index++;
-        } else if (index < input.length && !matchAll(input.substring(index, index + 1),ESCAPABLE).empty()) {
+        } else if (index < input.length && !matchAll(input.substring(index, index + 1),regex(ESCAPABLE)).empty()) {
             appendText(input, index, index + 1);
             index++;
         } else {
@@ -469,17 +448,17 @@ class InlineParserImpl : InlineParser, ReferenceParser {
      * Attempt to parse backticks, adding either a backtick code span or a literal sequence of backticks.
      */
     private bool parseBackticks() {
-        string ticks = match(TICKS_HERE);
+        string ticks = match(regex(TICKS_HERE));
         if (ticks is null) {
             return false;
         }
         int afterOpenTicks = index;
         string matched;
-        while ((matched = match(TICKS)) !is null) {
+        while ((matched = match(regex(TICKS))) !is null) {
             if (matched == ticks) {
                 Code node = new Code();
                 string content = input.substring(afterOpenTicks, index - ticks.length);
-                string literal = replaceAll(content.strip(), WHITESPACE," ");
+                string literal = replaceAll(content.strip(), regex(WHITESPACE)," ");
                 node.setLiteral(literal);
                 appendNode(node);
                 return true;
@@ -587,7 +566,7 @@ class InlineParserImpl : InlineParser, ReferenceParser {
             if ((dest = parseLinkDestination()) !is null) {
                 spnl();
                 // title needs a whitespace before
-                if (!matchAll(input.substring(index - 1, index),WHITESPACE).empty()) {
+                if (!matchAll(input.substring(index - 1, index),regex(WHITESPACE)).empty()) {
                     title = parseLinkTitle();
                     spnl();
                 }
@@ -684,7 +663,7 @@ class InlineParserImpl : InlineParser, ReferenceParser {
      * Attempt to parse link destination, returning the string or null if no match.
      */
     private string parseLinkDestination() {
-        string res = match(LINK_DESTINATION_BRACES);
+        string res = match(regex(LINK_DESTINATION_BRACES));
         if (res !is null) { // chop off surrounding <..>:
             if (res.length == 2) {
                 return "";
@@ -707,7 +686,7 @@ class InlineParserImpl : InlineParser, ReferenceParser {
                     return;
                 case '\\':
                     // check if we have an escapable character
-                    if (index + 1 < input.length && !matchAll(input.substring(index + 1, index + 2),ESCAPABLE).empty()) {
+                    if (index + 1 < input.length && !matchAll(input.substring(index + 1, index + 2),regex(ESCAPABLE)).empty()) {
                         // skip over the escaped character (after switch)
                         index++;
                         break;
@@ -741,7 +720,7 @@ class InlineParserImpl : InlineParser, ReferenceParser {
      * Attempt to parse link title (sans quotes), returning the string or null if no match.
      */
     private string parseLinkTitle() {
-        string title = match(LINK_TITLE);
+        string title = match(regex(LINK_TITLE));
         if (title !is null) {
             // chop off quotes from title and unescape:
             return Escaping.unescapeString(title.substring(1, cast(int)title.length - 1));
@@ -754,7 +733,7 @@ class InlineParserImpl : InlineParser, ReferenceParser {
      * Attempt to parse a link label, returning number of characters parsed.
      */
     private int parseLinkLabel() {
-        string m = match(LINK_LABEL);
+        string m = match(regex(LINK_LABEL));
         // Spec says "A link label can have at most 999 characters inside the square brackets"
         if (m is null || m.length > 1001) {
             return 0;
@@ -768,13 +747,13 @@ class InlineParserImpl : InlineParser, ReferenceParser {
      */
     private bool parseAutolink() {
         string m;
-        if ((m = match(EMAIL_AUTOLINK)) !is null) {
+        if ((m = match(regex(EMAIL_AUTOLINK))) !is null) {
             string dest = m.substring(1, cast(int)m.length - 1);
             Link node = new Link("mailto:" ~ dest, null);
             node.appendChild(new Text(dest));
             appendNode(node);
             return true;
-        } else if ((m = match(AUTOLINK)) !is null) {
+        } else if ((m = match(regex(AUTOLINK))) !is null) {
             string dest = m.substring(1, cast(int)m.length - 1);
             Link node = new Link(dest, null);
             node.appendChild(new Text(dest));
@@ -789,7 +768,7 @@ class InlineParserImpl : InlineParser, ReferenceParser {
      * Attempt to parse inline HTML.
      */
     private bool parseHtmlInline() {
-        string m = match(HTML_TAG);
+        string m = this.match(regex(HTML_TAG,"i"));
         if (m !is null) {
             HtmlInline node = new HtmlInline();
             node.setLiteral(m);
@@ -805,7 +784,7 @@ class InlineParserImpl : InlineParser, ReferenceParser {
      */
     private bool parseEntity() {
         string m;
-        if ((m = match(ENTITY_HERE)) !is null) {
+        if ((m = match(regex(ENTITY_HERE,"i"))) !is null) {
             appendText(Html5Entities.entityToString(m));
             return true;
         } else {
@@ -862,9 +841,9 @@ class InlineParserImpl : InlineParser, ReferenceParser {
 
         // We could be more lazy here, in most cases we don't need to do every match case.
         bool beforeIsPunctuation = !matchAll(before,PUNCTUATION).empty();
-        bool beforeIsWhitespace = !matchAll(before,UNICODE_WHITESPACE_CHAR).empty();
+        bool beforeIsWhitespace = !matchAll(before,regex(UNICODE_WHITESPACE_CHAR)).empty();
         bool afterIsPunctuation = !matchAll(after,PUNCTUATION).empty();
-        bool afterIsWhitespace = !matchAll(after,UNICODE_WHITESPACE_CHAR).empty();
+        bool afterIsWhitespace = !matchAll(after,regex(UNICODE_WHITESPACE_CHAR)).empty();
 
         bool leftFlanking = !afterIsWhitespace &&
                 (!afterIsPunctuation || beforeIsWhitespace || beforeIsPunctuation);

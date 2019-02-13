@@ -23,7 +23,7 @@ class DocumentBlockParser : AbstractBlockParser {
         return true;
     }
 
-    public Document getBlock() {
+    override public Document getBlock() {
         return document;
     }
 

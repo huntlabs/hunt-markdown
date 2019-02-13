@@ -9,7 +9,8 @@ import hunt.markdown.parser.block.AbstractBlockParser;
 import hunt.markdown.parser.block.BlockContinue;
 import hunt.markdown.parser.InlineParser;
 import hunt.markdown.parser.block.ParserState;
-
+import hunt.markdown.parser.block.BlockParser;
+import hunt.util.Comparator;
 import hunt.text.Common;
 
 class ParagraphParser : AbstractBlockParser {
@@ -23,7 +24,7 @@ class ParagraphParser : AbstractBlockParser {
         content = new BlockContent();
     }
 
-    public Block getBlock() {
+    override public Block getBlock() {
         return block;
     }
 
@@ -40,6 +41,14 @@ class ParagraphParser : AbstractBlockParser {
     }
 
     override public void closeBlock() {
+    }
+
+    override int opCmp(BlockParser o)
+    {
+        auto cmp = compare(getBlock(),o.getBlock());
+        import hunt.logging;
+        logDebug("------223-2--");
+        return cmp;
     }
 
     public void closeBlock(ReferenceParser inlineParser) {

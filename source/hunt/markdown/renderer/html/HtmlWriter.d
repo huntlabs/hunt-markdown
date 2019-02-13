@@ -7,18 +7,15 @@ import hunt.util.Common;
 import hunt.text.Common;
 import hunt.collection.Collections;
 import hunt.collection.Map;
+import hunt.markdown.internal.util.Common;
 
 class HtmlWriter {
 
-    private static Map!(string, string) NO_ATTRIBUTES;
+    mixin(MakeGlobalVar!(Map!(string, string))("NO_ATTRIBUTES",`Collections.emptyMap!(string, string)()`));
+
 
     private Appendable buffer;
     private char lastChar = 0;
-
-    static this()
-    {
-        NO_ATTRIBUTES = Collections.emptyMap!(string, string)();
-    }
 
     this(Appendable o) {
         this.buffer = o;

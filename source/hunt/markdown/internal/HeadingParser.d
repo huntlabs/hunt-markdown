@@ -24,7 +24,7 @@ class HeadingParser : AbstractBlockParser {
         this.content = content;
     }
 
-    public Block getBlock() {
+    override public Block getBlock() {
         return block;
     }
 

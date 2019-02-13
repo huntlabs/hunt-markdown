@@ -21,23 +21,25 @@ import hunt.text;
 
 class TableBlockParser : AbstractBlockParser {
 
-    private static string COL = "\\s*:?-{1,}:?\\s*";
-    private static Regex!char TABLE_HEADER_SEPARATOR;
-
+    private enum string COL = "\\s*:?-{1,}:?\\s*";
+    private enum string TABLE_HEADER_SEPARATOR = "\\|" ~ COL ~ "\\|?\\s*" ~ "|" ~
+            COL ~ "\\|\\s*" ~ "|" ~
+            "\\|?" ~ "(?:" ~ COL ~ "\\|)+" ~ COL ~ "\\|?\\s*";
+    
     private TableBlock block;
     private List!(string) rowLines;
 
     private bool nextIsSeparatorLine = true;
     private string separatorLine = "";
 
-    static this()
-    {
-        TABLE_HEADER_SEPARATOR = regex(
-            // For single column, require at least one pipe, otherwise it's ambiguous with setext headers
-            "\\|" ~ COL ~ "\\|?\\s*" ~ "|" ~
-            COL ~ "\\|\\s*" ~ "|" ~
-            "\\|?" ~ "(?:" ~ COL ~ "\\|)+" ~ COL ~ "\\|?\\s*");
-    }
+    // static this()
+    // {
+    //     TABLE_HEADER_SEPARATOR = regex(
+    //         // For single column, require at least one pipe, otherwise it's ambiguous with setext headers
+    //         "\\|" ~ COL ~ "\\|?\\s*" ~ "|" ~
+    //         COL ~ "\\|\\s*" ~ "|" ~
+    //         "\\|?" ~ "(?:" ~ COL ~ "\\|)+" ~ COL ~ "\\|?\\s*");
+    // }
 
     private this(string headerLine) {
         block = new TableBlock();
@@ -46,7 +48,7 @@ class TableBlockParser : AbstractBlockParser {
         rowLines.add(headerLine);
     }
 
-    public Block getBlock() {
+    override public Block getBlock() {
         return block;
     }
 
@@ -174,7 +176,7 @@ class TableBlockParser : AbstractBlockParser {
 
             if (paragraph !is null && paragraph.findSplit("|").length > 0 && paragraph.findSplit("\n").length == 0) {
                 string separatorLine = line[state.getIndex()..line.length];
-                if (match(separatorLine, TABLE_HEADER_SEPARATOR)) {
+                if (match(separatorLine, regex(TABLE_HEADER_SEPARATOR))) {
                     List!(string) headParts = split(paragraph);
                     List!(string) separatorParts = split(separatorLine);
                     if (separatorParts.size() >= headParts.size()) {

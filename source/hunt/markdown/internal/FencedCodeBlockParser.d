@@ -33,7 +33,7 @@ class FencedCodeBlockParser : AbstractBlockParser {
         block.setFenceIndent(fenceIndent);
     }
 
-    public Block getBlock() {
+    override public Block getBlock() {
         return block;
     }
 

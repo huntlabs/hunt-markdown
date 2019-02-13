@@ -18,11 +18,7 @@ import std.regex;
 
 class HtmlBlockParser : AbstractBlockParser {
 
-    private static string[][] BLOCK_PATTERNS;
-    
-    static this()
-    {
-        BLOCK_PATTERNS = [
+    private static string[][] BLOCK_PATTERNS = [
             ["", ""],
             ["^<(?:script|pre|style)(?:\\s|>|$)", "</(?:script|pre|style)>"],
             ["^<!--", "-->"],
@@ -48,7 +44,6 @@ class HtmlBlockParser : AbstractBlockParser {
                             ")(?:\\s|[/]?[>]|$)"],
             ["^(?:" ~ Parsing.OPENTAG ~ '|' ~ Parsing.CLOSETAG ~ ")\\s*$", null]
         ];
-    }
 
     private HtmlBlock block;
     private Regex!char closingPattern;
@@ -62,7 +57,7 @@ class HtmlBlockParser : AbstractBlockParser {
         this.closingPattern = closingPattern;
     }
 
-    public Block getBlock() {
+    override public Block getBlock() {
         return block;
     }
 

@@ -2,6 +2,7 @@ module hunt.markdown.internal.BlockStartImpl;
 
 import hunt.markdown.parser.block.BlockParser;
 import hunt.markdown.parser.block.BlockStart;
+import hunt.logging;
 
 class BlockStartImpl : BlockStart {
 
@@ -11,7 +12,9 @@ class BlockStartImpl : BlockStart {
     private bool _replaceActiveBlockParser = false;
 
     public this(BlockParser[] blockParsers...) {
-        this.blockParsers = blockParsers;
+        foreach(bl; blockParsers) {
+            this.blockParsers ~= bl;
+        }
     }
 
     public BlockParser[] getBlockParsers() {

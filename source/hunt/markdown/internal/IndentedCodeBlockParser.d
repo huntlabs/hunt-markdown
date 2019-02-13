@@ -27,7 +27,7 @@ class IndentedCodeBlockParser : AbstractBlockParser {
         lines = new ArrayList!(string)();
     }
 
-    public Block getBlock() {
+    override public Block getBlock() {
         return block;
     }
 

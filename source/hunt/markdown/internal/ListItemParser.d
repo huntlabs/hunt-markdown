@@ -35,6 +35,7 @@ class ListItemParser : AbstractBlockParser {
             //
             // spec: if any of its constituent list items directly contain two block-level elements with a blank line
             // between them
+            assert(block !is null);
             Block parent = block.getParent();
             if (cast(ListBlock)parent !is null) {
                 (cast(ListBlock) parent).setTight(false);
@@ -43,7 +44,7 @@ class ListItemParser : AbstractBlockParser {
         return true;
     }
 
-    public Block getBlock() {
+    override public Block getBlock() {
         return block;
     }
 

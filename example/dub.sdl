@@ -1,0 +1,7 @@
+name "example"
+description "a simple example"
+authors "gaoxincheng"
+copyright "Copyright © 2019, gaoxincheng"
+license "proprietary"
+targetType "executable"
+dependency "hunt-markdown" path="../"

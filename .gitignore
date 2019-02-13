@@ -1,5 +1,5 @@
 # Visual Studio Code
-#.vscode/
+.vscode/
 .suo
 
 # Compiled Object files
@@ -29,8 +29,9 @@ __dummy.html
 *.lst
 
 # Examples
-
+example/example
 
 # others
 .DS_Store
 *.zip
+core

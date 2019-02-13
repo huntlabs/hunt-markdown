@@ -2,34 +2,25 @@ module hunt.markdown.internal.util.Parsing;
 import hunt.Char;
 import hunt.text.StringBuilder;
 import hunt.text.Common;
-
+import hunt.logging;
 alias Character = Char;
 
 class Parsing {
 
-    private __gshared string TAGNAME = "[A-Za-z][A-Za-z0-9-]*";
-    private __gshared string ATTRIBUTENAME = "[a-zA-Z_:][a-zA-Z0-9:._-]*";
-    private __gshared string UNQUOTEDVALUE = "[^\"'=<>`\\x00-\\x20]+";
-    private __gshared string SINGLEQUOTEDVALUE = "'[^']*'";
-    private __gshared string DOUBLEQUOTEDVALUE = "\"[^\"]*\"";
+    private const string TAGNAME = "[A-Za-z][A-Za-z0-9-]*";
+    private const string ATTRIBUTENAME = "[a-zA-Z_:][a-zA-Z0-9:._-]*";
+    private const string UNQUOTEDVALUE = "[^\"'=<>`\\x00-\\x20]+";
+    private const string SINGLEQUOTEDVALUE = "'[^']*'";
+    private const string DOUBLEQUOTEDVALUE = "\"[^\"]*\"";
 
-    private __gshared string ATTRIBUTEVALUE;
-    private __gshared string ATTRIBUTEVALUESPEC;
-    private __gshared string ATTRIBUTE;
+    private const string ATTRIBUTEVALUE = "(?:" ~ UNQUOTEDVALUE ~ "|" ~ SINGLEQUOTEDVALUE ~ "|" ~ DOUBLEQUOTEDVALUE ~ ")";
+    private const string ATTRIBUTEVALUESPEC = "(?:" ~ "\\s*=" ~ "\\s*" ~ ATTRIBUTEVALUE ~ ")";
+    private const string ATTRIBUTE = "(?:" ~ "\\s+" ~ ATTRIBUTENAME ~ ATTRIBUTEVALUESPEC ~ "?)";
 
-    public __gshared string OPENTAG;
-    public __gshared string CLOSETAG;
+    public enum string OPENTAG = "<" ~ TAGNAME ~ ATTRIBUTE ~ "*" ~ "\\s*/?>";
+    public enum string CLOSETAG = "</" ~ TAGNAME ~ "\\s*[>]";
 
-    public __gshared int CODE_BLOCK_INDENT = 4;
-
-    static this()
-    {
-        ATTRIBUTEVALUE = "(?:" ~ UNQUOTEDVALUE ~ "|" ~ SINGLEQUOTEDVALUE ~ "|" ~ DOUBLEQUOTEDVALUE ~ ")";
-        ATTRIBUTEVALUESPEC = "(?:" ~ "\\s*=" ~ "\\s*" ~ ATTRIBUTEVALUE ~ ")";
-        ATTRIBUTE = "(?:" ~ "\\s+" ~ ATTRIBUTENAME ~ ATTRIBUTEVALUESPEC ~ "?)";
-        OPENTAG = "<" ~ TAGNAME ~ ATTRIBUTE ~ "*" ~ "\\s*/?>";
-        CLOSETAG = "</" ~ TAGNAME ~ "\\s*[>]";
-    }
+    public enum int CODE_BLOCK_INDENT = 4;
 
     public static int columnsToNextTabStop(int column) {
         // Tab stop is 4
@@ -67,7 +58,8 @@ class Parsing {
         // int codePoint = Char.codePointAt(s, index);
         // return Char.isLetter(codePoint);
         import std.ascii;
-        return isAlphaNum(s.charAt(index));
+        auto b = isAlphaNum(s.charAt(index));
+        return b;
     }
 
     public static bool isSpaceOrTab(string s, int index) {
