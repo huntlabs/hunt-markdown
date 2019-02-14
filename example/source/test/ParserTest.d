@@ -16,7 +16,7 @@ import std.file : read,write;
 public class ParserTest {
 
     
-    public static void fileTest()  {
+    public static void test()  {
         Parser parser = Parser.builder().build();
 
         auto readPath = "./resources/spec.txt";

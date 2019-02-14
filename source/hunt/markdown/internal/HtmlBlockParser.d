@@ -15,6 +15,7 @@ import hunt.markdown.parser.block.MatchedBlockParser;
 import hunt.text.Common;
 
 import std.regex;
+import hunt.logging;
 
 class HtmlBlockParser : AbstractBlockParser {
 
@@ -41,7 +42,7 @@ class HtmlBlockParser : AbstractBlockParser {
                             "section|source|summary|" ~
                             "table|tbody|td|tfoot|th|thead|title|tr|track|" ~
                             "ul" ~
-                            ")(?:\\s|[/]?[>]|$)"],
+                            ")(?:\\s|[/]?[>]|$)",""],
             ["^(?:" ~ Parsing.OPENTAG ~ '|' ~ Parsing.CLOSETAG ~ ")\\s*$", null]
         ];
 

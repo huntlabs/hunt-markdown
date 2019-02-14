@@ -4,15 +4,18 @@ import hunt.markdown.node.Node;
 import hunt.markdown.parser.Parser;
 import hunt.markdown.renderer.html.HtmlRenderer;
 import test.ParserTest;
+import test.UsageExampleTest;
+import test.HtmlRenderTest;
 
 void main()
 {
-	writeln("Edit source/app.d to start your project.");
+	writeln("Running ...");
 
-	Parser parser = Parser.builder().build();
-	Node document = parser.parse("This is *Sparta*"); //This is *Sparta*
-	HtmlRenderer renderer = HtmlRenderer.builder().build();
-	assert(renderer.render(document) == "<p>This is <em>Sparta</em></p>\n"); // "<p>This is <em>Sparta</em></p>\n"
+	new UsageExampleTest().test();
 
-	ParserTest.fileTest();
+	new HtmlRendererTest().test();
+
+	ParserTest.test();
+
+	writeln("All unit tests have been run successfully.");
 }
