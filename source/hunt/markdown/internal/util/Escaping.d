@@ -93,62 +93,6 @@ class Escaping {
             }
         }`));
 
-    // shared static this()
-    // {
-    //     UNSAFE_CHAR_REPLACER = new class Replacer {
-    //         override public void replace(string input, StringBuilder sb) {
-    //             switch (input) {
-    //                 case "&":
-    //                     sb.append("&amp;");
-    //                     break;
-    //                 case "<":
-    //                     sb.append("&lt;");
-    //                     break;
-    //                 case ">":
-    //                     sb.append("&gt;");
-    //                     break;
-    //                 case "\"":
-    //                     sb.append("&quot;");
-    //                     break;
-    //                 default:
-    //                     sb.append(input);
-    //             }
-    //         }
-    //     };
-
-    //     UNESCAPE_REPLACER = new class Replacer {
-    //         override public void replace(string input, StringBuilder sb) {
-    //             if (input[0] == '\\') {
-    //                 sb.append(input, 1, cast(int)input.length);
-    //             } else {
-    //                 sb.append(Html5Entities.entityToString(input));
-    //             }
-    //         }
-    //     };
-
-    //     URI_REPLACER = new class Replacer {
-    //         override public void replace(string input, StringBuilder sb) {
-    //             if (input.startsWith("%")) {
-    //                 if (input.length == 3) {
-    //                     // Already percent-encoded, preserve
-    //                     sb.append(input);
-    //                 } else {
-    //                     // %25 is the percent-encoding for %
-    //                     sb.append("%25");
-    //                     sb.append(input, 1, cast(int)input.length);
-    //                 }
-    //             } else {
-    //                 byte[] bytes = cast(byte[])input/* .getBytes(Charset.forName("UTF-8")) */;
-    //                 foreach (byte b ; bytes) {
-    //                     sb.append('%');
-    //                     sb.append(HEX_DIGITS[(b >> 4) & 0xF]);
-    //                     sb.append(HEX_DIGITS[b & 0xF]);
-    //                 }
-    //             }
-    //         }
-    //     };
-    // }
-
     public static string escapeHtml(string input, bool preserveEntities) {
         Regex!char p = preserveEntities ? regex(XML_SPECIAL_OR_ENTITY,"i") : regex(XML_SPECIAL_RE);
         return replaceAll(p, input, UNSAFE_CHAR_REPLACER);

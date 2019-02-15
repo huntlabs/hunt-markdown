@@ -201,15 +201,15 @@ class ListBlockParser : AbstractBlockParser {
      */
     private static bool listsMatch(ListBlock a, ListBlock b) {
         if (cast(BulletList)a !is null && cast(BulletList)b !is null) {
-            return equals(new Char((cast(BulletList) a).getBulletMarker()), new Char((cast(BulletList) b).getBulletMarker()));
+            return (cast(BulletList) a).getBulletMarker() == (cast(BulletList) b).getBulletMarker();
         } else if (cast(OrderedList)a !is null && cast(OrderedList)b !is null) {
-            return equals(new Char((cast(OrderedList) a).getDelimiter()), new Char((cast(OrderedList) b).getDelimiter()));
+            return (cast(OrderedList) a).getDelimiter() == (cast(OrderedList) b).getDelimiter();
         }
         return false;
     }
 
     private static bool equals(Object a, Object b) {
-        return (a is null) ? (b is null) : a is b;
+        return (a is null) ? (b is null) : (a is b);
     }
 
     public static class Factory : AbstractBlockParserFactory {
@@ -233,7 +233,7 @@ class ListBlockParser : AbstractBlockParser {
 
             // prepend the list block if needed
             if (!(cast(ListBlockParser)matched !is null) ||
-                    !(listsMatch(cast(ListBlock) matched.getBlock(), listData.listBlock))) {
+                    !(listsMatch(cast(ListBlock) (matched.getBlock()), listData.listBlock))) {
 
                 ListBlockParser listBlockParser = new ListBlockParser(listData.listBlock);
                 // We start out with assuming a list is tight. If we find a blank line, we set it to loose later.

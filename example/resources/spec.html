@@ -154,58 +154,42 @@ This paragraph belongs to item two of the outer list.
 <p>syntax](http://daringfireball.net/projects/markdown/syntax)</p>
 <p>does not specify the syntax unambiguously.  Here are some examples of</p>
 <p>questions it does not answer:</p>
-<p>1.  How much indentation is needed for a sublist?  The spec says that</p>
-<pre><code>continuation paragraphs need to be indented four spaces, but is
-
-not fully explicit about sublists.  It is natural to think that
-
-they, too, must be indented four spaces, but `Markdown.pl` does
-
-not require that.  This is hardly a &quot;corner case,&quot; and divergences
-
-between implementations on this issue often lead to surprises for
-
-users in real documents. (See [this comment by John
-
-Gruber](http://article.gmane.org/gmane.text.markdown.general/1997).)
-</code></pre>
-<p>2.  Is a blank line needed before a block quote or heading?</p>
-<pre><code>Most implementations do not require the blank line.  However,
-
-this can lead to unexpected results in hard-wrapped text, and
-
-also to ambiguities in parsing (note that some implementations
-
-put the heading inside the blockquote, while others do not).
-
-(John Gruber has also spoken [in favor of requiring the blank
-
-lines](http://article.gmane.org/gmane.text.markdown.general/2146).)
-</code></pre>
-<p>3.  Is a blank line needed before an indented code block?</p>
-<pre><code>(`Markdown.pl` requires it, but this is not mentioned in the
-
-documentation, and some implementations do not require it.)
-
-
-
-``` markdown
-
+<ol>
+<li>
+<p>How much indentation is needed for a sublist?  The spec says that</p>
+<p>continuation paragraphs need to be indented four spaces, but is</p>
+<p>not fully explicit about sublists.  It is natural to think that</p>
+<p>they, too, must be indented four spaces, but <code>Markdown.pl</code> does</p>
+<p>not require that.  This is hardly a &quot;corner case,&quot; and divergences</p>
+<p>between implementations on this issue often lead to surprises for</p>
+<p>users in real documents. (See [this comment by John</p>
+<p>Gruber](http://article.gmane.org/gmane.text.markdown.general/1997).)</p>
+</li>
+<li>
+<p>Is a blank line needed before a block quote or heading?</p>
+<p>Most implementations do not require the blank line.  However,</p>
+<p>this can lead to unexpected results in hard-wrapped text, and</p>
+<p>also to ambiguities in parsing (note that some implementations</p>
+<p>put the heading inside the blockquote, while others do not).</p>
+<p>(John Gruber has also spoken [in favor of requiring the blank</p>
+<p>lines](http://article.gmane.org/gmane.text.markdown.general/2146).)</p>
+</li>
+<li>
+<p>Is a blank line needed before an indented code block?</p>
+<p>(<code>Markdown.pl</code> requires it, but this is not mentioned in the</p>
+<p>documentation, and some implementations do not require it.)</p>
+<pre><code class="language-markdown">
 paragraph
 
     code?
 
-```
 </code></pre>
-<p>4.  What is the exact rule for determining when list items get</p>
-<pre><code>wrapped in `&lt;p&gt;` tags?  Can a list be partially &quot;loose&quot; and partially
-
-&quot;tight&quot;?  What should we do with a list like this?
-
-
-
-``` markdown
-
+</li>
+<li>
+<p>What is the exact rule for determining when list items get</p>
+<p>wrapped in <code>&lt;p&gt;</code> tags?  Can a list be partially &quot;loose&quot; and partially</p>
+<p>&quot;tight&quot;?  What should we do with a list like this?</p>
+<pre><code class="language-markdown">
 1. one
 
 
@@ -214,16 +198,9 @@ paragraph
 
 3. three
 
-```
-
-
-
-Or this?
-
-
-
-``` markdown
-
+</code></pre>
+<p>Or this?</p>
+<pre><code class="language-markdown">
 1.  one
 
     - a
@@ -234,49 +211,38 @@ Or this?
 
 2.  two
 
-```
-
-
-
-(There are some relevant comments by John Gruber
-
-[here](http://article.gmane.org/gmane.text.markdown.general/2554).)
 </code></pre>
-<p>5.  Can list markers be indented?  Can ordered list markers be right-aligned?</p>
-<pre><code>``` markdown
-
+<p>(There are some relevant comments by John Gruber</p>
+<p><a href="http://article.gmane.org/gmane.text.markdown.general/2554">here</a>.)</p>
+</li>
+<li>
+<p>Can list markers be indented?  Can ordered list markers be right-aligned?</p>
+<pre><code class="language-markdown">
  8. item 1
 
  9. item 2
 
 10. item 2a
 
-```
 </code></pre>
-<p>6.  Is this one list with a thematic break in its second item,</p>
-<pre><code>or two lists separated by a thematic break?
-
-
-
-``` markdown
-
+</li>
+<li>
+<p>Is this one list with a thematic break in its second item,</p>
+<p>or two lists separated by a thematic break?</p>
+<pre><code class="language-markdown">
 * a
 
 * * * * *
 
 * b
 
-```
 </code></pre>
-<p>7.  When list markers change from numbers to bullets, do we have</p>
-<pre><code>two lists or one?  (The Markdown syntax description suggests two,
-
-but the perl scripts and many other implementations produce one.)
-
-
-
-``` markdown
-
+</li>
+<li>
+<p>When list markers change from numbers to bullets, do we have</p>
+<p>two lists or one?  (The Markdown syntax description suggests two,</p>
+<p>but the perl scripts and many other implementations produce one.)</p>
+<pre><code class="language-markdown">
 1. fee
 
 2. fie
@@ -285,85 +251,69 @@ but the perl scripts and many other implementations produce one.)
 
 -  fum
 
-```
 </code></pre>
-<p>8.  What are the precedence rules for the markers of inline structure?</p>
-<pre><code>For example, is the following a valid link, or does the code span
-
-take precedence ?
-
-
-
-``` markdown
-
+</li>
+<li>
+<p>What are the precedence rules for the markers of inline structure?</p>
+<p>For example, is the following a valid link, or does the code span</p>
+<p>take precedence ?</p>
+<pre><code class="language-markdown">
 [a backtick (`)](/url) and [another backtick (`)](/url).
 
-```
 </code></pre>
-<p>9.  What are the precedence rules for markers of emphasis and strong</p>
-<pre><code>emphasis?  For example, how should the following be parsed?
-
-
-
-``` markdown
-
+</li>
+<li>
+<p>What are the precedence rules for markers of emphasis and strong</p>
+<p>emphasis?  For example, how should the following be parsed?</p>
+<pre><code class="language-markdown">
 *foo *bar* baz*
 
-```
 </code></pre>
-<p>10. What are the precedence rules between block-level and inline-level</p>
-<pre><code>structure?  For example, how should the following be parsed?
-
-
-
-``` markdown
-
+</li>
+<li>
+<p>What are the precedence rules between block-level and inline-level</p>
+<p>structure?  For example, how should the following be parsed?</p>
+<pre><code class="language-markdown">
 - `a long code span can contain a hyphen like this
 
   - and it can screw things up`
 
-```
 </code></pre>
-<p>11. Can list items include section headings?  (<code>Markdown.pl</code> does not</p>
-<pre><code>allow this, but does allow blockquotes to include headings.)
-
-
-
-``` markdown
-
+</li>
+<li>
+<p>Can list items include section headings?  (<code>Markdown.pl</code> does not</p>
+<p>allow this, but does allow blockquotes to include headings.)</p>
+<pre><code class="language-markdown">
 - # Heading
 
-```
 </code></pre>
-<p>12. Can list items be empty?</p>
-<pre><code>``` markdown
-
+</li>
+<li>
+<p>Can list items be empty?</p>
+<pre><code class="language-markdown">
 * a
 
 *
 
 * b
 
-```
 </code></pre>
-<p>13. Can link references be defined inside block quotes or list items?</p>
-<pre><code>``` markdown
-
+</li>
+<li>
+<p>Can link references be defined inside block quotes or list items?</p>
+<pre><code class="language-markdown">
 &gt; Blockquote [foo].
 
 &gt;
 
 &gt; [foo]: /url
 
-```
 </code></pre>
-<p>14. If there are multiple definitions for the same reference, which takes</p>
-<pre><code>precedence?
-
-
-
-``` markdown
-
+</li>
+<li>
+<p>If there are multiple definitions for the same reference, which takes</p>
+<p>precedence?</p>
+<pre><code class="language-markdown">
 [foo]: /url1
 
 [foo]: /url2
@@ -372,8 +322,9 @@ take precedence ?
 
 [foo][]
 
-```
 </code></pre>
+</li>
+</ol>
 <p>In the absence of a spec, early implementers consulted <code>Markdown.pl</code></p>
 <p>to resolve these ambiguities.  But <code>Markdown.pl</code> was quite buggy, and</p>
 <p>gave manifestly bad results in many cases, so it was not a</p>
@@ -1649,10 +1600,20 @@ baz
 
 </code></pre>
 <p>One can find four different interpretations:</p>
-<p>1. paragraph &quot;Foo&quot;, heading &quot;bar&quot;, paragraph &quot;baz&quot;</p>
-<p>2. paragraph &quot;Foo bar&quot;, thematic break, paragraph &quot;baz&quot;</p>
-<p>3. paragraph &quot;Foo bar --- baz&quot;</p>
-<p>4. heading &quot;Foo bar&quot;, paragraph &quot;baz&quot;</p>
+<ol>
+<li>
+<p>paragraph &quot;Foo&quot;, heading &quot;bar&quot;, paragraph &quot;baz&quot;</p>
+</li>
+<li>
+<p>paragraph &quot;Foo bar&quot;, thematic break, paragraph &quot;baz&quot;</p>
+</li>
+<li>
+<p>paragraph &quot;Foo bar --- baz&quot;</p>
+</li>
+<li>
+<p>heading &quot;Foo bar&quot;, paragraph &quot;baz&quot;</p>
+</li>
+</ol>
 <p>We find interpretation 4 most natural, and interpretation 4</p>
 <p>increases the expressive power of CommonMark, by allowing</p>
 <p>multiline headings.  Authors who want interpretation 1 can</p>
@@ -2565,23 +2526,35 @@ foo&lt;/p&gt;
 <p>the document or other [container block]), if no line is encountered that meets the</p>
 <p>[end condition].  If the first line meets both the [start condition]</p>
 <p>and the [end condition], the block will contain just that line.</p>
-<p>1.  <strong>Start condition:</strong>  line begins with the string <code>&lt;script</code>,</p>
+<ol>
+<li><strong>Start condition:</strong>  line begins with the string <code>&lt;script</code>,</li>
+</ol>
 <p><code>&lt;pre</code>, or <code>&lt;style</code> (case-insensitive), followed by whitespace,</p>
 <p>the string <code>&gt;</code>, or the end of the line.\</p>
 <p><strong>End condition:</strong>  line contains an end tag</p>
 <p><code>&lt;/script&gt;</code>, <code>&lt;/pre&gt;</code>, or <code>&lt;/style&gt;</code> (case-insensitive; it</p>
 <p>need not match the start tag).</p>
-<p>2.  <strong>Start condition:</strong> line begins with the string <code>&lt;!--</code>.\</p>
+<ol start="2">
+<li><strong>Start condition:</strong> line begins with the string <code>&lt;!--</code>.\</li>
+</ol>
 <p><strong>End condition:</strong>  line contains the string <code>--&gt;</code>.</p>
-<p>3.  <strong>Start condition:</strong> line begins with the string <code>&lt;?</code>.\</p>
+<ol start="3">
+<li><strong>Start condition:</strong> line begins with the string <code>&lt;?</code>.\</li>
+</ol>
 <p><strong>End condition:</strong> line contains the string <code>?&gt;</code>.</p>
-<p>4.  <strong>Start condition:</strong> line begins with the string <code>&lt;!</code></p>
+<ol start="4">
+<li><strong>Start condition:</strong> line begins with the string <code>&lt;!</code></li>
+</ol>
 <p>followed by an uppercase ASCII letter.\</p>
 <p><strong>End condition:</strong> line contains the character <code>&gt;</code>.</p>
-<p>5.  <strong>Start condition:</strong>  line begins with the string</p>
+<ol start="5">
+<li><strong>Start condition:</strong>  line begins with the string</li>
+</ol>
 <p><code>&lt;![CDATA[</code>.\</p>
 <p><strong>End condition:</strong> line contains the string <code>]]&gt;</code>.</p>
-<p>6.  <strong>Start condition:</strong> line begins the string <code>&lt;</code> or <code>&lt;/</code></p>
+<ol start="6">
+<li><strong>Start condition:</strong> line begins the string <code>&lt;</code> or <code>&lt;/</code></li>
+</ol>
 <p>followed by one of the strings (case-insensitive) <code>address</code>,</p>
 <p><code>article</code>, <code>aside</code>, <code>base</code>, <code>basefont</code>, <code>blockquote</code>, <code>body</code>,</p>
 <p><code>caption</code>, <code>center</code>, <code>col</code>, <code>colgroup</code>, <code>dd</code>, <code>details</code>, <code>dialog</code>,</p>
@@ -2595,7 +2568,9 @@ foo&lt;/p&gt;
 <p>by [whitespace], the end of the line, the string <code>&gt;</code>, or</p>
 <p>the string <code>/&gt;</code>.\</p>
 <p><strong>End condition:</strong> line is followed by a [blank line].</p>
-<p>7.  <strong>Start condition:</strong>  line begins with a complete [open tag]</p>
+<ol start="7">
+<li><strong>Start condition:</strong>  line begins with a complete [open tag]</li>
+</ol>
 <p>or [closing tag] (with any [tag name] other than <code>script</code>,</p>
 <p><code>style</code>, or <code>pre</code>) followed only by [whitespace]</p>
 <p>or the end of the line.\</p>
@@ -3439,12 +3414,12 @@ baz&lt;/p&gt;
 <p>In some ways Gruber's rule is more restrictive than the one given</p>
 <p>here:</p>
 <ul>
-<li>It requires that an HTML block be preceded by a blank line.</li>
-</ul>
-<ul>
-<li>It does not allow the start tag to be indented.</li>
-</ul>
-<ul>
+<li>
+<p>It requires that an HTML block be preceded by a blank line.</p>
+</li>
+<li>
+<p>It does not allow the start tag to be indented.</p>
+</li>
 <li>
 <p>It requires a matching end tag, which it also does not allow to</p>
 <p>be indented.</p>
@@ -4178,33 +4153,29 @@ aaa
 <p>consists of 0-3 spaces of initial indent, plus (a) the character <code>&gt;</code> together</p>
 <p>with a following space, or (b) a single character <code>&gt;</code> not followed by a space.</p>
 <p>The following rules define [block quotes]:</p>
-<p>1.  <strong>Basic case.</strong>  If a string of lines <em>Ls</em> constitute a sequence</p>
-<pre><code>of blocks *Bs*, then the result of prepending a [block quote
-
-marker] to the beginning of each line in *Ls*
-
-is a [block quote](#block-quotes) containing *Bs*.
-</code></pre>
-<p>2.  <strong>Laziness.</strong>  If a string of lines <em>Ls</em> constitute a [block</p>
-<pre><code>quote](#block-quotes) with contents *Bs*, then the result of deleting
-
-the initial [block quote marker] from one or
-
-more lines in which the next [non-whitespace character] after the [block
-
-quote marker] is [paragraph continuation
-
-text] is a block quote with *Bs* as its content.
-
-[Paragraph continuation text](@) is text
-
-that will be parsed as part of the content of a paragraph, but does
-
-not occur at the beginning of the paragraph.
-</code></pre>
-<p>3.  <strong>Consecutiveness.</strong>  A document cannot contain two [block</p>
-<pre><code>quotes] in a row unless there is a [blank line] between them.
-</code></pre>
+<ol>
+<li>
+<p><strong>Basic case.</strong>  If a string of lines <em>Ls</em> constitute a sequence</p>
+<p>of blocks <em>Bs</em>, then the result of prepending a [block quote</p>
+<p>marker] to the beginning of each line in <em>Ls</em></p>
+<p>is a <a href="#block-quotes">block quote</a> containing <em>Bs</em>.</p>
+</li>
+<li>
+<p><strong>Laziness.</strong>  If a string of lines <em>Ls</em> constitute a [block</p>
+<p>quote](#block-quotes) with contents <em>Bs</em>, then the result of deleting</p>
+<p>the initial [block quote marker] from one or</p>
+<p>more lines in which the next [non-whitespace character] after the [block</p>
+<p>quote marker] is [paragraph continuation</p>
+<p>text] is a block quote with <em>Bs</em> as its content.</p>
+<p><a href="@">Paragraph continuation text</a> is text</p>
+<p>that will be parsed as part of the content of a paragraph, but does</p>
+<p>not occur at the beginning of the paragraph.</p>
+</li>
+<li>
+<p><strong>Consecutiveness.</strong>  A document cannot contain two [block</p>
+<p>quotes] in a row unless there is a [blank line] between them.</p>
+</li>
+</ol>
 <p>Nothing else counts as a <a href="#block-quotes">block quote</a>.</p>
 <p>Here is a simple example:</p>
 <pre><code class="language-example">
@@ -4757,45 +4728,34 @@ baz&lt;/p&gt;
 <p>limit is that with 10 digits we start seeing integer overflows</p>
 <p>in some browsers.)</p>
 <p>The following rules define [list items]:</p>
-<p>1.  <strong>Basic case.</strong>  If a sequence of lines <em>Ls</em> constitute a sequence of</p>
-<pre><code>blocks *Bs* starting with a [non-whitespace character] and not separated
-
-from each other by more than one blank line, and *M* is a list
-
-marker of width *W* followed by 1 ≤ *N* ≤ 4 spaces, then the result
-
-of prepending *M* and the following spaces to the first line of
-
-*Ls*, and indenting subsequent lines of *Ls* by *W + N* spaces, is a
-
-list item with *Bs* as its contents.  The type of the list item
-
-(bullet or ordered) is determined by the type of its list marker.
-
-If the list item is ordered, then it is also assigned a start
-
-number, based on the ordered list marker.
-
-
-
-Exceptions:
-
-
-
-1. When the first list item in a [list] interrupts
-
-   a paragraph---that is, when it starts on a line that would
-
-   otherwise count as [paragraph continuation text]---then (a)
-
-   the lines *Ls* must not begin with a blank line, and (b) if
-
-   the list item is ordered, the start number must be 1.
-
-2. If any line is a [thematic break][thematic breaks] then
-
-   that line is not a list item.
-</code></pre>
+<ol>
+<li>
+<p><strong>Basic case.</strong>  If a sequence of lines <em>Ls</em> constitute a sequence of</p>
+<p>blocks <em>Bs</em> starting with a [non-whitespace character] and not separated</p>
+<p>from each other by more than one blank line, and <em>M</em> is a list</p>
+<p>marker of width <em>W</em> followed by 1 ≤ <em>N</em> ≤ 4 spaces, then the result</p>
+<p>of prepending <em>M</em> and the following spaces to the first line of</p>
+<p><em>Ls</em>, and indenting subsequent lines of <em>Ls</em> by <em>W + N</em> spaces, is a</p>
+<p>list item with <em>Bs</em> as its contents.  The type of the list item</p>
+<p>(bullet or ordered) is determined by the type of its list marker.</p>
+<p>If the list item is ordered, then it is also assigned a start</p>
+<p>number, based on the ordered list marker.</p>
+<p>Exceptions:</p>
+<ol>
+<li>
+<p>When the first list item in a [list] interrupts</p>
+<p>a paragraph---that is, when it starts on a line that would</p>
+<p>otherwise count as [paragraph continuation text]---then (a)</p>
+<p>the lines <em>Ls</em> must not begin with a blank line, and (b) if</p>
+<p>the list item is ordered, the start number must be 1.</p>
+</li>
+<li>
+<p>If any line is a [thematic break][thematic breaks] then</p>
+<p>that line is not a list item.</p>
+</li>
+</ol>
+</li>
+</ol>
 <p>For example, let <em>Ls</em> be the lines</p>
 <pre><code class="language-example">
 A paragraph
@@ -5209,27 +5169,21 @@ baz
 &lt;p&gt;-1. not ok&lt;/p&gt;
 
 </code></pre>
-<p>2.  <strong>Item starting with indented code.</strong>  If a sequence of lines <em>Ls</em></p>
-<pre><code>constitute a sequence of blocks *Bs* starting with an indented code
-
-block and not separated from each other by more than one blank line,
-
-and *M* is a list marker of width *W* followed by
-
-one space, then the result of prepending *M* and the following
-
-space to the first line of *Ls*, and indenting subsequent lines of
-
-*Ls* by *W + 1* spaces, is a list item with *Bs* as its contents.
-
-If a line is empty, then it need not be indented.  The type of the
-
-list item (bullet or ordered) is determined by the type of its list
-
-marker.  If the list item is ordered, then it is also assigned a
-
-start number, based on the ordered list marker.
-</code></pre>
+<ol start="2">
+<li>
+<p><strong>Item starting with indented code.</strong>  If a sequence of lines <em>Ls</em></p>
+<p>constitute a sequence of blocks <em>Bs</em> starting with an indented code</p>
+<p>block and not separated from each other by more than one blank line,</p>
+<p>and <em>M</em> is a list marker of width <em>W</em> followed by</p>
+<p>one space, then the result of prepending <em>M</em> and the following</p>
+<p>space to the first line of <em>Ls</em>, and indenting subsequent lines of</p>
+<p><em>Ls</em> by <em>W + 1</em> spaces, is a list item with <em>Bs</em> as its contents.</p>
+<p>If a line is empty, then it need not be indented.  The type of the</p>
+<p>list item (bullet or ordered) is determined by the type of its list</p>
+<p>marker.  If the list item is ordered, then it is also assigned a</p>
+<p>start number, based on the ordered list marker.</p>
+</li>
+</ol>
 <p>An indented code block will have to be indented four spaces beyond</p>
 <p>the edge of the region where text will be included in the list item.</p>
 <p>In the following case that is 6 spaces:</p>
@@ -5440,27 +5394,21 @@ bar
 &lt;/ul&gt;
 
 </code></pre>
-<p>3.  <strong>Item starting with a blank line.</strong>  If a sequence of lines <em>Ls</em></p>
-<pre><code>starting with a single [blank line] constitute a (possibly empty)
-
-sequence of blocks *Bs*, not separated from each other by more than
-
-one blank line, and *M* is a list marker of width *W*,
-
-then the result of prepending *M* to the first line of *Ls*, and
-
-indenting subsequent lines of *Ls* by *W + 1* spaces, is a list
-
-item with *Bs* as its contents.
-
-If a line is empty, then it need not be indented.  The type of the
-
-list item (bullet or ordered) is determined by the type of its list
-
-marker.  If the list item is ordered, then it is also assigned a
-
-start number, based on the ordered list marker.
-</code></pre>
+<ol start="3">
+<li>
+<p><strong>Item starting with a blank line.</strong>  If a sequence of lines <em>Ls</em></p>
+<p>starting with a single [blank line] constitute a (possibly empty)</p>
+<p>sequence of blocks <em>Bs</em>, not separated from each other by more than</p>
+<p>one blank line, and <em>M</em> is a list marker of width <em>W</em>,</p>
+<p>then the result of prepending <em>M</em> to the first line of <em>Ls</em>, and</p>
+<p>indenting subsequent lines of <em>Ls</em> by <em>W + 1</em> spaces, is a list</p>
+<p>item with <em>Bs</em> as its contents.</p>
+<p>If a line is empty, then it need not be indented.  The type of the</p>
+<p>list item (bullet or ordered) is determined by the type of its list</p>
+<p>marker.  If the list item is ordered, then it is also assigned a</p>
+<p>start number, based on the ordered list marker.</p>
+</li>
+</ol>
 <p>Here are some list items that start with a blank line but are not empty:</p>
 <pre><code class="language-example">
 -
@@ -5640,15 +5588,15 @@ foo
 1.&lt;/p&gt;
 
 </code></pre>
-<p>4.  <strong>Indentation.</strong>  If a sequence of lines <em>Ls</em> constitutes a list item</p>
-<pre><code>according to rule #1, #2, or #3, then the result of indenting each line
-
-of *Ls* by 1-3 spaces (the same for each line) also constitutes a
-
-list item with the same contents and attributes.  If a line is
-
-empty, then it need not be indented.
-</code></pre>
+<ol start="4">
+<li>
+<p><strong>Indentation.</strong>  If a sequence of lines <em>Ls</em> constitutes a list item</p>
+<p>according to rule #1, #2, or #3, then the result of indenting each line</p>
+<p>of <em>Ls</em> by 1-3 spaces (the same for each line) also constitutes a</p>
+<p>list item with the same contents and attributes.  If a line is</p>
+<p>empty, then it need not be indented.</p>
+</li>
+</ol>
 <p>Indented one space:</p>
 <pre><code class="language-example">
  1.  A paragraph
@@ -5797,21 +5745,18 @@ with two lines.&lt;/p&gt;
 &lt;/code&gt;&lt;/pre&gt;
 
 </code></pre>
-<p>5.  <strong>Laziness.</strong>  If a string of lines <em>Ls</em> constitute a [list</p>
-<pre><code>item](#list-items) with contents *Bs*, then the result of deleting
-
-some or all of the indentation from one or more lines in which the
-
-next [non-whitespace character] after the indentation is
-
-[paragraph continuation text] is a
-
-list item with the same contents and attributes.  The unindented
-
-lines are called
-
-[lazy continuation line](@)s.
-</code></pre>
+<ol start="5">
+<li>
+<p><strong>Laziness.</strong>  If a string of lines <em>Ls</em> constitute a [list</p>
+<p>item](#list-items) with contents <em>Bs</em>, then the result of deleting</p>
+<p>some or all of the indentation from one or more lines in which the</p>
+<p>next [non-whitespace character] after the indentation is</p>
+<p>[paragraph continuation text] is a</p>
+<p>list item with the same contents and attributes.  The unindented</p>
+<p>lines are called</p>
+<p><a href="@">lazy continuation line</a>s.</p>
+</li>
+</ol>
 <p>Here is an example with [lazy continuation lines]:</p>
 <pre><code class="language-example">
   1.  A paragraph
@@ -5925,9 +5870,12 @@ continued here.&lt;/p&gt;
 &lt;/blockquote&gt;
 
 </code></pre>
-<p>6.  <strong>That's all.</strong> Nothing that is not counted as a list item by rules</p>
-<pre><code>#1--5 counts as a [list item](#list-items).
-</code></pre>
+<ol start="6">
+<li>
+<p><strong>That's all.</strong> Nothing that is not counted as a list item by rules</p>
+<p>#1--5 counts as a <a href="#list-items">list item</a>.</p>
+</li>
+</ol>
 <p>The rules for sublists follow from the general rules above.  A sublist</p>
 <p>must be indented the same number of spaces a paragraph would need to be</p>
 <p>in order to be included in the list item.</p>
@@ -6123,20 +6071,34 @@ baz&lt;/li&gt;
 </code></pre>
 <h3>Motivation</h3>
 <p>John Gruber's Markdown spec says the following about list items:</p>
-<p>1. &quot;List markers typically start at the left margin, but may be indented</p>
+<ol>
+<li>
+<p>&quot;List markers typically start at the left margin, but may be indented</p>
 <p>by up to three spaces. List markers must be followed by one or more</p>
 <p>spaces or a tab.&quot;</p>
-<p>2. &quot;To make lists look nice, you can wrap items with hanging indents....</p>
+</li>
+<li>
+<p>&quot;To make lists look nice, you can wrap items with hanging indents....</p>
 <p>But if you don't want to, you don't have to.&quot;</p>
-<p>3. &quot;List items may consist of multiple paragraphs. Each subsequent</p>
+</li>
+<li>
+<p>&quot;List items may consist of multiple paragraphs. Each subsequent</p>
 <p>paragraph in a list item must be indented by either 4 spaces or one</p>
 <p>tab.&quot;</p>
-<p>4. &quot;It looks nice if you indent every line of the subsequent paragraphs,</p>
+</li>
+<li>
+<p>&quot;It looks nice if you indent every line of the subsequent paragraphs,</p>
 <p>but here again, Markdown will allow you to be lazy.&quot;</p>
-<p>5. &quot;To put a blockquote within a list item, the blockquote's <code>&gt;</code></p>
+</li>
+<li>
+<p>&quot;To put a blockquote within a list item, the blockquote's <code>&gt;</code></p>
 <p>delimiters need to be indented.&quot;</p>
-<p>6. &quot;To put a code block within a list item, the code block needs to be</p>
+</li>
+<li>
+<p>&quot;To put a code block within a list item, the code block needs to be</p>
 <p>indented twice — 8 spaces or two tabs.&quot;</p>
+</li>
+</ol>
 <p>These rules specify that a paragraph under a list item must be indented</p>
 <p>four spaces (presumably, from the left margin, rather than the start of</p>
 <p>the list marker, but this is not said), and that code under a list item</p>
@@ -7821,8 +7783,6 @@ no emphasis: foo_bar_baz
 
 </code></pre>
 </li>
-</ul>
-<ul>
 <li>
 <p>right-flanking but not left-flanking:</p>
 <pre><code>
@@ -7836,8 +7796,6 @@ no emphasis: foo_bar_baz
 
 </code></pre>
 </li>
-</ul>
-<ul>
 <li>
 <p>Both left and right-flanking:</p>
 <pre><code>
@@ -7847,8 +7805,6 @@ no emphasis: foo_bar_baz
 
 </code></pre>
 </li>
-</ul>
-<ul>
 <li>
 <p>Neither left nor right-flanking:</p>
 <pre><code>
@@ -7867,135 +7823,118 @@ a _ b
 <p>run,&quot; and its rules for distinguishing left- and right-flanking runs</p>
 <p>are a bit more complex than the ones given here.)</p>
 <p>The following rules define emphasis and strong emphasis:</p>
-<p>1.  A single <code>*</code> character <a href="@">can open emphasis</a></p>
-<pre><code>iff (if and only if) it is part of a [left-flanking delimiter run].
-</code></pre>
-<p>2.  A single <code>_</code> character [can open emphasis] iff</p>
-<pre><code>it is part of a [left-flanking delimiter run]
-
-and either (a) not part of a [right-flanking delimiter run]
-
-or (b) part of a [right-flanking delimiter run]
-
-preceded by punctuation.
-</code></pre>
-<p>3.  A single <code>*</code> character <a href="@">can close emphasis</a></p>
-<pre><code>iff it is part of a [right-flanking delimiter run].
-</code></pre>
-<p>4.  A single <code>_</code> character [can close emphasis] iff</p>
-<pre><code>it is part of a [right-flanking delimiter run]
-
-and either (a) not part of a [left-flanking delimiter run]
-
-or (b) part of a [left-flanking delimiter run]
-
-followed by punctuation.
-</code></pre>
-<p>5.  A double <code>**</code> <a href="@">can open strong emphasis</a></p>
-<pre><code>iff it is part of a [left-flanking delimiter run].
-</code></pre>
-<p>6.  A double <code>__</code> [can open strong emphasis] iff</p>
-<pre><code>it is part of a [left-flanking delimiter run]
-
-and either (a) not part of a [right-flanking delimiter run]
-
-or (b) part of a [right-flanking delimiter run]
-
-preceded by punctuation.
-</code></pre>
-<p>7.  A double <code>**</code> <a href="@">can close strong emphasis</a></p>
-<pre><code>iff it is part of a [right-flanking delimiter run].
-</code></pre>
-<p>8.  A double <code>__</code> [can close strong emphasis] iff</p>
-<pre><code>it is part of a [right-flanking delimiter run]
-
-and either (a) not part of a [left-flanking delimiter run]
-
-or (b) part of a [left-flanking delimiter run]
-
-followed by punctuation.
-</code></pre>
-<p>9.  Emphasis begins with a delimiter that [can open emphasis] and ends</p>
-<pre><code>with a delimiter that [can close emphasis], and that uses the same
-
-character (`_` or `*`) as the opening delimiter.  The
-
-opening and closing delimiters must belong to separate
-
-[delimiter runs].  If one of the delimiters can both
-
-open and close emphasis, then the sum of the lengths of the
-
-delimiter runs containing the opening and closing delimiters
-
-must not be a multiple of 3.
-</code></pre>
-<p>10. Strong emphasis begins with a delimiter that</p>
-<pre><code>[can open strong emphasis] and ends with a delimiter that
-
-[can close strong emphasis], and that uses the same character
-
-(`_` or `*`) as the opening delimiter.  The
-
-opening and closing delimiters must belong to separate
-
-[delimiter runs].  If one of the delimiters can both open
-
-and close strong emphasis, then the sum of the lengths of
-
-the delimiter runs containing the opening and closing
-
-delimiters must not be a multiple of 3.
-</code></pre>
-<p>11. A literal <code>*</code> character cannot occur at the beginning or end of</p>
-<pre><code>`*`-delimited emphasis or `**`-delimited strong emphasis, unless it
-
-is backslash-escaped.
-</code></pre>
-<p>12. A literal <code>_</code> character cannot occur at the beginning or end of</p>
-<pre><code>`_`-delimited emphasis or `__`-delimited strong emphasis, unless it
-
-is backslash-escaped.
-</code></pre>
+<ol>
+<li>
+<p>A single <code>*</code> character <a href="@">can open emphasis</a></p>
+<p>iff (if and only if) it is part of a [left-flanking delimiter run].</p>
+</li>
+<li>
+<p>A single <code>_</code> character [can open emphasis] iff</p>
+<p>it is part of a [left-flanking delimiter run]</p>
+<p>and either (a) not part of a [right-flanking delimiter run]</p>
+<p>or (b) part of a [right-flanking delimiter run]</p>
+<p>preceded by punctuation.</p>
+</li>
+<li>
+<p>A single <code>*</code> character <a href="@">can close emphasis</a></p>
+<p>iff it is part of a [right-flanking delimiter run].</p>
+</li>
+<li>
+<p>A single <code>_</code> character [can close emphasis] iff</p>
+<p>it is part of a [right-flanking delimiter run]</p>
+<p>and either (a) not part of a [left-flanking delimiter run]</p>
+<p>or (b) part of a [left-flanking delimiter run]</p>
+<p>followed by punctuation.</p>
+</li>
+<li>
+<p>A double <code>**</code> <a href="@">can open strong emphasis</a></p>
+<p>iff it is part of a [left-flanking delimiter run].</p>
+</li>
+<li>
+<p>A double <code>__</code> [can open strong emphasis] iff</p>
+<p>it is part of a [left-flanking delimiter run]</p>
+<p>and either (a) not part of a [right-flanking delimiter run]</p>
+<p>or (b) part of a [right-flanking delimiter run]</p>
+<p>preceded by punctuation.</p>
+</li>
+<li>
+<p>A double <code>**</code> <a href="@">can close strong emphasis</a></p>
+<p>iff it is part of a [right-flanking delimiter run].</p>
+</li>
+<li>
+<p>A double <code>__</code> [can close strong emphasis] iff</p>
+<p>it is part of a [right-flanking delimiter run]</p>
+<p>and either (a) not part of a [left-flanking delimiter run]</p>
+<p>or (b) part of a [left-flanking delimiter run]</p>
+<p>followed by punctuation.</p>
+</li>
+<li>
+<p>Emphasis begins with a delimiter that [can open emphasis] and ends</p>
+<p>with a delimiter that [can close emphasis], and that uses the same</p>
+<p>character (<code>_</code> or <code>*</code>) as the opening delimiter.  The</p>
+<p>opening and closing delimiters must belong to separate</p>
+<p>[delimiter runs].  If one of the delimiters can both</p>
+<p>open and close emphasis, then the sum of the lengths of the</p>
+<p>delimiter runs containing the opening and closing delimiters</p>
+<p>must not be a multiple of 3.</p>
+</li>
+<li>
+<p>Strong emphasis begins with a delimiter that</p>
+<p>[can open strong emphasis] and ends with a delimiter that</p>
+<p>[can close strong emphasis], and that uses the same character</p>
+<p>(<code>_</code> or <code>*</code>) as the opening delimiter.  The</p>
+<p>opening and closing delimiters must belong to separate</p>
+<p>[delimiter runs].  If one of the delimiters can both open</p>
+<p>and close strong emphasis, then the sum of the lengths of</p>
+<p>the delimiter runs containing the opening and closing</p>
+<p>delimiters must not be a multiple of 3.</p>
+</li>
+<li>
+<p>A literal <code>*</code> character cannot occur at the beginning or end of</p>
+<p><code>*</code>-delimited emphasis or <code>**</code>-delimited strong emphasis, unless it</p>
+<p>is backslash-escaped.</p>
+</li>
+<li>
+<p>A literal <code>_</code> character cannot occur at the beginning or end of</p>
+<p><code>_</code>-delimited emphasis or <code>__</code>-delimited strong emphasis, unless it</p>
+<p>is backslash-escaped.</p>
+</li>
+</ol>
 <p>Where rules 1--12 above are compatible with multiple parsings,</p>
 <p>the following principles resolve ambiguity:</p>
-<p>13. The number of nestings should be minimized. Thus, for example,</p>
-<pre><code>an interpretation `&lt;strong&gt;...&lt;/strong&gt;` is always preferred to
-
-`&lt;em&gt;&lt;em&gt;...&lt;/em&gt;&lt;/em&gt;`.
-</code></pre>
-<p>14. An interpretation <code>&lt;em&gt;&lt;strong&gt;...&lt;/strong&gt;&lt;/em&gt;</code> is always</p>
-<pre><code>preferred to `&lt;strong&gt;&lt;em&gt;...&lt;/em&gt;&lt;/strong&gt;`.
-</code></pre>
-<p>15. When two potential emphasis or strong emphasis spans overlap,</p>
-<pre><code>so that the second begins before the first ends and ends after
-
-the first ends, the first takes precedence. Thus, for example,
-
-`*foo _bar* baz_` is parsed as `&lt;em&gt;foo _bar&lt;/em&gt; baz_` rather
-
-than `*foo &lt;em&gt;bar* baz&lt;/em&gt;`.
-</code></pre>
-<p>16. When there are two potential emphasis or strong emphasis spans</p>
-<pre><code>with the same closing delimiter, the shorter one (the one that
-
-opens later) takes precedence. Thus, for example,
-
-`**foo **bar baz**` is parsed as `**foo &lt;strong&gt;bar baz&lt;/strong&gt;`
-
-rather than `&lt;strong&gt;foo **bar baz&lt;/strong&gt;`.
-</code></pre>
-<p>17. Inline code spans, links, images, and HTML tags group more tightly</p>
-<pre><code>than emphasis.  So, when there is a choice between an interpretation
-
-that contains one of these elements and one that does not, the
-
-former always wins.  Thus, for example, `*[foo*](bar)` is
-
-parsed as `*&lt;a href=&quot;bar&quot;&gt;foo*&lt;/a&gt;` rather than as
-
-`&lt;em&gt;[foo&lt;/em&gt;](bar)`.
-</code></pre>
+<ol start="13">
+<li>
+<p>The number of nestings should be minimized. Thus, for example,</p>
+<p>an interpretation <code>&lt;strong&gt;...&lt;/strong&gt;</code> is always preferred to</p>
+<p><code>&lt;em&gt;&lt;em&gt;...&lt;/em&gt;&lt;/em&gt;</code>.</p>
+</li>
+<li>
+<p>An interpretation <code>&lt;em&gt;&lt;strong&gt;...&lt;/strong&gt;&lt;/em&gt;</code> is always</p>
+<p>preferred to <code>&lt;strong&gt;&lt;em&gt;...&lt;/em&gt;&lt;/strong&gt;</code>.</p>
+</li>
+<li>
+<p>When two potential emphasis or strong emphasis spans overlap,</p>
+<p>so that the second begins before the first ends and ends after</p>
+<p>the first ends, the first takes precedence. Thus, for example,</p>
+<p><code>*foo _bar* baz_</code> is parsed as <code>&lt;em&gt;foo _bar&lt;/em&gt; baz_</code> rather</p>
+<p>than <code>*foo &lt;em&gt;bar* baz&lt;/em&gt;</code>.</p>
+</li>
+<li>
+<p>When there are two potential emphasis or strong emphasis spans</p>
+<p>with the same closing delimiter, the shorter one (the one that</p>
+<p>opens later) takes precedence. Thus, for example,</p>
+<p><code>**foo **bar baz**</code> is parsed as <code>**foo &lt;strong&gt;bar baz&lt;/strong&gt;</code></p>
+<p>rather than <code>&lt;strong&gt;foo **bar baz&lt;/strong&gt;</code>.</p>
+</li>
+<li>
+<p>Inline code spans, links, images, and HTML tags group more tightly</p>
+<p>than emphasis.  So, when there is a choice between an interpretation</p>
+<p>that contains one of these elements and one that does not, the</p>
+<p>former always wins.  Thus, for example, <code>*[foo*](bar)</code> is</p>
+<p>parsed as <code>*&lt;a href=&quot;bar&quot;&gt;foo*&lt;/a&gt;</code> rather than as</p>
+<p><code>&lt;em&gt;[foo&lt;/em&gt;](bar)</code>.</p>
+</li>
+</ol>
 <p>These rules can be illustrated through a series of examples.</p>
 <p>Rule 1:</p>
 <pre><code class="language-example">
@@ -9186,24 +9125,18 @@ __a&lt;http://foo.bar/?q=__&gt;
 <p>multiple otherwise valid link definitions appear nested inside each</p>
 <p>other, the inner-most definition is used.</p>
 </li>
-</ul>
-<ul>
 <li>
 <p>Brackets are allowed in the [link text] only if (a) they</p>
 <p>are backslash-escaped or (b) they appear as a matched pair of brackets,</p>
 <p>with an open bracket <code>[</code>, a sequence of zero or more inlines, and</p>
 <p>a close bracket <code>]</code>.</p>
 </li>
-</ul>
-<ul>
 <li>
 <p>Backtick [code spans], [autolinks], and raw [HTML tags] bind more tightly</p>
 <p>than the brackets in link text.  Thus, for example,</p>
 <p><code>[foo`]`</code> could not be a link text, since the second <code>]</code></p>
 <p>is part of a code span.</p>
 </li>
-</ul>
-<ul>
 <li>
 <p>The brackets in link text bind more tightly than markers for</p>
 <p>[emphasis and strong emphasis]. Thus, for example, <code>*[foo*](url)</code> is a link.</p>
@@ -9216,8 +9149,6 @@ __a&lt;http://foo.bar/?q=__&gt;
 <p>closing <code>&gt;</code> that contains no spaces, line breaks, or unescaped</p>
 <p><code>&lt;</code> or <code>&gt;</code> characters, or</p>
 </li>
-</ul>
-<ul>
 <li>
 <p>a nonempty sequence of characters that does not include</p>
 <p>ASCII space or control characters, and includes parentheses</p>
@@ -9234,15 +9165,11 @@ __a&lt;http://foo.bar/?q=__&gt;
 <p>characters (<code>&quot;</code>), including a <code>&quot;</code> character only if it is</p>
 <p>backslash-escaped, or</p>
 </li>
-</ul>
-<ul>
 <li>
 <p>a sequence of zero or more characters between straight single-quote</p>
 <p>characters (<code>'</code>), including a <code>'</code> character only if it is</p>
 <p>backslash-escaped, or</p>
 </li>
-</ul>
-<ul>
 <li>
 <p>a sequence of zero or more characters between matching parentheses</p>
 <p>(<code>(...)</code>), including a <code>)</code> character only if it is backslash-escaped.</p>
@@ -11329,12 +11256,16 @@ Multiple     spaces
 <p>used in the CommonMark reference implementations.</p>
 <h2>Overview</h2>
 <p>Parsing has two phases:</p>
-<p>1. In the first phase, lines of input are consumed and the block</p>
+<ol>
+<li>In the first phase, lines of input are consumed and the block</li>
+</ol>
 <p>structure of the document---its division into paragraphs, block quotes,</p>
 <p>list items, and so on---is constructed.  Text is assigned to these</p>
 <p>blocks but not parsed. Link reference definitions are parsed and a</p>
 <p>map of links is constructed.</p>
-<p>2. In the second phase, the raw text contents of paragraphs and headings</p>
+<ol start="2">
+<li>In the second phase, the raw text contents of paragraphs and headings</li>
+</ol>
 <p>are parsed into sequences of Markdown inline elements (strings,</p>
 <p>code spans, links, emphasis, and so on), using the map of link</p>
 <p>references constructed in phase 1.</p>
@@ -11374,15 +11305,25 @@ Multiple     spaces
 <p>Each line that is processed has an effect on this tree.  The line is</p>
 <p>analyzed and, depending on its contents, the document may be altered</p>
 <p>in one or more of the following ways:</p>
-<p>1. One or more open blocks may be closed.</p>
-<p>2. One or more new blocks may be created as children of the</p>
+<ol>
+<li>
+<p>One or more open blocks may be closed.</p>
+</li>
+<li>
+<p>One or more new blocks may be created as children of the</p>
 <p>last open block.</p>
-<p>3. Text may be added to the last (deepest) open block remaining</p>
+</li>
+<li>
+<p>Text may be added to the last (deepest) open block remaining</p>
 <p>on the tree.</p>
+</li>
+</ol>
 <p>Once a line has been incorporated into the tree in this way,</p>
 <p>it can be discarded, so input can be read in a stream.</p>
 <p>For each line, we follow this procedure:</p>
-<p>1. First we iterate through the open blocks, starting with the</p>
+<ol>
+<li>First we iterate through the open blocks, starting with the</li>
+</ol>
 <p>root document, and descending through last children down to the last</p>
 <p>open block.  Each block imposes a condition that the line must satisfy</p>
 <p>if the block is to remain open.  For example, a block quote requires a</p>
@@ -11390,12 +11331,16 @@ Multiple     spaces
 <p>In this phase we may match all or just some of the open</p>
 <p>blocks.  But we cannot close unmatched blocks yet, because we may have a</p>
 <p>[lazy continuation line].</p>
-<p>2.  Next, after consuming the continuation markers for existing</p>
+<ol start="2">
+<li>Next, after consuming the continuation markers for existing</li>
+</ol>
 <p>blocks, we look for new block starts (e.g. <code>&gt;</code> for a block quote).</p>
 <p>If we encounter a new block start, we close any blocks unmatched</p>
 <p>in step 1 before creating the new block as a child of the last</p>
 <p>matched block.</p>
-<p>3.  Finally, we look at the remainder of the line (after block</p>
+<ol start="3">
+<li>Finally, we look at the remainder of the line (after block</li>
+</ol>
 <p>markers like <code>&gt;</code>, list markers, and indentation have been consumed).</p>
 <p>This is text that can be incorporated into the last open</p>
 <p>block (a paragraph, code block, heading, or raw HTML).</p>
@@ -11565,25 +11510,27 @@ document
 <p>algorithm.</p>
 <p>When we're parsing inlines and we hit either</p>
 <ul>
-<li>a run of <code>*</code> or <code>_</code> characters, or</li>
-</ul>
-<ul>
-<li>a <code>[</code> or <code>![</code></li>
+<li>
+<p>a run of <code>*</code> or <code>_</code> characters, or</p>
+</li>
+<li>
+<p>a <code>[</code> or <code>![</code></p>
+</li>
 </ul>
 <p>we insert a text node with these symbols as its literal content, and we</p>
 <p>add a pointer to this text node to the <a href="@">delimiter stack</a>.</p>
 <p>The [delimiter stack] is a doubly linked list.  Each</p>
 <p>element contains a pointer to a text node, plus information about</p>
 <ul>
-<li>the type of delimiter (<code>[</code>, <code>![</code>, <code>*</code>, <code>_</code>)</li>
-</ul>
-<ul>
-<li>the number of delimiters,</li>
-</ul>
-<ul>
-<li>whether the delimiter is &quot;active&quot; (all are active to start), and</li>
-</ul>
-<ul>
+<li>
+<p>the type of delimiter (<code>[</code>, <code>![</code>, <code>*</code>, <code>_</code>)</p>
+</li>
+<li>
+<p>the number of delimiters,</p>
+</li>
+<li>
+<p>whether the delimiter is &quot;active&quot; (all are active to start), and</p>
+</li>
 <li>
 <p>whether the delimiter is a potential opener, a potential closer,</p>
 <p>or both (which depends on what sort of characters precede</p>
@@ -11598,15 +11545,13 @@ document
 <p>Starting at the top of the delimiter stack, we look backwards</p>
 <p>through the stack for an opening <code>[</code> or <code>![</code> delimiter.</p>
 <ul>
-<li>If we don't find one, we return a literal text node <code>]</code>.</li>
-</ul>
-<ul>
+<li>
+<p>If we don't find one, we return a literal text node <code>]</code>.</p>
+</li>
 <li>
 <p>If we do find one, but it's not <em>active</em>, we remove the inactive</p>
 <p>delimiter from the stack, and return a literal text node <code>]</code>.</p>
 </li>
-</ul>
-<ul>
 <li>
 <p>If we find one and it's active, then we parse ahead to see if</p>
 <p>we have an inline link/image, reference link/image, compact reference</p>
@@ -11616,8 +11561,6 @@ document
 <p>If we don't, then we remove the opening delimiter from the</p>
 <p>delimiter stack and return a literal text node <code>]</code>.</p>
 </li>
-</ul>
-<ul>
 <li>
 <p>If we do, then</p>
 <ul>
@@ -11625,17 +11568,13 @@ document
 <p>We return a link or image node whose children are the inlines</p>
 <p>after the text node pointed to by the opening delimiter.</p>
 </li>
-</ul>
-<ul>
 <li>
 <p>We run <em>process emphasis</em> on these inlines, with the <code>[</code> opener</p>
 <p>as <code>stack_bottom</code>.</p>
 </li>
-</ul>
-<ul>
-<li>We remove the opening delimiter.</li>
-</ul>
-<ul>
+<li>
+<p>We remove the opening delimiter.</p>
+</li>
 <li>
 <p>If we have a link (and not an image), we also set all</p>
 <p><code>[</code> delimiters before the opening delimiter to <em>inactive</em>.  (This</p>
@@ -11665,15 +11604,11 @@ document
 <p>(This will be the potential closer closest</p>
 <p>to the beginning of the input -- the first one in parse order.)</p>
 </li>
-</ul>
-<ul>
 <li>
 <p>Now, look back in the stack (staying above <code>stack_bottom</code> and</p>
 <p>the <code>openers_bottom</code> for this delimiter type) for the</p>
 <p>first matching potential opener (&quot;matching&quot; means same delimiter).</p>
 </li>
-</ul>
-<ul>
 <li>
 <p>If one is found:</p>
 <ul>
@@ -11682,20 +11617,14 @@ document
 <p>if both closer and opener spans have length &gt;= 2, we have</p>
 <p>strong, otherwise regular.</p>
 </li>
-</ul>
-<ul>
 <li>
 <p>Insert an emph or strong emph node accordingly, after</p>
 <p>the text node corresponding to the opener.</p>
 </li>
-</ul>
-<ul>
 <li>
 <p>Remove any delimiters between the opener and closer from</p>
 <p>the delimiter stack.</p>
 </li>
-</ul>
-<ul>
 <li>
 <p>Remove 1 (for regular emph) or 2 (for strong emph) delimiters</p>
 <p>from the opening and closing text nodes.  If they become empty</p>
@@ -11705,8 +11634,6 @@ document
 </li>
 </ul>
 </li>
-</ul>
-<ul>
 <li>
 <p>If none in found:</p>
 <ul>
@@ -11715,16 +11642,14 @@ document
 <p>(We know that there are no openers for this kind of closer up to and</p>
 <p>including this point, so this puts a lower bound on future searches.)</p>
 </li>
-</ul>
-<ul>
 <li>
 <p>If the closer at <code>current_position</code> is not a potential opener,</p>
 <p>remove it from the delimiter stack (since we know it can't</p>
 <p>be a closer either).</p>
 </li>
-</ul>
-<ul>
-<li>Advance <code>current_position</code> to the next element in the stack.</li>
+<li>
+<p>Advance <code>current_position</code> to the next element in the stack.</p>
+</li>
 </ul>
 </li>
 </ul>

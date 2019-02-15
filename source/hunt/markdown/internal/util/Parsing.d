@@ -58,7 +58,7 @@ class Parsing {
         // int codePoint = Char.codePointAt(s, index);
         // return Char.isLetter(codePoint);
         import std.ascii;
-        auto b = isAlphaNum(s.charAt(index));
+        auto b = isAlpha(s.charAt(index));
         return b;
     }
 
@@ -89,7 +89,7 @@ class Parsing {
                         sb = new StringBuilder(length);
                         sb.append(line, 0, i);
                     }
-                    sb.append('\uFFFD');
+                    sb.append("\uFFFD");
                     break;
                 default:
                     if (sb !is null) {

@@ -25,20 +25,20 @@ public class HtmlRendererTest {
     public void test()
     {
         htmlAllowingShouldNotEscapeInlineHtml();
-        htmlAllowingShouldNotEscapeBlockHtml();
-        htmlEscapingShouldEscapeInlineHtml();
-        htmlEscapingShouldEscapeHtmlBlocks();
-        textEscaping();
-        percentEncodeUrlDisabled();
-        percentEncodeUrl();
-        attributeProviderForCodeBlock();
-        attributeProviderForImage();
-        attributeProviderFactoryNewInstanceForEachRender();
-        overrideNodeRender();
-        orderedListStartZero();
-        imageAltTextWithSoftLineBreak();
-        imageAltTextWithHardLineBreak();
-        imageAltTextWithEntities();
+        // htmlAllowingShouldNotEscapeBlockHtml();
+        // htmlEscapingShouldEscapeInlineHtml();
+        // htmlEscapingShouldEscapeHtmlBlocks();
+        // textEscaping();
+        // percentEncodeUrlDisabled();
+        // percentEncodeUrl();
+        // attributeProviderForCodeBlock();
+        // attributeProviderForImage();
+        // attributeProviderFactoryNewInstanceForEachRender();
+        // overrideNodeRender();
+        // orderedListStartZero();
+        // imageAltTextWithSoftLineBreak();
+        // imageAltTextWithHardLineBreak();
+        // imageAltTextWithEntities();
     }
     
     public void htmlAllowingShouldNotEscapeInlineHtml() {
@@ -210,8 +210,8 @@ public class HtmlRendererTest {
 
     
     public void orderedListStartZero() {
-        // version(HUNT_DEBUG)logDebug("--expect7 : ", defaultRenderer().render(parse("0. Test\n")));
-        // Assert.assertEquals("<ol start=\"0\">\n<li>Test</li>\n</ol>\n", defaultRenderer().render(parse("0. Test\n")));
+        version(HUNT_DEBUG)logDebug("--expect7 : ", defaultRenderer().render(parse("0. Test\n")));
+        Assert.assertEquals("<ol start=\"0\">\n<li>Test</li>\n</ol>\n", defaultRenderer().render(parse("0. Test\n")));
     }
 
     

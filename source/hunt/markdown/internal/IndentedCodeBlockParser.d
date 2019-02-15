@@ -57,7 +57,7 @@ class IndentedCodeBlockParser : AbstractBlockParser {
         StringBuilder sb = new StringBuilder();
         for (int i = 0; i < lastNonBlank + 1; i++) {
             sb.append(lines.get(i));
-            sb.append('\n');
+            sb.append("\n");
         }
 
         string literal = sb.toString();

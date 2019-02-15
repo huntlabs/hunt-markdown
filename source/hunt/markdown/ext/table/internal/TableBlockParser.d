@@ -25,7 +25,7 @@ class TableBlockParser : AbstractBlockParser {
     private enum string TABLE_HEADER_SEPARATOR = "\\|" ~ COL ~ "\\|?\\s*" ~ "|" ~
             COL ~ "\\|\\s*" ~ "|" ~
             "\\|?" ~ "(?:" ~ COL ~ "\\|)+" ~ COL ~ "\\|?\\s*";
-    
+        
     private TableBlock block;
     private List!(string) rowLines;
 
@@ -172,9 +172,7 @@ class TableBlockParser : AbstractBlockParser {
         public BlockStart tryStart(ParserState state, MatchedBlockParser matchedBlockParser) {
             string line = state.getLine();
             string paragraph = matchedBlockParser.getParagraphContent();
-            import std.algorithm;
-
-            if (paragraph !is null && paragraph.findSplit("|").length > 0 && paragraph.findSplit("\n").length == 0) {
+            if (paragraph != null && paragraph.contains("|") && !paragraph.contains("\n")) {
                 string separatorLine = line[state.getIndex()..line.length];
                 if (match(separatorLine, regex(TABLE_HEADER_SEPARATOR))) {
                     List!(string) headParts = split(paragraph);
