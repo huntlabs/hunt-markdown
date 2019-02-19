@@ -1,7 +1,8 @@
 name "hunt-markdown"
 description "A markdown parsing and rendering library for D programming language."
-authors "HuntLabs.net"
-copyright "Copyright © 2018, huntlabs.cn"
+homepage "https://www.huntLabs.net"
+copyright "Copyright © 2019, HuntLabs"
 targetType "library"
-dependency "hunt" path="../hunt"
-license "proprietary"
+dependency "hunt" version="~>1.1.2"
+license "Apache-2.0"
+
