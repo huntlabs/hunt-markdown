@@ -36,7 +36,7 @@ class TableCell : CustomNode {
      * How the cell is aligned horizontally.
      */
     public enum Alignment {
-        LEFT, CENTER, RIGHT
+        NONE, LEFT, CENTER, RIGHT
     }
 
 }

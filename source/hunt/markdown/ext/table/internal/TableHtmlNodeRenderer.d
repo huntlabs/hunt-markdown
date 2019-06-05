@@ -69,15 +69,15 @@ class TableHtmlNodeRenderer : TableNodeRenderer {
         return context.extendAttributes(node, tagName, Collections.emptyMap!(string, string)());
     }
 
-    private Map!(string, string) getCellAttributes(TableCell tableCell, string tagName) {
-        HashMap!(string, string) hs = new HashMap!(string, string);
-        hs.put("align", getAlignValue(tableCell.getAlignment()));
-        return context.extendAttributes(tableCell, tagName, hs);
-        // if (tableCell.getAlignment() !is null) {
-            // return context.extendAttributes(tableCell, tagName, Collections.singletonMap!(string, string)("align", getAlignValue(tableCell.getAlignment())));
-        // } else {
-        //     return context.extendAttributes(tableCell, tagName, Collections.emptyMap!(string, string)());
-        // }
+    private Map!(string, string) getCellAttributes(TableCell tableCell, string tagName)
+    {
+        auto attributes = new HashMap!(string, string);
+
+        if (tableCell.getAlignment() != TableCell.Alignment.NONE) {
+            attributes.put("align", getAlignValue(tableCell.getAlignment()));
+        }
+
+        return context.extendAttributes(tableCell, tagName, attributes);
     }
 
     private static string getAlignValue(TableCell.Alignment alignment) {
@@ -89,8 +89,7 @@ class TableHtmlNodeRenderer : TableNodeRenderer {
             case TableCell.Alignment.RIGHT:
                 return "right";
             default:
-                return "left";
-            //throw new Exception("Unknown alignment: " ~ alignment.to!string);
+                return null;
         }
     }
 
