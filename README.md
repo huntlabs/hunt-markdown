@@ -1,5 +1,6 @@
 # hunt-markdown
 A markdown parsing and rendering library for D programming language.
+The project use [commonmark](https://spec.commonmark.org/0.28/) spec, ported from [commonmark-java](https://github.com/atlassian/commonmark-java).
 
 ## Parse and render
 
