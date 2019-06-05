@@ -44,7 +44,6 @@ class TableBlockParser : AbstractBlockParser {
     private this(string headerLine) {
         block = new TableBlock();
         rowLines = new ArrayList!(string)();
-
         rowLines.add(headerLine);
     }
 
@@ -55,10 +54,10 @@ class TableBlockParser : AbstractBlockParser {
     public BlockContinue tryContinue(ParserState state) {
         import std.algorithm;
 
-        if (state.getLine().findSplit("|").length > 0) {
-            return BlockContinue.atIndex(state.getIndex());
-        } else {
+        if (state.getLine().find("|").empty) {
             return BlockContinue.none();
+        } else {
+            return BlockContinue.atIndex(state.getIndex());
         }
     }
 
@@ -160,10 +159,12 @@ class TableBlockParser : AbstractBlockParser {
     private static TableCell.Alignment getAlignment(bool left, bool right) {
         if (left && right) {
             return TableCell.Alignment.CENTER;
+        } else if (right) {
+            return TableCell.Alignment.RIGHT;
         } else if (left) {
             return TableCell.Alignment.LEFT;
         } else {
-            return TableCell.Alignment.RIGHT;
+            return TableCell.Alignment.NONE;
         }
     }
 
