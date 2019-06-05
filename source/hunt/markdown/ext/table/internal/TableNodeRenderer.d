@@ -26,9 +26,9 @@ abstract class TableNodeRenderer : NodeRenderer {
     }
 
     public void render(Node node) {
-        if (cast(TableCell)node !is null) {
+        if (cast(TableBlock)node !is null) {
             renderBlock(cast(TableBlock) node);
-        } else if (cast(TableCell)node !is null ) {
+        } else if (cast(TableHead)node !is null ) {
             renderHead(cast(TableHead) node);
         } else if (cast(TableBody)node !is null) {
             renderBody(cast(TableBody) node);
