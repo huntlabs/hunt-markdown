@@ -3,5 +3,5 @@ description "A markdown parsing and rendering library for D programming language
 homepage "https://www.huntLabs.net"
 copyright "Copyright © 2019, HuntLabs"
 targetType "library"
-dependency "hunt" version="~>1.3.0-rc.1"
+dependency "hunt" version="~>1.4.0"
 license "Apache-2.0"
