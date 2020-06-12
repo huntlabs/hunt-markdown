@@ -1,6 +1,6 @@
 module hunt.markdown.internal.util.Parsing;
 import hunt.Char;
-import hunt.text.StringBuilder;
+import hunt.util.StringBuilder;
 import hunt.text.Common;
 import hunt.logging;
 alias Character = Char;

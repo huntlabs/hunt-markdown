@@ -1,6 +1,6 @@
 module test.Common;
 
-import hunt.text.StringBuilder;
+import hunt.util.StringBuilder;
 
 string repeat(char ch, int count)
 {

@@ -6,7 +6,7 @@ module hunt.markdown.internal.util.Html5Entities;
 // import java.io.InputStreamReader;
 // import java.nio.charset.Charset;
 
-import hunt.io.Common;
+// import hunt.io.Common;
 import hunt.collection.HashMap;
 import hunt.collection.Map;
 import hunt.Exceptions;

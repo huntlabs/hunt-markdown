@@ -29,7 +29,7 @@ import hunt.collection.HashMap;
 import hunt.util.Common;
 import hunt.Char;
 import hunt.text.Common;
-import hunt.text.StringBuilder;
+import hunt.util.StringBuilder;
 import hunt.Exceptions;
 
 import std.regex;

@@ -9,7 +9,7 @@ import std.regex;
 import std.conv : to;
 
 import hunt.text;
-import hunt.text.StringBuilder;
+import hunt.util.StringBuilder;
 /**
  * Generates strings to be used as identifiers.
  * <p>

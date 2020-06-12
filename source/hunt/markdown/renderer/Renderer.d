@@ -2,7 +2,7 @@ module hunt.markdown.renderer.Renderer;
 
 import hunt.markdown.node.Node;
 
-import hunt.util.Common;
+import hunt.util.Appendable;
 
 public interface Renderer {
 

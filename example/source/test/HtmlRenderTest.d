@@ -240,7 +240,7 @@ public class HtmlRendererTest {
         import hunt.concurrency.Executors;
         import hunt.collection.ArrayList;
         import hunt.collection.List;
-        import hunt.text.StringBuilder;
+        import hunt.util.StringBuilder;
         import hunt.Exceptions;
         import hunt.util.Common;
         import std.file;

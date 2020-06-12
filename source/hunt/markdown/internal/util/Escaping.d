@@ -6,7 +6,7 @@ import hunt.markdown.internal.util.Html5Entities;
 import std.algorithm.searching;
 // import hunt.time.util.Locale;
 import hunt.text;
-import hunt.text.StringBuilder;
+import hunt.util.StringBuilder;
 import std.regex;
 import std.string;
 import hunt.markdown.internal.util.Common;

@@ -13,7 +13,7 @@ import hunt.markdown.parser.block.MatchedBlockParser;
 
 import hunt.text;
 import std.string;
-import hunt.text.StringBuilder;
+import hunt.util.StringBuilder;
 
 class FencedCodeBlockParser : AbstractBlockParser {
 

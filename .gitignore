@@ -20,7 +20,8 @@
 
 # DUB
 .dub
-dub.selections.json
+dub.*.json
+dub.*.sdl
 docs.json
 __dummy.html
 

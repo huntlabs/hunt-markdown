@@ -12,8 +12,10 @@ import hunt.markdown.renderer.text.CoreTextContentNodeRenderer;
 
 import hunt.collection.ArrayList;
 import hunt.collection.List;
+
+import hunt.util.Appendable;
 import hunt.util.Common;
-import hunt.text.StringBuilder;
+import hunt.util.StringBuilder;
 
 class TextContentRenderer : Renderer {
 

@@ -13,7 +13,7 @@ import hunt.markdown.internal.renderer.text.OrderedListHolder;
 import hunt.collection.HashSet;
 import hunt.collection.Set;
 import hunt.Char;
-import hunt.text.StringBuilder;
+import hunt.util.StringBuilder;
 
 import std.conv;
 

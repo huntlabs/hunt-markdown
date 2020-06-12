@@ -13,7 +13,7 @@ import hunt.collection.Map;
 import hunt.collection.LinkedHashMap;
 import hunt.collection.Collections;
 import hunt.text;
-import hunt.text.StringBuilder;
+import hunt.util.StringBuilder;
 
 import std.conv;
 import std.string;

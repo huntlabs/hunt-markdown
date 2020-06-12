@@ -1,6 +1,8 @@
 module hunt.markdown.renderer.text.TextContentWriter;
 
 import hunt.Exceptions;
+
+import hunt.util.Appendable;
 import hunt.util.Common;
 import hunt.text.Common;
 import std.regex;

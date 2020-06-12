@@ -7,6 +7,7 @@ import hunt.util.Common;
 import hunt.text.Common;
 import hunt.collection.Collections;
 import hunt.collection.Map;
+import hunt.util.Appendable;
 import hunt.markdown.internal.util.Common;
 
 class HtmlWriter {

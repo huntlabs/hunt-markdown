@@ -21,8 +21,10 @@ import hunt.collection.LinkedHashMap;
 import hunt.collection.List;
 import hunt.collection.Map;
 
+import hunt.util.Appendable;
 import hunt.util.Common;
-import hunt.text.StringBuilder;
+import hunt.util.StringBuilder;
+
 /**
  * Renders a tree of nodes to HTML.
  * <p>

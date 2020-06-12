@@ -8,7 +8,7 @@ import hunt.markdown.parser.Parser;
 import hunt.markdown.parser.block;
 import hunt.markdown.renderer.html.HtmlRenderer;
 import hunt.Assert;
-import hunt.text.StringBuilder;
+import hunt.util.StringBuilder;
 import hunt.Exceptions;
 import std.stdio;
 import std.file : read,write;
