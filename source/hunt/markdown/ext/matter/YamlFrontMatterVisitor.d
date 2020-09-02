@@ -3,7 +3,7 @@ module hunt.markdown.ext.matter.YamlFrontMatterVisitor;
 import hunt.markdown.node.AbstractVisitor;
 import hunt.markdown.node.CustomNode;
 
-import hunt.markdown.ext.front.matter.YamlFrontMatterNode;
+import hunt.markdown.ext.matter.YamlFrontMatterNode;
 import hunt.collection.LinkedHashMap;
 import hunt.collection.List;
 import hunt.collection.Map;
