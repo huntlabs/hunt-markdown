@@ -1,7 +1,7 @@
 module hunt.markdown.ext.matter.internal.YamlFrontMatterBlockParser;
 
-import hunt.markdown.ext.front.matter.YamlFrontMatterBlock;
-import hunt.markdown.ext.front.matter.YamlFrontMatterNode;
+import hunt.markdown.ext.matter.YamlFrontMatterBlock;
+import hunt.markdown.ext.matter.YamlFrontMatterNode;
 import hunt.markdown.internal.DocumentBlockParser;
 import hunt.markdown.node.Block;
 import hunt.markdown.parser.InlineParser;

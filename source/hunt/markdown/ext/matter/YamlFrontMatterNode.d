@@ -1,4 +1,4 @@
-module hunt.markdown.ext.front.matter.YamlFrontMatterNode;
+module hunt.markdown.ext.matter.YamlFrontMatterNode;
 
 import hunt.markdown.node.CustomNode;
 
